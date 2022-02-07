@@ -3,6 +3,7 @@ package com.redpup.bracketbuster.model;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.redpup.bracketbuster.util.Strings;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -71,7 +72,12 @@ public final class Lineup {
     return deckNames.get(index);
   }
 
-
+  /**
+   * Returns true iff this Lineup is valid. This delegates to {@link Strings#allComponentsUnique(Iterable)}.
+   */
+  public boolean isValid() {
+    return Strings.allComponentsUnique(deckNames);
+  }
 
   @Override
   public boolean equals(Object o) {
