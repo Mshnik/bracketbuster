@@ -33,4 +33,10 @@ public final class StringsTest {
         .isEqualTo("A/B (C/D)");
   }
 
+  @Test
+  public void sanitize_isStable() {
+    assertThat(Strings.sanitize(Strings.sanitize("B/A (D/C)")))
+        .isEqualTo("A/B (C/D)");
+  }
+
 }

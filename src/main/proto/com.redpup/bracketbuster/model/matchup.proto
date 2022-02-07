@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.redpup.bracketbuster.model.proto";
+
+// Summary of a single matchup.
+message MatchupMessage {
+  // The name of player 1 in this matchup.
+  string player = 1;
+  // The name of the opponent in this matchup.
+  string opponent = 2;
+
+  // Number of recorded games of this matchup.
+  int32 games = 3;
+  // Number of times the player in this matchup won against the second one.
+  // (The opponent won the remainder.)
+  int32 wins = 4;
+  // The computed win rate from wins and games.
+  double win_rate = 5;
+}
+
+// A list of matchups.
+message MatchupList {
+  repeated MatchupMessage matchups = 1;
+}
