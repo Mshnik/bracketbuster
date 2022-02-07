@@ -1,7 +1,11 @@
 package com.redpup.bracketbuster.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Bracketbuster specific string methods.
@@ -32,6 +36,24 @@ public final class Strings {
   }
 
   /**
+   * Returns true iff all '/' separated components are unique. Components in parens are not split.
+   *
+   * <pre>
+   *   "AA/AA (BB/CC)" --> False
+   *   "AA/BB (CC/DD)" --> True
+   * </pre>
+   */
+  public static boolean allComponentsUnique(String value) {
+    String[] arr = value.split(" \\(");
+
+    List<String> components = new ArrayList<>();
+    splitOnSlashes(arr[0]).forEach(components::add);
+    components.add(arr[1].trim());
+
+    return components.size() == new HashSet<>(components).size();
+  }
+
+  /**
    * Sorts the given string by its slashed components.
    *
    * <pre>
@@ -40,9 +62,15 @@ public final class Strings {
    * </pre>
    */
   private static String sortSlashedValue(String value) {
-    return Arrays.stream(value.trim().split("/"))
-        .map(String::trim)
-        .sorted()
-        .collect(Collectors.joining("/"));
+    return splitOnSlashes(value).sorted().collect(Collectors.joining("/"));
   }
+
+  /**
+   * Splits input strings on slashes and trims each element.
+   */
+  private static Stream<String> splitOnSlashes(String value) {
+    return Arrays.stream(value.trim().split("/"))
+        .map(String::trim);
+  }
+
 }

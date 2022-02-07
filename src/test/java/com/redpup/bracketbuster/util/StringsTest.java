@@ -39,4 +39,17 @@ public final class StringsTest {
         .isEqualTo("A/B (C/D)");
   }
 
+  @Test
+  public void allComponentsUnique_true() {
+    assertThat(Strings.allComponentsUnique("A/B (C/D)")).isTrue();
+    assertThat(Strings.allComponentsUnique(" A / B  ( C / D ) ")).isTrue();
+  }
+
+  @Test
+  public void allComponentsUnique_false() {
+    assertThat(Strings.allComponentsUnique("A/A (C/D)")).isFalse();
+    assertThat(Strings.allComponentsUnique("A/A/B (C/D)")).isFalse();
+    assertThat(Strings.allComponentsUnique(" A / A  ( C / D ) ")).isFalse();
+  }
+
 }

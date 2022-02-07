@@ -4,7 +4,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
 import com.google.common.testing.EqualsTester;
-import com.redpup.bracketbuster.model.proto.Matchup;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
