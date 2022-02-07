@@ -5,7 +5,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.redpup.bracketbuster.model.Matchups.readMatchupListFromCsv;
 
 import com.google.common.collect.Range;
-import com.google.common.truth.Truth;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import com.redpup.bracketbuster.util.Strings;
@@ -19,7 +18,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class MatchupsTest {
 
-  private static final Path ALL_ODDS_CSV = Paths.get("src", "test", "resources", "all_odds.csv");
+  private static final Path ALL_ODDS_CSV = Paths.get("src", "test", "resources", "stats.csv");
 
   /**
    * Column index of the player's deck in {@link #ALL_ODDS_CSV}.
