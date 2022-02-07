@@ -31,14 +31,14 @@ public final class MatchupsTest {
   private static final int OPPONENT_INDEX = 7;
 
   /**
-   * Column index of the number of games in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int GAMES_INDEX = 8;
-
-  /**
    * Column index of the number of wins in {@link #ALL_ODDS_CSV}.
    */
-  private static final int WINS_INDEX = 9;
+  private static final int WINS_INDEX = 8;
+
+  /**
+   * Column index of the number of games in {@link #ALL_ODDS_CSV}.
+   */
+  private static final int GAMES_INDEX = 9;
 
   private static MatchupList read() throws IOException {
     return readMatchupListFromCsv(ALL_ODDS_CSV,
