@@ -41,14 +41,17 @@ public final class Strings {
    * <pre>
    *   "AA/AA (BB/CC)" --> False
    *   "AA/BB (CC/DD)" --> True
+   *   ["AA/BB (CC/DD)","AA/EE (FF/GG)"] --> False
    * </pre>
    */
-  public static boolean allComponentsUnique(String value) {
-    String[] arr = value.split(" \\(");
-
+  public static boolean allComponentsUnique(Iterable<String> iterable) {
     List<String> components = new ArrayList<>();
-    splitOnSlashes(arr[0]).forEach(components::add);
-    components.add(arr[1].trim());
+
+    for (String value : iterable) {
+      String[] arr = value.split(" \\(");
+      splitOnSlashes(arr[0]).forEach(components::add);
+      components.add(arr[1].trim());
+    }
 
     return components.size() == new HashSet<>(components).size();
   }

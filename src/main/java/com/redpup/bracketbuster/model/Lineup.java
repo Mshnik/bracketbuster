@@ -71,6 +71,8 @@ public final class Lineup {
     return deckNames.get(index);
   }
 
+
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
