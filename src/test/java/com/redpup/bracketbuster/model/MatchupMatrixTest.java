@@ -1,6 +1,7 @@
 package com.redpup.bracketbuster.model;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class MatchupMatrixTest {
       .build();
 
   @Test
-  public void buildAndGetMatchup() {
+  public void getMatchup_returnsValueOrNull() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,
         MATCHUP_MESSAGE_A_B,
@@ -50,14 +51,77 @@ public class MatchupMatrixTest {
   }
 
   @Test
-  public void unknownMatchupThrows() {
+  public void getMatchup_oobThrows() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,
         MATCHUP_MESSAGE_A_B,
         MATCHUP_MESSAGE_B_A);
 
-    // assertThrows(IllegalArgumentException.class,
-    //     () -> matrix.getMatchup("A", "C"));
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup(-1, 1));
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup(1, -1));
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup(1, 1000000));
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup(10000000, 1));
+  }
+
+  @Test
+  public void getMatchup_unknownNameThrows() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup("A", "C"));
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getMatchup("C", "A"));
+  }
+
+  @Test
+  public void getHeaderIndex() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThat(matrix.getHeaderIndex("A")).isEqualTo(0);
+    assertThat(matrix.getHeaderIndex("B")).isEqualTo(1);
+  }
+
+  @Test
+  public void getHeaderIndex_unknownThrows() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getHeaderIndex("C"));
+  }
+
+  @Test
+  public void getHeaderName() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThat(matrix.getHeaderName(0)).isEqualTo("A");
+    assertThat(matrix.getHeaderName(1)).isEqualTo("B");
+  }
+
+  @Test
+  public void getHeaderName_unknownThrows() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getHeaderName(-1));
   }
 
 }
