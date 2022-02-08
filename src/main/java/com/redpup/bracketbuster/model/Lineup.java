@@ -44,6 +44,11 @@ public final class Lineup {
     this.metadata = metadata;
   }
 
+  /** Returns this lineup's metadata, for data ingestion. */
+  public LineupMetadata metadata() {
+    return metadata;
+  }
+
   /**
    * Returns {@link #decks}.
    */
