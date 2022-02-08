@@ -1,19 +1,33 @@
 package com.redpup.bracketbuster.util;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
- * Assertion methods. TODO - add maven dep to replace this.
+ * Additional assertion methods for testing.
  */
+@VisibleForTesting
 public final class AssertExt {
 
   private AssertExt() {
   }
 
+  /**
+   * Wrapper for a runnable that throws a certain type of exception.
+   */
   @FunctionalInterface
+  @VisibleForTesting
   public static interface ThrowingRunnable<E extends Exception> {
 
+    /**
+     * Executes this runnable. May throw {@link E}.
+     */
     public void run() throws E;
   }
 
+  /**
+   * Asserts that the given {@code throwingRunnable} throws an exception of type {@link E} when run.
+   * If such an exception is thrown, returns it. Otherwise, fails with an {@link AssertionError}.
+   */
   public static <E extends Exception> E assertThrows(
       Class<E> exceptionClass,
       ThrowingRunnable<E> throwingRunnable) {
