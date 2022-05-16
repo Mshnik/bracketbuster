@@ -77,6 +77,28 @@ public final class CalculationsTest {
   }
 
   @Test
+  public void winBestTwoOfThree_swapPlayerDecks() {
+    double p1o1 = 0.1;
+    double p1o2 = 0.25;
+    double p2o1 = 0.55;
+    double p2o2 = 0.89;
+
+    assertThat(Calculations.winRateBestTwoOfThree(p1o1, p1o2, p2o1, p2o2))
+        .isEqualTo(Calculations.winRateBestTwoOfThree(p2o1, p2o2, p1o1, p1o2));
+  }
+
+  @Test
+  public void winBestTwoOfThree_swapOpponentDecks() {
+    double p1o1 = 0.1;
+    double p1o2 = 0.25;
+    double p2o1 = 0.55;
+    double p2o2 = 0.89;
+
+    assertThat(Calculations.winRateBestTwoOfThree(p1o1, p1o2, p2o1, p2o2))
+        .isEqualTo(Calculations.winRateBestTwoOfThree(p1o2, p1o1, p2o2, p2o1));
+  }
+
+  @Test
   public void banPlayerDeck_oneDeck() {
     assertThat(Calculations.banPlayerDeck(new double[][]{
         {0.0}

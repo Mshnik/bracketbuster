@@ -179,26 +179,29 @@ public final class Calculations {
           "Expected winRate in range [0,1], found %s", winRates);
     }
 
-    // Explicitly missing win 0+1, win 2+3, because these would use the same deck twice.
+    // playerRed, opponentRed.
     double redRed = winRates[0];
+    // playerRed, opponentBlue.
     double redBlue = winRates[1];
+    // playerBlue, opponentRed.
     double blueRed = winRates[2];
+    // playerBlue, opponentBlue.
     double blueBlue = winRates[3];
 
+    // Explicitly missing win 0+1, win 2+3, because these would use the same deck twice.
     double chanceWinEitherRed = 1 - ((1 - redRed) * (1 - redBlue));
     double chanceWinEitherBlue = 1 - ((1 - blueRed) * (1 - blueBlue));
+    double chanceWinEitherAverage = (chanceWinEitherRed + chanceWinEitherBlue) / 2;
 
     double chanceWinBothAgainstRed = redRed * blueRed;
-    double chanceWinBothAgainstBlue = blueRed * blueBlue;
+    double chanceWinBothAgainstBlue = redBlue * blueBlue;
+    double chanceWinBothAgainstAverage = (chanceWinBothAgainstRed + chanceWinBothAgainstBlue) / 2;
 
-    double chanceWinFirstGame = DoubleStream.of(redRed, redBlue, blueRed, blueBlue).average()
-        .orElseThrow();
+    double chanceWinFirstGame = (redRed + redBlue + blueRed + blueBlue) / 4;
     double chanceLoseFirstGame = 1 - chanceWinFirstGame;
 
-    double chanceWinFirstAndWinMatch =
-        chanceWinFirstGame * (chanceWinEitherRed + chanceWinEitherBlue) / 2;
-    double chanceLoseFirstAndWinMatch =
-        chanceLoseFirstGame * (chanceWinBothAgainstRed + chanceWinBothAgainstBlue) / 2;
+    double chanceWinFirstAndWinMatch = chanceWinFirstGame * chanceWinEitherAverage;
+    double chanceLoseFirstAndWinMatch = chanceLoseFirstGame * chanceWinBothAgainstAverage;
 
     return chanceWinFirstAndWinMatch + chanceLoseFirstAndWinMatch;
   }
