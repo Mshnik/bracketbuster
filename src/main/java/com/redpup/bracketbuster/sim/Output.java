@@ -11,6 +11,7 @@ import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.util.Pair;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.ToDoubleFunction;
 
 /**
@@ -18,13 +19,15 @@ import java.util.function.ToDoubleFunction;
  */
 public final class Output {
 
-  // private static Output buildOutput(
-  //     Map<Lineup, Double> lineupsByWinRate, MatchupMatrix matchups, int limit) {
-  //
-  //   return new Output(
-  //       limitAndCopyTopLineups(lineupsByWinRate, limit),
-  //       computeMetaCompPercentMap(lineupsByWinRate, matchups));
-  // }
+  /**
+   * Builds a {@link Output} of the given args.
+   */
+  public static Output buildOutput(
+      Map<Lineup, Double> lineupsByWinRate, MatchupMatrix matchups, int limit) {
+    return new Output(
+        limitAndCopyTopLineups(lineupsByWinRate, limit),
+        computeMetaCompPercentMap(lineupsByWinRate, matchups));
+  }
 
   /**
    * Computes a map of the top {@code limit} lineups by win rate and collects them into a map.
@@ -72,4 +75,40 @@ public final class Output {
         .collect(toImmutableMap(Pair::first, Pair::second));
   }
 
+  private final ImmutableMap<Lineup, Double> topLineups;
+  private final ImmutableMap<String, Double> metaCompPercent;
+
+  @VisibleForTesting
+  Output(
+      ImmutableMap<Lineup, Double> topLineups,
+      ImmutableMap<String, Double> metaCompPercent) {
+    this.topLineups = topLineups;
+    this.metaCompPercent = metaCompPercent;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Output output = (Output) o;
+    return Objects.equals(topLineups, output.topLineups) &&
+        Objects.equals(metaCompPercent, output.metaCompPercent);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(topLineups, metaCompPercent);
+  }
+
+  @Override
+  public String toString() {
+    return "Output{" +
+        "topLineups=" + topLineups +
+        ", metaCompPercent=" + metaCompPercent +
+        '}';
+  }
 }

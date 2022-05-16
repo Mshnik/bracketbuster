@@ -154,4 +154,29 @@ public class OutputTest {
         "D", 0.4,
         "E", 0.4);
   }
+
+  @Test
+  public void buildOutput() {
+    assertThat(
+        Output.buildOutput(
+            ImmutableMap.of(
+                LINEUP_1, 0.1,
+                LINEUP_2, 0.2,
+                LINEUP_3, 0.3,
+                LINEUP_4, 0.4,
+                LINEUP_5, 0.5),
+            MATCHUP_MATRIX,
+            3))
+        .isEqualTo(
+            new Output(
+                ImmutableMap.of(
+                    LINEUP_5, 0.5,
+                    LINEUP_4, 0.4,
+                    LINEUP_3, 0.3),
+                ImmutableMap.of("A", 1.0,
+                    "B", 0.6,
+                    "C", 0.6,
+                    "D", 0.4,
+                    "E", 0.4)));
+  }
 }
