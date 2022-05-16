@@ -33,7 +33,7 @@ public final class SystemPrintLogger implements Logger {
   @Override
   public void handleMatchup() {
     if (++count % 100000 == 0) {
-      System.out.println("Calculating matchup..." + count);
+      System.out.println("\tCalculating matchup..." + count);
     }
   }
 
