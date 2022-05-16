@@ -1,0 +1,75 @@
+package com.redpup.bracketbuster.sim;
+
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static java.util.Comparator.comparingDouble;
+import static java.util.Objects.requireNonNull;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableMap;
+import com.redpup.bracketbuster.model.Lineup;
+import com.redpup.bracketbuster.model.MatchupMatrix;
+import com.redpup.bracketbuster.util.Pair;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.ToDoubleFunction;
+
+/**
+ * Collection of output of a simulation.
+ */
+public final class Output {
+
+  // private static Output buildOutput(
+  //     Map<Lineup, Double> lineupsByWinRate, MatchupMatrix matchups, int limit) {
+  //
+  //   return new Output(
+  //       limitAndCopyTopLineups(lineupsByWinRate, limit),
+  //       computeMetaCompPercentMap(lineupsByWinRate, matchups));
+  // }
+
+  /**
+   * Computes a map of the top {@code limit} lineups by win rate and collects them into a map.
+   *
+   * <p>As part of this operation, invokes {@link Lineup#copy()} on all key lineups. This means
+   * further mutations to metadata will not mutate this map.
+   */
+  @VisibleForTesting
+  static ImmutableMap<Lineup, Double> limitAndCopyTopLineups(
+      Map<Lineup, Double> lineupsByWinRate, int limit) {
+    return lineupsByWinRate
+        .entrySet()
+        .stream()
+        .sorted(comparingDouble((ToDoubleFunction<Map.Entry<?, Double>>) Map.Entry::getValue)
+            .reversed())
+        .limit(limit)
+        .collect(toImmutableMap(p -> p.getKey().copy(), Map.Entry::getValue));
+  }
+
+  /**
+   * Computes a map of deck name to meta composition percent.
+   *
+   * <p>Meta composition percent is defined here as the % of times the deck shows up in lineups in
+   * {@code lineupsByWinRate}. Because each {@link Lineup} contains multiple decks, the resulting
+   * percentages should sum to (100% * PLAYER_DECK_COUNT == 300%.)
+   *
+   * <p>The result is sorted in descending order of meta composition.
+   */
+  @VisibleForTesting
+  static ImmutableMap<String, Double> computeMetaCompPercentMap(
+      Map<Lineup, ?> lineupsByWinRate, MatchupMatrix matchups) {
+    // Count the number of times each deck is used across all lineups.
+    Map<String, Integer> metaCompCount = new HashMap<>();
+    for (String deck : matchups.getHeaders()) {
+      metaCompCount.put(deck, 0);
+    }
+    lineupsByWinRate.keySet().stream()
+        .flatMap(p -> p.getDeckNames().stream())
+        .forEach(deck -> metaCompCount.compute(deck, (unused, c) -> requireNonNull(c) + 1));
+
+    // Map values to meta composition size, sort by count descending.
+    return metaCompCount.entrySet().stream()
+        .map(e -> Pair.of(e.getKey(), (double) e.getValue() / lineupsByWinRate.size()))
+        .sorted(comparingDouble((ToDoubleFunction<Pair<?, Double>>) Pair::second).reversed())
+        .collect(toImmutableMap(Pair::first, Pair::second));
+  }
+
+}
