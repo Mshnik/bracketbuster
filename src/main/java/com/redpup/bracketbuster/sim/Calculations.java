@@ -212,7 +212,7 @@ public final class Calculations {
   @VisibleForTesting
   static int maxIndex(double... values) {
     int maxIndex = -1;
-    double maxValue = 0;
+    double maxValue = Double.MIN_VALUE;
     for (int i = 0; i < values.length; i++) {
       if (maxIndex == -1 || maxValue < values[i]) {
         maxIndex = i;
