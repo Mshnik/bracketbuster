@@ -1,5 +1,6 @@
 package com.redpup.bracketbuster.model;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 
 /**
@@ -11,8 +12,12 @@ public final class LineupMetadata {
   private final int[] banned;
 
   LineupMetadata(int numDecks) {
-    this.playedAgainst = new int[numDecks];
-    this.banned = new int[numDecks];
+    this(new int[numDecks], new int[numDecks]);
+  }
+
+  private LineupMetadata(int[] playedAgainst, int[] banned) {
+    this.playedAgainst = playedAgainst;
+    this.banned = banned;
   }
 
   /**
@@ -24,10 +29,12 @@ public final class LineupMetadata {
   }
 
   /**
-   * Increments the count of playing against {@code deck}.
+   * Increments the count of playing against {@code deck}. Returns self.
    */
-  public void incrementPlayedAgainst(int deck) {
+  @CanIgnoreReturnValue
+  public LineupMetadata incrementPlayedAgainst(int deck) {
     playedAgainst[deck]++;
+    return this;
   }
 
   /**
@@ -41,7 +48,45 @@ public final class LineupMetadata {
   /**
    * Increments the count of banning {@code deck}.
    */
-  public void incrementBanned(int deck) {
+  @CanIgnoreReturnValue
+  public LineupMetadata incrementBanned(int deck) {
     banned[deck]++;
+    return this;
+  }
+
+  /**
+   * Copies this metadata. This and the copy will have equivalent but separate state, so mutations
+   * to this will not affect copy and vice-versa.
+   */
+  public LineupMetadata copy() {
+    return new LineupMetadata(getPlayedAgainst(), getBanned());
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    LineupMetadata metadata = (LineupMetadata) o;
+    return Arrays.equals(playedAgainst, metadata.playedAgainst) &&
+        Arrays.equals(banned, metadata.banned);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Arrays.hashCode(playedAgainst);
+    result = 31 * result + Arrays.hashCode(banned);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return "LineupMetadata{" +
+        "playedAgainst=" + Arrays.toString(playedAgainst) +
+        ", banned=" + Arrays.toString(banned) +
+        '}';
   }
 }

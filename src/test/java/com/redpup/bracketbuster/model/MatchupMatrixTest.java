@@ -66,6 +66,16 @@ public class MatchupMatrixTest {
   }
 
   @Test
+  public void getHeaders_returnsValues() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThat(matrix.getHeaders()).containsExactly("A", "B").inOrder();
+  }
+
+  @Test
   public void getMatchup_returnsValueOrNull() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,

@@ -132,7 +132,8 @@ public final class LineupTest {
         .isFalse();
     assertThat(Lineup.ofDeckNames(MATCHUP_MATRIX, "A (IO/NX)", "C (DE/FJ)", "B (IO/NX)").isValid())
         .isFalse();
-    assertThat(Lineup.ofDeckNames(MATCHUP_MATRIX, "A (IO/NX)", "C (DE/FJ)", "Z/A/B (IO/FJ)").isValid())
+    assertThat(
+        Lineup.ofDeckNames(MATCHUP_MATRIX, "A (IO/NX)", "C (DE/FJ)", "Z/A/B (IO/FJ)").isValid())
         .isFalse();
   }
 
@@ -149,4 +150,26 @@ public final class LineupTest {
         .testEquals();
   }
 
+  @Test
+  public void copy_createsEqualLineup() {
+    Lineup lineup = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1);
+
+    Lineup copy = lineup.copy();
+
+    assertThat(copy).isNotSameInstanceAs(lineup);
+    assertThat(copy.metadata()).isNotSameInstanceAs(lineup.metadata());
+    assertThat(copy).isEqualTo(lineup);
+  }
+
+  @Test
+  public void copy_createsSeparateMetadata() {
+    Lineup lineup = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1);
+
+    Lineup copy = lineup.copy();
+    lineup.metadata().incrementBanned(0);
+
+    assertThat(copy).isNotSameInstanceAs(lineup);
+    assertThat(copy.metadata()).isNotSameInstanceAs(lineup.metadata());
+    assertThat(copy.metadata()).isNotEqualTo(lineup.metadata());
+  }
 }

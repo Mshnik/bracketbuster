@@ -44,7 +44,9 @@ public final class Lineup {
     this.metadata = metadata;
   }
 
-  /** Returns this lineup's metadata, for data ingestion. */
+  /**
+   * Returns this lineup's metadata, for data ingestion.
+   */
   public LineupMetadata metadata() {
     return metadata;
   }
@@ -82,6 +84,14 @@ public final class Lineup {
    */
   public boolean isValid() {
     return Strings.allComponentsUnique(deckNames);
+  }
+
+  /**
+   * Returns a new {@link Lineup} that is a copy of this. This and the copy will have equivalent but
+   * separate mutable state, so mutations on this will not affect copy and vice-versa.
+   */
+  public Lineup copy() {
+    return new Lineup(decks, deckNames, metadata.copy());
   }
 
   @Override

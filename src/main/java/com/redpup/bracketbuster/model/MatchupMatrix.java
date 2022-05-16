@@ -77,6 +77,11 @@ public final class MatchupMatrix {
     return headers.size();
   }
 
+  /** Returns {@link #headers} in order. */
+  public ImmutableList<String> getHeaders() {
+    return headers.keySet().asList();
+  }
+
   /**
    * Returns the index of the given {@code headerName}.
    */
