@@ -5,7 +5,7 @@ option java_package = "com.redpup.bracketbuster.model.proto";
 
 // Summary of a single matchup.
 message MatchupMessage {
-  // The name of player 1 in this matchup.
+  // The name of player in this matchup.
   string player = 1;
   // The name of the opponent in this matchup.
   string opponent = 2;

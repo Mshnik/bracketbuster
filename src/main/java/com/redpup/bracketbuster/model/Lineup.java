@@ -20,7 +20,7 @@ public final class Lineup {
     return new Lineup(
         Arrays.stream(decks).boxed().collect(toImmutableList()),
         Arrays.stream(decks).mapToObj(matchups::getHeaderName).collect(toImmutableList()),
-        new LineupMetadata());
+        new LineupMetadata(matchups.getNumDecks()));
   }
 
   /**
@@ -30,7 +30,7 @@ public final class Lineup {
     return new Lineup(
         Arrays.stream(decks).map(matchups::getHeaderIndex).collect(toImmutableList()),
         ImmutableList.copyOf(decks),
-        new LineupMetadata());
+        new LineupMetadata(matchups.getNumDecks()));
   }
 
   private final ImmutableList<Integer> decks;

@@ -1,7 +1,6 @@
 package com.redpup.bracketbuster.model;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
 
 import com.google.common.collect.ImmutableBiMap;
@@ -59,6 +58,11 @@ public final class MatchupMatrix {
           message.getOpponent());
       matchups[row][col] = message;
     }
+  }
+
+  /** Returns the number of unique decks in this matchup matrix. */
+  public int getNumDecks() {
+    return headers.size();
   }
 
   /**

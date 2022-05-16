@@ -34,6 +34,16 @@ public class MatchupMatrixTest {
       .build();
 
   @Test
+  public void getNumDecks_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThat(matrix.getNumDecks()).isEqualTo(2);
+  }
+
+  @Test
   public void getMatchup_returnsValueOrNull() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,
