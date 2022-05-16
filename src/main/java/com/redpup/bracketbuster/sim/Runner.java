@@ -7,7 +7,6 @@ import static com.redpup.bracketbuster.sim.Output.buildOutput;
 import static java.lang.Math.min;
 
 import com.google.auto.value.AutoValue;
-import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.collect.ImmutableList;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
@@ -162,7 +161,6 @@ public abstract class Runner {
       logger().setIteration(i);
       // Order all lineups by winrate against the current set of lineups.
       logger().setCurrentStep("Computing All Lineup Win Rates");
-      logger().setTotalMatchups(countTotalMatches(lineups, lineups));
       ImmutableList<Pair<Lineup, Double>> playersByWinRate =
           lineups.stream()
               .map(p -> Pair.of(p, computeTotalWinRate(p, lineups)))
@@ -181,8 +179,6 @@ public abstract class Runner {
           playersByWinRate
               .subList(0, min(playersByWinRate.size(), topKToReceiveBestAndWorstMatchupAnalysis()));
 
-      logger().setTotalMatchups(
-          countTotalMatchesWithWinRates(topKPlayersForAnalysis, topKPlayersForMatchups));
       topKPlayersForAnalysis
           .forEach(
               p -> computeBestAndWorstMatchupsWithWinRates(p.first(), topKPlayersForMatchups));
@@ -204,42 +200,6 @@ public abstract class Runner {
             .collect(toImmutableList()));
       }
     }
-  }
-
-  /**
-   * Counts the number of matches {@code players} can play against {@code opponents}.
-   */
-  private long countTotalMatchesWithWinRates(List<? extends Pair<Lineup, ?>> players,
-      List<? extends Pair<Lineup, ?>> opponents) {
-    return players.stream()
-        .mapToLong(p -> countTotalMatchesWithWinRates(p.first(), opponents))
-        .sum();
-  }
-
-  /**
-   * Counts the number of matches {@code players} can play against {@code opponents}.
-   */
-  private long countTotalMatches(List<Lineup> players, List<Lineup> opponents) {
-    return players.stream()
-        .mapToLong(p -> countTotalMatches(p, opponents))
-        .sum();
-  }
-
-  /**
-   * Counts the number of matches {@code player} can play.
-   */
-  private long countTotalMatchesWithWinRates(Lineup player,
-      List<? extends Pair<Lineup, ?>> opponents) {
-    return countTotalMatches(player, transform(opponents, Pair::first));
-  }
-
-  /**
-   * Counts the number of matches {@code player} can play.
-   */
-  private long countTotalMatches(Lineup player, List<Lineup> opponents) {
-    return opponents.stream()
-        .filter(opponent -> matchupMatrix().canPlay(player, opponent))
-        .count();
   }
 
   /**

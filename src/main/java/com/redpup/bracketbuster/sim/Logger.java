@@ -10,7 +10,10 @@ public interface Logger {
    */
   public void log(String message);
 
-  /** Sets the current iteration. Calling this again may override the previous value. */
+  /**
+   * Sets the current iteration. Calling this again may override the previous value. This should
+   * reset any internal counters.
+   */
   public void setIteration(int i);
 
   /**
@@ -19,18 +22,13 @@ public interface Logger {
   public void setCurrentStep(String step);
 
   /**
-   * Sets the number of matchups that will be computed. This also should reset any internal matchup
-   * counts.
-   */
-  public void setTotalMatchups(long totalMatchups);
-
-  /**
    * Logs or otherwise updates the UI for the given match being handled.
    */
   public void handleMatchup();
 
   /**
-   * Logs or otherwise updates the UI for the given output. The runner is passed for access to relevant params.
+   * Logs or otherwise updates the UI for the given output. The runner is passed for access to
+   * relevant params.
    */
   public void handleOutput(Output output, Runner runner);
 }

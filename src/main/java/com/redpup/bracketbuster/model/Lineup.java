@@ -125,7 +125,7 @@ public final class Lineup {
     return "Lineup{" +
         "decks=" + decks +
         ", deckNames=" + deckNames +
-        ", metadata=" + metadata +
+        // No metadata to prevent recursive toString().
         '}';
   }
 }

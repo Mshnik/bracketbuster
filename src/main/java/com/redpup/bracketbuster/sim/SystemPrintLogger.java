@@ -23,6 +23,7 @@ public final class SystemPrintLogger implements Logger {
   @Override
   public void setIteration(int i) {
     iteration = i;
+    count = 0;
   }
 
   @Override
@@ -30,11 +31,6 @@ public final class SystemPrintLogger implements Logger {
     System.out.println("==================================================");
     System.out.printf("Iteration %d: %s%n", iteration, step);
     System.out.println("==================================================");
-  }
-
-  @Override
-  public void setTotalMatchups(long totalMatchups) {
-    count = 0;
   }
 
   @Override
