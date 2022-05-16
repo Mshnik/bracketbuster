@@ -68,6 +68,20 @@ public class MatchupMatrixTest {
   }
 
   @Test
+  public void getMatchup_inverseIsPopulated() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B);
+
+    assertThat(matrix.getMatchup("A", "B"))
+        .isEqualTo(MATCHUP_MESSAGE_A_B_WITH_WIN_RATE);
+    assertThat(matrix.getMatchup("B", "A"))
+        .isEqualTo(MATCHUP_MESSAGE_B_A_WITH_WIN_RATE);
+    assertThat(matrix.getMatchup("A", "A"))
+        .isEqualTo(MATCHUP_MESSAGE_A_A_WITH_WIN_RATE);
+  }
+
+  @Test
   public void getMatchup_oobThrows() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,
