@@ -1,13 +1,12 @@
 package com.redpup.bracketbuster.sim;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.redpup.bracketbuster.util.Constants.PLAYER_DECK_COUNT;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
-import com.redpup.bracketbuster.util.Constants;
-import java.util.stream.DoubleStream;
 
 /**
  * Math class for calculating win rates from {@link Lineup}s referencing a given {@link
@@ -33,22 +32,22 @@ public final class Calculations {
    */
   public static double winRateBestTwoOfThreeOneBan(Lineup player, Lineup opponent,
       MatchupMatrix matchups) {
-    checkArgument(player.getDecks().size() == Constants.PLAYER_DECK_COUNT,
+    checkArgument(player.getDecks().size() == PLAYER_DECK_COUNT,
         "Expected %s decks, found %s",
-        Constants.PLAYER_DECK_COUNT,
+        PLAYER_DECK_COUNT,
         player.getDecks());
-    checkArgument(opponent.getDecks().size() == Constants.PLAYER_DECK_COUNT,
+    checkArgument(opponent.getDecks().size() == PLAYER_DECK_COUNT,
         "Expected %s decks, found %s",
-        Constants.PLAYER_DECK_COUNT,
+        PLAYER_DECK_COUNT,
         opponent.getDecks());
 
     for (int opponentDeck : opponent.getDecks()) {
       player.metadata().incrementPlayedAgainst(opponentDeck);
     }
 
-    double[][] winRates = new double[Constants.PLAYER_DECK_COUNT][Constants.PLAYER_DECK_COUNT];
-    for (int i = 0; i < Constants.PLAYER_DECK_COUNT; i++) {
-      for (int j = 0; j < Constants.PLAYER_DECK_COUNT; j++) {
+    double[][] winRates = new double[PLAYER_DECK_COUNT][PLAYER_DECK_COUNT];
+    for (int i = 0; i < PLAYER_DECK_COUNT; i++) {
+      for (int j = 0; j < PLAYER_DECK_COUNT; j++) {
         winRates[i][j] = requireNonNull(
             matchups.getMatchup(player.getDeck(i), opponent.getDeck(j))).getWinRate();
       }
@@ -134,14 +133,14 @@ public final class Calculations {
   @VisibleForTesting
   static double[] dropBannedDecksAndFlatten(double[][] winRates, int droppedPlayerDeck,
       int droppedOpponentDeck) {
-    double[] postBanWinRates = new double[(Constants.PLAYER_DECK_COUNT - 1) * (
-        Constants.PLAYER_DECK_COUNT - 1)];
+    double[] postBanWinRates = new double[(PLAYER_DECK_COUNT - 1) * (
+        PLAYER_DECK_COUNT - 1)];
     int k = 0;
-    for (int i = 0; i < Constants.PLAYER_DECK_COUNT; i++) {
+    for (int i = 0; i < PLAYER_DECK_COUNT; i++) {
       if (i == droppedPlayerDeck) {
         continue;
       }
-      for (int j = 0; j < Constants.PLAYER_DECK_COUNT; j++) {
+      for (int j = 0; j < PLAYER_DECK_COUNT; j++) {
         if (j == droppedOpponentDeck) {
           continue;
         }
