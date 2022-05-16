@@ -15,6 +15,7 @@ import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.util.Pair;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,14 @@ import java.util.List;
  */
 @AutoValue
 public abstract class Runner {
+
+  /**
+   * Executes this runner.
+   */
+  public static void main(String[] args) throws Exception {
+    Path matchupsFilePath = Paths.get("src", "main", "resources", "stats.csv");
+    builder().setMatchupMatrixFromFile(matchupsFilePath).build().run();
+  }
 
   Runner() {
   }

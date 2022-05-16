@@ -32,6 +32,8 @@ public final class Matchups {
     double winRate =
         (double) (message.getWins() * WIN_RATE_ROUND_CONTEXT / message.getGames())
             / WIN_RATE_ROUND_CONTEXT;
+    checkState(winRate >= 0 && winRate <= 1, "Found invalid winRate: %s.\nMessage: %s", winRate,
+        message);
     if (message.getWinRate() == 0.0 && message.getWins() > 0) {
       return message.toBuilder().setWinRate(winRate).build();
     } else {
@@ -94,7 +96,7 @@ public final class Matchups {
   public static MatchupList readMatchupListFromCsv(
       Path path) throws IOException {
     return readMatchupListFromCsv(path,
-        4, 6, 7, 8, 9
+        4, 6, 7, 9, 8
     );
   }
 }
