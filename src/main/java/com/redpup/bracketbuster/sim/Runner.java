@@ -3,6 +3,7 @@ package com.redpup.bracketbuster.sim;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Lists.transform;
 import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBan;
+import static com.redpup.bracketbuster.sim.Output.buildOutput;
 import static java.lang.Math.min;
 
 import com.google.auto.value.AutoValue;
@@ -187,10 +188,12 @@ public abstract class Runner {
               p -> computeBestAndWorstMatchupsWithWinRates(p.first(), topKPlayersForMatchups));
 
       logger().setCurrentStep("Handling Output");
-      logger().handleOutput(Output.buildOutput(
-          playersByWinRate.stream().collect(Pair.toImmutableMap()),
-          matchupMatrix(),
-          topKToReceiveBestAndWorstMatchupAnalysis()));
+      logger().handleOutput(
+          buildOutput(
+              playersByWinRate.stream().collect(Pair.toImmutableMap()),
+              matchupMatrix(),
+              topKToReceiveBestAndWorstMatchupAnalysis()),
+          this);
 
       // Prune lineups for next iteration, if there is a next iteration.
       if (i < pruneRatios().size() - 1) {

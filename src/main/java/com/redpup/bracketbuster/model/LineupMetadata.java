@@ -3,6 +3,7 @@ package com.redpup.bracketbuster.model;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.redpup.bracketbuster.util.Constants.NUM_BEST_WORST_MATCHUPS;
 import static com.redpup.bracketbuster.util.Pair.rightDoubleComparator;
+import static java.util.Comparator.comparingDouble;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -10,8 +11,12 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.redpup.bracketbuster.util.Pair;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.PriorityQueue;
+import java.util.function.ToDoubleFunction;
+import java.util.stream.Collectors;
 
 /**
  * Mutable container for metadata of a given lineup.
@@ -169,5 +174,39 @@ public final class LineupMetadata {
         ", bestMatchups=" + bestMatchups +
         ", worstMatchups=" + worstMatchups +
         '}';
+  }
+
+  /**
+   * Converts this to a string displaying the best and worst matchups for this lineup.
+   */
+  public String toBestAndWorstMatchupsString() {
+    StringBuilder sb = new StringBuilder();
+    bestMatchups.stream().sorted(Pair.<Lineup>rightDoubleComparator().reversed())
+        .forEach(p -> sb.append(p.first()).append(",").append(p.second()).append(","));
+    worstMatchups.stream().sorted(Pair.rightDoubleComparator())
+        .forEach(p -> sb.append(p.first()).append(",").append(p.second()).append(","));
+    return sb.toString();
+  }
+
+  /**
+   * Converts this to a string displaying the ban percentage of each deck played.
+   */
+  public String toBanPercentString(MatchupMatrix matchups) {
+    Map<String, Double> banPercents = new HashMap<>();
+    for (int i = 0; i < matchups.getHeaders().size(); i++) {
+      int plays = playedAgainst[i];
+      int bans = banned[i];
+
+      if (plays > 0) {
+        banPercents.put(matchups.getHeaderName(i), (double) bans / (double) plays);
+      }
+    }
+
+    return banPercents.entrySet()
+        .stream()
+        .sorted(comparingDouble((ToDoubleFunction<Map.Entry<?, Double>>) Map.Entry::getValue)
+            .reversed())
+        .map(e -> String.format("%s,%f,", e.getKey(), e.getValue()))
+        .collect(Collectors.joining());
   }
 }

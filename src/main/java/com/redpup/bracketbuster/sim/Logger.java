@@ -30,7 +30,7 @@ public interface Logger {
   public void handleMatchup();
 
   /**
-   * Logs or otherwise updates the UI for the given output.
+   * Logs or otherwise updates the UI for the given output. The runner is passed for access to relevant params.
    */
-  public void handleOutput(Output output);
+  public void handleOutput(Output output, Runner runner);
 }

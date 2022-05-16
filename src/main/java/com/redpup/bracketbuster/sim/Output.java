@@ -75,8 +75,8 @@ public final class Output {
         .collect(Pair.toImmutableMap());
   }
 
-  private final ImmutableMap<Lineup, Double> topLineups;
-  private final ImmutableMap<String, Double> metaCompPercent;
+  public final ImmutableMap<Lineup, Double> topLineups;
+  public final ImmutableMap<String, Double> metaCompPercent;
 
   @VisibleForTesting
   Output(
