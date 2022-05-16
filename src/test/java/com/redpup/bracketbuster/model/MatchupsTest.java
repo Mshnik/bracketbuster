@@ -46,6 +46,60 @@ public final class MatchupsTest {
   }
 
   @Test
+  public void inverse_reversesValues_noWinRate() {
+    assertThat(
+        Matchups.inverse(MatchupMessage
+            .newBuilder().setPlayer("A")
+            .setOpponent("B")
+            .setGames(10)
+            .setWins(4)
+            .build()))
+        .isEqualTo(MatchupMessage
+            .newBuilder().setOpponent("A")
+            .setPlayer("B")
+            .setGames(10)
+            .setWins(6)
+            .build());
+  }
+
+  @Test
+  public void inverse_reversesValues_withWinRate() {
+    assertThat(
+        Matchups.inverse(MatchupMessage
+            .newBuilder().setPlayer("A")
+            .setOpponent("B")
+            .setGames(10)
+            .setWins(4)
+            .setWinRate(0.4)
+            .build()))
+        .isEqualTo(MatchupMessage
+            .newBuilder().setOpponent("A")
+            .setPlayer("B")
+            .setGames(10)
+            .setWins(6)
+            .setWinRate(0.6)
+            .build());
+  }
+
+  @Test
+  public void inverse_reversesValues_withWinRate_fromNoWins() {
+    assertThat(
+        Matchups.inverse(MatchupMessage
+            .newBuilder().setPlayer("A")
+            .setOpponent("B")
+            .setGames(10)
+            .setWins(0)
+            .build()))
+        .isEqualTo(MatchupMessage
+            .newBuilder().setOpponent("A")
+            .setPlayer("B")
+            .setGames(10)
+            .setWins(10)
+            .setWinRate(1.0)
+            .build());
+  }
+
+  @Test
   public void readsFile() throws IOException {
     assertThat(read()).isNotNull();
   }

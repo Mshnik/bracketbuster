@@ -3,14 +3,12 @@ package com.redpup.bracketbuster.model;
 
 import static com.redpup.bracketbuster.util.Strings.sanitize;
 
+import com.redpup.bracketbuster.model.proto.Matchup;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
-import com.redpup.bracketbuster.util.Strings;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 
 /**
  * Utility methods for operating on {@link MatchupMessage} and its wrappers.
@@ -18,6 +16,23 @@ import java.util.List;
 public final class Matchups {
 
   private Matchups() {
+  }
+
+  /**
+   * Returns the inverse of the given {@code matchup} by switching player and opponent.
+   */
+  public static MatchupMessage inverse(MatchupMessage matchup) {
+    MatchupMessage.Builder builder = MatchupMessage.newBuilder()
+        .setPlayer(matchup.getOpponent())
+        .setOpponent(matchup.getPlayer())
+        .setGames(matchup.getGames())
+        .setWins(matchup.getGames() - matchup.getWins());
+
+    if (matchup.getWinRate() > 0 || matchup.getWins() == 0) {
+      builder.setWinRate(1 - matchup.getWinRate());
+    }
+
+    return builder.build();
   }
 
   /**
@@ -30,7 +45,7 @@ public final class Matchups {
       int gamesIndex,
       int winsIndex) throws IOException {
     MatchupList.Builder builder = MatchupList.newBuilder();
-    
+
     Files.readAllLines(path).stream()
         // Skip header line.
         .skip(1)
