@@ -15,7 +15,9 @@ import java.nio.file.Path;
  */
 public final class Matchups {
 
-  /** Maximum number of digits to keep when calculating win rate. */
+  /**
+   * Maximum number of digits to keep when calculating win rate.
+   */
   private static final int WIN_RATE_SIG_FIGS = 9;
   private static final long WIN_RATE_ROUND_CONTEXT = (long) Math.pow(10, WIN_RATE_SIG_FIGS);
 
@@ -84,5 +86,15 @@ public final class Matchups {
         .forEach(builder::addMatchups);
 
     return builder.build();
+  }
+
+  /**
+   * Reads all matchups from {@code path} into a {@link MatchupList}.
+   */
+  public static MatchupList readMatchupListFromCsv(
+      Path path) throws IOException {
+    return readMatchupListFromCsv(path,
+        4, 6, 7, 8, 9
+    );
   }
 }
