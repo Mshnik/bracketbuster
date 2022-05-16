@@ -2,14 +2,17 @@ package com.redpup.bracketbuster.model;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableBiMap.toImmutableBiMap;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import com.redpup.bracketbuster.util.Pair;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -115,5 +118,18 @@ public final class MatchupMatrix {
     checkArgument(col != null, "Opponent %s not found in %s", opponent, headers);
 
     return getMatchup(row, col);
+  }
+
+  /**
+   * Builds and returns a list of all valid {@link Lineup}s that can be build from this matchup
+   * data. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
+   */
+  public ImmutableList<Lineup> createAllValidLineups() {
+    return IntStream.range(0, headers.size()).boxed()
+        .flatMap(deck1 -> IntStream.range(deck1 + 1, headers.size()).boxed()
+            .flatMap(deck2 -> IntStream.range(deck2 + 1, headers.size()).boxed()
+                .map(deck3 -> Lineup.ofDeckIndices(this, deck1, deck2, deck3))))
+        .filter(Lineup::isValid)
+        .collect(toImmutableList());
   }
 }

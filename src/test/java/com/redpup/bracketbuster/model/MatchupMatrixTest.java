@@ -11,6 +11,13 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class MatchupMatrixTest {
 
+  private static final MatchupMessage MATCHUP_MESSAGE_A_A
+      = MatchupMessage.newBuilder()
+      .setPlayer("A")
+      .setOpponent("A")
+      .setWins(2)
+      .setGames(4)
+      .build();
   private static final MatchupMessage MATCHUP_MESSAGE_A_B
       = MatchupMessage.newBuilder()
       .setPlayer("A")
@@ -25,19 +32,27 @@ public class MatchupMatrixTest {
       .setWins(1)
       .setGames(3)
       .build();
-  private static final MatchupMessage MATCHUP_MESSAGE_A_A
-      = MatchupMessage.newBuilder()
-      .setPlayer("A")
-      .setOpponent("A")
-      .setWins(2)
-      .setGames(4)
-      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_A_WITH_WIN_RATE =
+      Matchups.populateWinRate(MATCHUP_MESSAGE_A_A);
   private static final MatchupMessage MATCHUP_MESSAGE_A_B_WITH_WIN_RATE =
       Matchups.populateWinRate(MATCHUP_MESSAGE_A_B);
   private static final MatchupMessage MATCHUP_MESSAGE_B_A_WITH_WIN_RATE =
       Matchups.populateWinRate(MATCHUP_MESSAGE_B_A);
-  private static final MatchupMessage MATCHUP_MESSAGE_A_A_WITH_WIN_RATE =
-      Matchups.populateWinRate(MATCHUP_MESSAGE_A_A);
+
+  private static final MatchupMessage MATCHUP_MESSAGE_AB12_CD34
+      = MatchupMessage.newBuilder()
+      .setPlayer("A/B (1/2)")
+      .setOpponent("C/D (3/4)")
+      .setWins(2)
+      .setGames(6)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_EF56_GH78
+      = MatchupMessage.newBuilder()
+      .setPlayer("E/F (5/6)")
+      .setOpponent("G/H (7/8)")
+      .setWins(2)
+      .setGames(6)
+      .build();
 
 
   @Test
@@ -153,6 +168,28 @@ public class MatchupMatrixTest {
 
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getHeaderName(-1));
+  }
+
+  @Test
+  public void createAllValidLineups_notEnoughDecks() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_AB12_CD34);
+
+    assertThat(matrix.createAllValidLineups()).isEmpty();
+  }
+
+  @Test
+  public void createAllValidLineups_withLineups() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_AB12_CD34,
+        MATCHUP_MESSAGE_EF56_GH78);
+
+    assertThat(matrix.createAllValidLineups())
+        .containsExactly(
+            Lineup.ofDeckIndices(matrix, 0, 1, 2),
+            Lineup.ofDeckIndices(matrix, 0, 1, 3),
+            Lineup.ofDeckIndices(matrix, 0, 2, 3),
+            Lineup.ofDeckIndices(matrix, 1, 2, 3));
   }
 
 }

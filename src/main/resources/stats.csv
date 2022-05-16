@@ -288,10 +288,10 @@ Azir/Irelia,Pyke/Rek'Sai,Azir/Irelia (SH/IO)Pyke/Rek'Sai (SH/BW),Pyke/Rek'Sai (S
 Azir/Irelia,Senna/Veigar,Azir/Irelia (SH/IO)Senna/Veigar (SI/BC),Senna/Veigar (SI/BC)Azir/Irelia (SH/IO),2,Masters,Azir/Irelia (SH/IO),Senna/Veigar (SI/BC),51,96,0.53
 Azir/Irelia,Trundle/Tryndamere (FR/SI),Azir/Irelia (SH/IO)Trundle/Tryndamere (FR/SI),Trundle/Tryndamere (FR/SI)Azir/Irelia (SH/IO),2,Masters,Azir/Irelia (SH/IO),Trundle/Tryndamere (FR/SI),33,44,0.75
 Azir/Irelia,Xerath/Zilean (BC/SH),Azir/Irelia (SH/IO)Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Azir/Irelia (SH/IO),2,Masters,Azir/Irelia (SH/IO),Xerath/Zilean (BC/SH),31,44,0.70
-BandleTree,Ahri/Kennen (IO/SH),Poppy/Ziggs/Kennen (NX/SI)Ahri/Kennen (IO/SH),Ahri/Kennen (IO/SH)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Ahri/Kennen (IO/SH),50,235,0.21
-BandleTree,Ahri/Kennen (IO/SI),Poppy/Ziggs/Kennen (NX/SI)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Ahri/Kennen (IO/SI),48,115,0.42
-BandleTree,Akshan/Sivir (DE/SH),Poppy/Ziggs/Kennen (NX/SI)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Akshan/Sivir (DE/SH),17,39,0.44
-BandleTree,Anivia (FR/SI),Poppy/Ziggs/Kennen (NX/SI)Anivia (FR/SI),Anivia (FR/SI)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Anivia (FR/SI),48,52,0.92
+BandleTree,Ahri/Kennen (IO/SH),Poppy/Ziggs/Kennen (NX/SI)Ahri/Kennen (IO/SH),Ahri/Kennen (IO/SH)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Ahri/Kennen (IO/SH),52,247,0.21
+BandleTree,Ahri/Kennen (IO/SI),Poppy/Ziggs/Kennen (NX/SI)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Ahri/Kennen (IO/SI),51,124,0.42
+BandleTree,Akshan/Sivir (DE/SH),Poppy/Ziggs/Kennen (NX/SI)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Akshan/Sivir (DE/SH),17,41,0.44
+BandleTree,Anivia (FR/SI),Poppy/Ziggs/Kennen (NX/SI)Anivia (FR/SI),Anivia (FR/SI)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Anivia (FR/SI),51,56,0.92
 BandleTree,BandleTree,Poppy/Ziggs/Kennen (NX/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI),17,36,0.47
 BandleTree,Caitlyn/Teemo (BC/PZ),Poppy/Ziggs/Kennen (NX/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Caitlyn/Teemo (BC/PZ),24,46,0.52
 BandleTree,Championless (FR/PZ),Poppy/Ziggs/Kennen (NX/SI)Poros (FR/PZ),Poros (FR/PZ)Poppy/Ziggs/Kennen (NX/SI),2,Masters,Poppy/Ziggs/Kennen (NX/SI),Poros (FR/PZ),31,112,0.28
@@ -335,7 +335,7 @@ Caitlyn/Teemo (BC/PZ),Ahri/Kennen (IO/SI),Caitlyn/Teemo (BC/PZ)Ahri/Kennen (IO/S
 Caitlyn/Teemo (BC/PZ),Ahri/Lulu (IO/PZ),Caitlyn/Teemo (BC/PZ)Ahri/Lulu (IO/PZ),Ahri/Lulu (IO/PZ)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Ahri/Lulu (IO/PZ),12,34,0.35
 Caitlyn/Teemo (BC/PZ),Akshan/Sivir (DE/SH),Caitlyn/Teemo (BC/PZ)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Akshan/Sivir (DE/SH),17,55,0.31
 Caitlyn/Teemo (BC/PZ),Anivia (FR/SI),Caitlyn/Teemo (BC/PZ)Anivia (FR/SI),Anivia (FR/SI)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Anivia (FR/SI),41,52,0.79
-Caitlyn/Teemo (BC/PZ),BandleTree,Caitlyn/Teemo (BC/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Poppy/Ziggs/Kennen (NX/SI),28,52,0.54
+Caitlyn/Teemo (BC/PZ),BandleTree,Caitlyn/Teemo (BC/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Poppy/Ziggs/Kennen (NX/SI),22,46,0.54
 Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ),54,108,0.50
 Caitlyn/Teemo (BC/PZ),Championless (FR/PZ),Caitlyn/Teemo (BC/PZ)Poros (FR/PZ),Poros (FR/PZ)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Poros (FR/PZ),47,146,0.32
 Caitlyn/Teemo (BC/PZ),Diana/Nocturne,Caitlyn/Teemo (BC/PZ)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Caitlyn/Teemo (BC/PZ),2,Masters,Caitlyn/Teemo (BC/PZ),Diana/Nocturne (MT/SI),16,37,0.43
@@ -371,7 +371,7 @@ Championless (FR/PZ),Ashe/LeBlanc,Poros (FR/PZ)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc
 Championless (FR/PZ),Aurelion Sol/Trundle,Poros (FR/PZ)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Poros (FR/PZ),1,Masters,Poros (FR/PZ),Aurelion Sol/Trundle (FR/MT),58,82,0.71
 Championless (FR/PZ),Aurelion Sol/Zoe (FR/MT),Poros (FR/PZ)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Aurelion Sol/Zoe (FR/MT),53,90,0.59
 Championless (FR/PZ),Azir/Irelia,Poros (FR/PZ)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Azir/Irelia (SH/IO),25,49,0.51
-Championless (FR/PZ),BandleTree,Poros (FR/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Poppy/Ziggs/Kennen (NX/SI),85,118,0.72
+Championless (FR/PZ),BandleTree,Poros (FR/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Poppy/Ziggs/Kennen (NX/SI),81,112,0.72
 Championless (FR/PZ),Caitlyn/Senna,Poros (FR/PZ)Caitlyn/Senna (PZ/SI),Caitlyn/Senna (PZ/SI)Poros (FR/PZ),1,Masters,Poros (FR/PZ),Caitlyn/Senna (PZ/SI),18,30,0.60
 Championless (FR/PZ),Caitlyn/Teemo (BC/PZ),Poros (FR/PZ)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Caitlyn/Teemo (BC/PZ),99,146,0.68
 Championless (FR/PZ),Championless (FR/PZ),Poros (FR/PZ)Poros (FR/PZ),Poros (FR/PZ)Poros (FR/PZ),2,Masters,Poros (FR/PZ),Poros (FR/PZ),676,1352,0.50
@@ -434,7 +434,7 @@ Diana/Nocturne,Ahri/Kennen (IO/SH),Diana/Nocturne (MT/SI)Ahri/Kennen (IO/SH),Ahr
 Diana/Nocturne,Ahri/Kennen (IO/SI),Diana/Nocturne (MT/SI)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Ahri/Kennen (IO/SI),53,97,0.55
 Diana/Nocturne,Akshan/Sivir (DE/SH),Diana/Nocturne (MT/SI)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Akshan/Sivir (DE/SH),22,54,0.41
 Diana/Nocturne,Anivia (FR/SI),Diana/Nocturne (MT/SI)Anivia (FR/SI),Anivia (FR/SI)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Anivia (FR/SI),20,60,0.33
-Diana/Nocturne,BandleTree,Diana/Nocturne (MT/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Poppy/Ziggs/Kennen (NX/SI),22,41,0.54
+Diana/Nocturne,BandleTree,Diana/Nocturne (MT/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Poppy/Ziggs/Kennen (NX/SI),22,40,0.54
 Diana/Nocturne,Caitlyn/Teemo (BC/PZ),Diana/Nocturne (MT/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Caitlyn/Teemo (BC/PZ),21,37,0.57
 Diana/Nocturne,Championless (FR/PZ),Diana/Nocturne (MT/SI)Poros (FR/PZ),Poros (FR/PZ)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Poros (FR/PZ),115,183,0.63
 Diana/Nocturne,Diana/Nocturne,Diana/Nocturne (MT/SI)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Diana/Nocturne (MT/SI),2,Masters,Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI),26,52,0.50
@@ -465,7 +465,7 @@ Diana/Zoe (BC/MT),Ahri/Kennen (IO/SI),Diana/Zoe (BC/MT)Ahri/Kennen (IO/SI),Ahri/
 Diana/Zoe (BC/MT),Akshan/Sivir (DE/SH),Diana/Zoe (BC/MT)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Akshan/Sivir (DE/SH),16,50,0.32
 Diana/Zoe (BC/MT),Anivia (FR/SI),Diana/Zoe (BC/MT)Anivia (FR/SI),Anivia (FR/SI)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Anivia (FR/SI),32,61,0.52
 Diana/Zoe (BC/MT),Aurelion Sol/Zoe (FR/MT),Diana/Zoe (BC/MT)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Aurelion Sol/Zoe (FR/MT),9,30,0.30
-Diana/Zoe (BC/MT),BandleTree,Diana/Zoe (BC/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Poppy/Ziggs/Kennen (NX/SI),31,64,0.48
+Diana/Zoe (BC/MT),BandleTree,Diana/Zoe (BC/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Poppy/Ziggs/Kennen (NX/SI),31,61,0.48
 Diana/Zoe (BC/MT),Caitlyn/Teemo (BC/PZ),Diana/Zoe (BC/MT)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Caitlyn/Teemo (BC/PZ),36,78,0.46
 Diana/Zoe (BC/MT),Championless (FR/PZ),Diana/Zoe (BC/MT)Poros (FR/PZ),Poros (FR/PZ)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Poros (FR/PZ),84,170,0.49
 Diana/Zoe (BC/MT),Diana/Nocturne,Diana/Zoe (BC/MT)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Diana/Zoe (BC/MT),2,Masters,Diana/Zoe (BC/MT),Diana/Nocturne (MT/SI),33,61,0.54
@@ -517,7 +517,7 @@ Draven/Rumble (NX/PZ),Ashe/LeBlanc,Draven/Rumble (NX/PZ)Ashe/LeBlanc (FR/NX),Ash
 Draven/Rumble (NX/PZ),Aurelion Sol/Trundle,Draven/Rumble (NX/PZ)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Draven/Rumble (NX/PZ),1,Masters,Draven/Rumble (NX/PZ),Aurelion Sol/Trundle (FR/MT),21,31,0.68
 Draven/Rumble (NX/PZ),Aurelion Sol/Zoe (FR/MT),Draven/Rumble (NX/PZ)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Aurelion Sol/Zoe (FR/MT),34,66,0.52
 Draven/Rumble (NX/PZ),Azir/Irelia,Draven/Rumble (NX/PZ)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Azir/Irelia (SH/IO),31,45,0.69
-Draven/Rumble (NX/PZ),BandleTree,Draven/Rumble (NX/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Poppy/Ziggs/Kennen (NX/SI),53,80,0.66
+Draven/Rumble (NX/PZ),BandleTree,Draven/Rumble (NX/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Poppy/Ziggs/Kennen (NX/SI),51,77,0.66
 Draven/Rumble (NX/PZ),Caitlyn/Teemo (BC/PZ),Draven/Rumble (NX/PZ)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Caitlyn/Teemo (BC/PZ),67,102,0.66
 Draven/Rumble (NX/PZ),Championless (FR/PZ),Draven/Rumble (NX/PZ)Poros (FR/PZ),Poros (FR/PZ)Draven/Rumble (NX/PZ),2,Masters,Draven/Rumble (NX/PZ),Poros (FR/PZ),254,397,0.64
 Draven/Rumble (NX/PZ),Darius/Elise,Draven/Rumble (NX/PZ)Darius/Elise (NX/SI),Darius/Elise (NX/SI)Draven/Rumble (NX/PZ),1,Masters,Draven/Rumble (NX/PZ),Darius/Elise (NX/SI),20,32,0.63
@@ -559,7 +559,7 @@ Draven/Rumble (NX/PZ),Xerath/Zilean (BC/SH),Draven/Rumble (NX/PZ)Xerath/Zilean (
 Ekko/Zilean,Ahri/Kennen (IO/SH),Ekko/Zilean (PZ/SH)Ahri/Kennen (IO/SH),Ahri/Kennen (IO/SH)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Ahri/Kennen (IO/SH),52,137,0.38
 Ekko/Zilean,Ahri/Kennen (IO/SI),Ekko/Zilean (PZ/SH)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Ahri/Kennen (IO/SI),36,74,0.49
 Ekko/Zilean,Akshan/Sivir (DE/SH),Ekko/Zilean (PZ/SH)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Akshan/Sivir (DE/SH),30,50,0.60
-Ekko/Zilean,BandleTree,Ekko/Zilean (PZ/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Poppy/Ziggs/Kennen (NX/SI),20,35,0.57
+Ekko/Zilean,BandleTree,Ekko/Zilean (PZ/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Poppy/Ziggs/Kennen (NX/SI),17,31,0.57
 Ekko/Zilean,Caitlyn/Teemo (BC/PZ),Ekko/Zilean (PZ/SH)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Caitlyn/Teemo (BC/PZ),21,31,0.68
 Ekko/Zilean,Championless (FR/PZ),Ekko/Zilean (PZ/SH)Poros (FR/PZ),Poros (FR/PZ)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Poros (FR/PZ),46,109,0.42
 Ekko/Zilean,Draven/Rumble (NX/PZ),Ekko/Zilean (PZ/SH)Draven/Rumble (NX/PZ),Draven/Rumble (NX/PZ)Ekko/Zilean (PZ/SH),2,Masters,Ekko/Zilean (PZ/SH),Draven/Rumble (NX/PZ),34,71,0.48
@@ -601,7 +601,7 @@ Elise (NX/SI),Ashe/LeBlanc,Elise (NX/SI)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX
 Elise (NX/SI),Aurelion Sol/Trundle,Elise (NX/SI)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Elise (NX/SI),1,Masters,Elise (NX/SI),Aurelion Sol/Trundle (FR/MT),22,37,0.59
 Elise (NX/SI),Aurelion Sol/Zoe (FR/MT),Elise (NX/SI)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Elise (NX/SI),2,Masters,Elise (NX/SI),Aurelion Sol/Zoe (FR/MT),18,36,0.50
 Elise (NX/SI),Azir/Irelia,Elise (NX/SI)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Elise (NX/SI),2,Masters,Elise (NX/SI),Azir/Irelia (SH/IO),19,33,0.58
-Elise (NX/SI),BandleTree,Elise (NX/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise (NX/SI),2,Masters,Elise (NX/SI),Poppy/Ziggs/Kennen (NX/SI),32,63,0.51
+Elise (NX/SI),BandleTree,Elise (NX/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise (NX/SI),2,Masters,Elise (NX/SI),Poppy/Ziggs/Kennen (NX/SI),31,58,0.51
 Elise (NX/SI),Caitlyn/Teemo (BC/PZ),Elise (NX/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Elise (NX/SI),2,Masters,Elise (NX/SI),Caitlyn/Teemo (BC/PZ),44,99,0.44
 Elise (NX/SI),Championless (FR/PZ),Elise (NX/SI)Poros (FR/PZ),Poros (FR/PZ)Elise (NX/SI),2,Masters,Elise (NX/SI),Poros (FR/PZ),228,380,0.60
 Elise (NX/SI),Darius/Elise,Elise (NX/SI)Darius/Elise (NX/SI),Darius/Elise (NX/SI)Elise (NX/SI),1,Masters,Elise (NX/SI),Darius/Elise (NX/SI),16,35,0.46
@@ -662,7 +662,7 @@ Elise/Kindred (PZ/SI),Ahri/Kennen (IO/SH),Elise/Kindred (PZ/SI)Ahri/Kennen (IO/S
 Elise/Kindred (PZ/SI),Ahri/Kennen (IO/SI),Elise/Kindred (PZ/SI)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Ahri/Kennen (IO/SI),58,107,0.54
 Elise/Kindred (PZ/SI),Akshan/Sivir (DE/SH),Elise/Kindred (PZ/SI)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Akshan/Sivir (DE/SH),16,46,0.35
 Elise/Kindred (PZ/SI),Anivia (FR/SI),Elise/Kindred (PZ/SI)Anivia (FR/SI),Anivia (FR/SI)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Anivia (FR/SI),17,57,0.30
-Elise/Kindred (PZ/SI),BandleTree,Elise/Kindred (PZ/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Poppy/Ziggs/Kennen (NX/SI),31,56,0.55
+Elise/Kindred (PZ/SI),BandleTree,Elise/Kindred (PZ/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Poppy/Ziggs/Kennen (NX/SI),30,55,0.55
 Elise/Kindred (PZ/SI),Caitlyn/Teemo (BC/PZ),Elise/Kindred (PZ/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Caitlyn/Teemo (BC/PZ),32,55,0.58
 Elise/Kindred (PZ/SI),Championless (FR/PZ),Elise/Kindred (PZ/SI)Poros (FR/PZ),Poros (FR/PZ)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Poros (FR/PZ),89,169,0.53
 Elise/Kindred (PZ/SI),Diana/Nocturne,Elise/Kindred (PZ/SI)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Elise/Kindred (PZ/SI),2,Masters,Elise/Kindred (PZ/SI),Diana/Nocturne (MT/SI),41,56,0.73
@@ -693,7 +693,7 @@ Elise/Kindred/Vi,Ahri/Kennen (IO/SH),Elise/Kindred/Vi (SI/PZ)Ahri/Kennen (IO/SH)
 Elise/Kindred/Vi,Ahri/Kennen (IO/SI),Elise/Kindred/Vi (SI/PZ)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Ahri/Kennen (IO/SI),48,105,0.46
 Elise/Kindred/Vi,Akshan/Sivir (DE/SH),Elise/Kindred/Vi (SI/PZ)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Akshan/Sivir (DE/SH),16,55,0.29
 Elise/Kindred/Vi,Anivia (FR/SI),Elise/Kindred/Vi (SI/PZ)Anivia (FR/SI),Anivia (FR/SI)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Anivia (FR/SI),21,63,0.33
-Elise/Kindred/Vi,BandleTree,Elise/Kindred/Vi (SI/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Poppy/Ziggs/Kennen (NX/SI),25,59,0.42
+Elise/Kindred/Vi,BandleTree,Elise/Kindred/Vi (SI/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Poppy/Ziggs/Kennen (NX/SI),21,55,0.42
 Elise/Kindred/Vi,Caitlyn/Teemo (BC/PZ),Elise/Kindred/Vi (SI/PZ)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Caitlyn/Teemo (BC/PZ),34,64,0.53
 Elise/Kindred/Vi,Championless (FR/PZ),Elise/Kindred/Vi (SI/PZ)Poros (FR/PZ),Poros (FR/PZ)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Poros (FR/PZ),102,164,0.62
 Elise/Kindred/Vi,Diana/Nocturne,Elise/Kindred/Vi (SI/PZ)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Elise/Kindred/Vi (SI/PZ),2,Masters,Elise/Kindred/Vi (SI/PZ),Diana/Nocturne (MT/SI),55,69,0.80
@@ -728,7 +728,7 @@ Elise/Trundle,Anivia (FR/SI),Elise/Trundle (FR/SI)Anivia (FR/SI),Anivia (FR/SI)E
 Elise/Trundle,Ashe/LeBlanc,Elise/Trundle (FR/SI)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Ashe/LeBlanc (FR/NX),36,56,0.64
 Elise/Trundle,Aurelion Sol/Trundle,Elise/Trundle (FR/SI)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Elise/Trundle (FR/SI),1,Masters,Elise/Trundle (FR/SI),Aurelion Sol/Trundle (FR/MT),13,36,0.36
 Elise/Trundle,Aurelion Sol/Zoe (FR/MT),Elise/Trundle (FR/SI)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Aurelion Sol/Zoe (FR/MT),23,39,0.59
-Elise/Trundle,BandleTree,Elise/Trundle (FR/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Poppy/Ziggs/Kennen (NX/SI),29,53,0.55
+Elise/Trundle,BandleTree,Elise/Trundle (FR/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Poppy/Ziggs/Kennen (NX/SI),28,50,0.55
 Elise/Trundle,Caitlyn/Teemo (BC/PZ),Elise/Trundle (FR/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Caitlyn/Teemo (BC/PZ),41,79,0.52
 Elise/Trundle,Championless (FR/PZ),Elise/Trundle (FR/SI)Poros (FR/PZ),Poros (FR/PZ)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Poros (FR/PZ),138,370,0.37
 Elise/Trundle,Diana/Nocturne,Elise/Trundle (FR/SI)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Elise/Trundle (FR/SI),2,Masters,Elise/Trundle (FR/SI),Diana/Nocturne (MT/SI),45,79,0.57
@@ -782,7 +782,7 @@ Fizz/Lulu (BC/PZ),Akshan/Sivir (DE/SH),Fizz/Lulu (BC/PZ)Akshan/Sivir (DE/SH),Aks
 Fizz/Lulu (BC/PZ),Anivia (FR/SI),Fizz/Lulu (BC/PZ)Anivia (FR/SI),Anivia (FR/SI)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Anivia (FR/SI),22,78,0.28
 Fizz/Lulu (BC/PZ),Aurelion Sol/Zoe (FR/MT),Fizz/Lulu (BC/PZ)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Aurelion Sol/Zoe (FR/MT),19,33,0.58
 Fizz/Lulu (BC/PZ),Azir/Irelia,Fizz/Lulu (BC/PZ)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Azir/Irelia (SH/IO),35,52,0.67
-Fizz/Lulu (BC/PZ),BandleTree,Fizz/Lulu (BC/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Poppy/Ziggs/Kennen (NX/SI),44,67,0.66
+Fizz/Lulu (BC/PZ),BandleTree,Fizz/Lulu (BC/PZ)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Poppy/Ziggs/Kennen (NX/SI),40,60,0.66
 Fizz/Lulu (BC/PZ),Caitlyn/Teemo (BC/PZ),Fizz/Lulu (BC/PZ)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Caitlyn/Teemo (BC/PZ),58,91,0.64
 Fizz/Lulu (BC/PZ),Championless (FR/PZ),Fizz/Lulu (BC/PZ)Poros (FR/PZ),Poros (FR/PZ)Fizz/Lulu (BC/PZ),2,Masters,Fizz/Lulu (BC/PZ),Poros (FR/PZ),132,196,0.67
 Fizz/Lulu (BC/PZ),Darius/Elise,Fizz/Lulu (BC/PZ)Darius/Elise (NX/SI),Darius/Elise (NX/SI)Fizz/Lulu (BC/PZ),1,Masters,Fizz/Lulu (BC/PZ),Darius/Elise (NX/SI),21,31,0.68
@@ -938,7 +938,7 @@ Kindred/Viego (IO/SI),Ashe/LeBlanc,Kindred/Viego (IO/SI)Ashe/LeBlanc (FR/NX),Ash
 Kindred/Viego (IO/SI),Aurelion Sol/Trundle,Kindred/Viego (IO/SI)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Kindred/Viego (IO/SI),1,Masters,Kindred/Viego (IO/SI),Aurelion Sol/Trundle (FR/MT),20,32,0.63
 Kindred/Viego (IO/SI),Aurelion Sol/Zoe (FR/MT),Kindred/Viego (IO/SI)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Aurelion Sol/Zoe (FR/MT),24,42,0.57
 Kindred/Viego (IO/SI),Azir/Irelia,Kindred/Viego (IO/SI)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Azir/Irelia (SH/IO),24,50,0.48
-Kindred/Viego (IO/SI),BandleTree,Kindred/Viego (IO/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Poppy/Ziggs/Kennen (NX/SI),27,89,0.30
+Kindred/Viego (IO/SI),BandleTree,Kindred/Viego (IO/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Poppy/Ziggs/Kennen (NX/SI),25,83,0.30
 Kindred/Viego (IO/SI),Caitlyn/Teemo (BC/PZ),Kindred/Viego (IO/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Caitlyn/Teemo (BC/PZ),48,111,0.43
 Kindred/Viego (IO/SI),Championless (FR/PZ),Kindred/Viego (IO/SI)Poros (FR/PZ),Poros (FR/PZ)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Poros (FR/PZ),131,355,0.37
 Kindred/Viego (IO/SI),Diana/Nocturne,Kindred/Viego (IO/SI)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Kindred/Viego (IO/SI),2,Masters,Kindred/Viego (IO/SI),Diana/Nocturne (MT/SI),44,95,0.46
@@ -999,7 +999,7 @@ Lissandra/Taliyah,Akshan/Sivir (DE/SH),Lissandra/Taliyah (FR/SH)Akshan/Sivir (DE
 Lissandra/Taliyah,Anivia (FR/SI),Lissandra/Taliyah (FR/SH)Anivia (FR/SI),Anivia (FR/SI)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Anivia (FR/SI),36,52,0.69
 Lissandra/Taliyah,Ashe/LeBlanc,Lissandra/Taliyah (FR/SH)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Ashe/LeBlanc (FR/NX),18,32,0.56
 Lissandra/Taliyah,Aurelion Sol/Zoe (FR/MT),Lissandra/Taliyah (FR/SH)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Aurelion Sol/Zoe (FR/MT),18,39,0.46
-Lissandra/Taliyah,BandleTree,Lissandra/Taliyah (FR/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Poppy/Ziggs/Kennen (NX/SI),37,64,0.58
+Lissandra/Taliyah,BandleTree,Lissandra/Taliyah (FR/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Poppy/Ziggs/Kennen (NX/SI),35,60,0.58
 Lissandra/Taliyah,Caitlyn/Teemo (BC/PZ),Lissandra/Taliyah (FR/SH)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Caitlyn/Teemo (BC/PZ),28,58,0.48
 Lissandra/Taliyah,Championless (FR/PZ),Lissandra/Taliyah (FR/SH)Poros (FR/PZ),Poros (FR/PZ)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Poros (FR/PZ),61,186,0.33
 Lissandra/Taliyah,Diana/Nocturne,Lissandra/Taliyah (FR/SH)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Lissandra/Taliyah (FR/SH),2,Masters,Lissandra/Taliyah (FR/SH),Diana/Nocturne (MT/SI),35,63,0.56
@@ -1117,7 +1117,7 @@ Miss Fortune/Quinn,Ashe/LeBlanc,Miss Fortune/Quinn (BW/DE)Ashe/LeBlanc (FR/NX),A
 Miss Fortune/Quinn,Aurelion Sol/Trundle,Miss Fortune/Quinn (BW/DE)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Miss Fortune/Quinn (BW/DE),1,Masters,Miss Fortune/Quinn (BW/DE),Aurelion Sol/Trundle (FR/MT),26,33,0.79
 Miss Fortune/Quinn,Aurelion Sol/Zoe (FR/MT),Miss Fortune/Quinn (BW/DE)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Miss Fortune/Quinn (BW/DE),2,Masters,Miss Fortune/Quinn (BW/DE),Aurelion Sol/Zoe (FR/MT),51,74,0.69
 Miss Fortune/Quinn,Azir/Irelia,Miss Fortune/Quinn (BW/DE)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Miss Fortune/Quinn (BW/DE),2,Masters,Miss Fortune/Quinn (BW/DE),Azir/Irelia (SH/IO),70,108,0.65
-Miss Fortune/Quinn,BandleTree,Miss Fortune/Quinn (BW/DE)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Miss Fortune/Quinn (BW/DE),2,Masters,Miss Fortune/Quinn (BW/DE),Poppy/Ziggs/Kennen (NX/SI),140,223,0.63
+Miss Fortune/Quinn,BandleTree,Miss Fortune/Quinn (BW/DE)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Miss Fortune/Quinn (BW/DE),2,Masters,Miss Fortune/Quinn (BW/DE),Poppy/Ziggs/Kennen (NX/SI),129,206,0.63
 Miss Fortune/Quinn,Braum/Vladimir,Miss Fortune/Quinn (BW/DE)Braum/Vladimir (FR/NX),Braum/Vladimir (FR/NX)Miss Fortune/Quinn (BW/DE),1,Masters,Miss Fortune/Quinn (BW/DE),Braum/Vladimir (FR/NX),15,51,0.29
 Miss Fortune/Quinn,Caitlyn/Ezreal (NX/PZ),Miss Fortune/Quinn (BW/DE)Caitlyn/Ezreal (NX/PZ),Caitlyn/Ezreal (NX/PZ)Miss Fortune/Quinn (BW/DE),1,Masters,Miss Fortune/Quinn (BW/DE),Caitlyn/Ezreal (NX/PZ),14,30,0.47
 Miss Fortune/Quinn,Caitlyn/Senna,Miss Fortune/Quinn (BW/DE)Caitlyn/Senna (PZ/SI),Caitlyn/Senna (PZ/SI)Miss Fortune/Quinn (BW/DE),1,Masters,Miss Fortune/Quinn (BW/DE),Caitlyn/Senna (PZ/SI),16,33,0.48
@@ -1200,7 +1200,7 @@ Pantheon (DE/MT),Ahri/Kennen (IO/SH),Pantheon (DE/MT)Ahri/Kennen (IO/SH),Ahri/Ke
 Pantheon (DE/MT),Ahri/Kennen (IO/SI),Pantheon (DE/MT)Ahri/Kennen (IO/SI),Ahri/Kennen (IO/SI)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Ahri/Kennen (IO/SI),25,73,0.34
 Pantheon (DE/MT),Akshan/Sivir (DE/SH),Pantheon (DE/MT)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Akshan/Sivir (DE/SH),17,38,0.45
 Pantheon (DE/MT),Anivia (FR/SI),Pantheon (DE/MT)Anivia (FR/SI),Anivia (FR/SI)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Anivia (FR/SI),26,50,0.52
-Pantheon (DE/MT),BandleTree,Pantheon (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Poppy/Ziggs/Kennen (NX/SI),18,44,0.41
+Pantheon (DE/MT),BandleTree,Pantheon (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Poppy/Ziggs/Kennen (NX/SI),18,43,0.41
 Pantheon (DE/MT),Caitlyn/Teemo (BC/PZ),Pantheon (DE/MT)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Caitlyn/Teemo (BC/PZ),35,47,0.74
 Pantheon (DE/MT),Championless (FR/PZ),Pantheon (DE/MT)Poros (FR/PZ),Poros (FR/PZ)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Poros (FR/PZ),79,165,0.48
 Pantheon (DE/MT),Diana/Nocturne,Pantheon (DE/MT)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Pantheon (DE/MT),2,Masters,Pantheon (DE/MT),Diana/Nocturne (MT/SI),29,45,0.64
@@ -1234,7 +1234,7 @@ Pantheon/Shyvana,Anivia (FR/SI),Pantheon/Shyvana (DE/MT)Anivia (FR/SI),Anivia (F
 Pantheon/Shyvana,Ashe/LeBlanc,Pantheon/Shyvana (DE/MT)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Ashe/LeBlanc (FR/NX),13,36,0.36
 Pantheon/Shyvana,Aurelion Sol/Zoe (FR/MT),Pantheon/Shyvana (DE/MT)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Aurelion Sol/Zoe (FR/MT),13,39,0.33
 Pantheon/Shyvana,Azir/Irelia,Pantheon/Shyvana (DE/MT)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Azir/Irelia (SH/IO),23,42,0.55
-Pantheon/Shyvana,BandleTree,Pantheon/Shyvana (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Poppy/Ziggs/Kennen (NX/SI),44,75,0.59
+Pantheon/Shyvana,BandleTree,Pantheon/Shyvana (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Poppy/Ziggs/Kennen (NX/SI),40,68,0.59
 Pantheon/Shyvana,Caitlyn/Teemo (BC/PZ),Pantheon/Shyvana (DE/MT)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Caitlyn/Teemo (BC/PZ),76,109,0.70
 Pantheon/Shyvana,Championless (FR/PZ),Pantheon/Shyvana (DE/MT)Poros (FR/PZ),Poros (FR/PZ)Pantheon/Shyvana (DE/MT),2,Masters,Pantheon/Shyvana (DE/MT),Poros (FR/PZ),160,253,0.63
 Pantheon/Shyvana,Darius/Elise,Pantheon/Shyvana (DE/MT)Darius/Elise (NX/SI),Darius/Elise (NX/SI)Pantheon/Shyvana (DE/MT),1,Masters,Pantheon/Shyvana (DE/MT),Darius/Elise (NX/SI),9,30,0.30
@@ -1275,7 +1275,7 @@ Pantheon/Taric (DE/MT),Ahri/Kennen (IO/SI),Pantheon/Taric (DE/MT)Ahri/Kennen (IO
 Pantheon/Taric (DE/MT),Ahri/Lulu (IO/PZ),Pantheon/Taric (DE/MT)Ahri/Lulu (IO/PZ),Ahri/Lulu (IO/PZ)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Ahri/Lulu (IO/PZ),15,33,0.45
 Pantheon/Taric (DE/MT),Akshan/Sivir (DE/SH),Pantheon/Taric (DE/MT)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Akshan/Sivir (DE/SH),34,62,0.55
 Pantheon/Taric (DE/MT),Anivia (FR/SI),Pantheon/Taric (DE/MT)Anivia (FR/SI),Anivia (FR/SI)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Anivia (FR/SI),34,49,0.69
-Pantheon/Taric (DE/MT),BandleTree,Pantheon/Taric (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Poppy/Ziggs/Kennen (NX/SI),31,60,0.52
+Pantheon/Taric (DE/MT),BandleTree,Pantheon/Taric (DE/MT)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Poppy/Ziggs/Kennen (NX/SI),28,56,0.52
 Pantheon/Taric (DE/MT),Caitlyn/Teemo (BC/PZ),Pantheon/Taric (DE/MT)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Caitlyn/Teemo (BC/PZ),69,87,0.79
 Pantheon/Taric (DE/MT),Championless (FR/PZ),Pantheon/Taric (DE/MT)Poros (FR/PZ),Poros (FR/PZ)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Poros (FR/PZ),113,172,0.66
 Pantheon/Taric (DE/MT),Diana/Nocturne,Pantheon/Taric (DE/MT)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Pantheon/Taric (DE/MT),2,Masters,Pantheon/Taric (DE/MT),Diana/Nocturne (MT/SI),21,38,0.55
@@ -1315,7 +1315,7 @@ Pyke/Rek'Sai,Ashe/LeBlanc,Pyke/Rek'Sai (SH/BW)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc 
 Pyke/Rek'Sai,Aurelion Sol/Trundle,Pyke/Rek'Sai (SH/BW)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Pyke/Rek'Sai (SH/BW),1,Masters,Pyke/Rek'Sai (SH/BW),Aurelion Sol/Trundle (FR/MT),31,43,0.72
 Pyke/Rek'Sai,Aurelion Sol/Zoe (FR/MT),Pyke/Rek'Sai (SH/BW)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Pyke/Rek'Sai (SH/BW),2,Masters,Pyke/Rek'Sai (SH/BW),Aurelion Sol/Zoe (FR/MT),66,90,0.73
 Pyke/Rek'Sai,Azir/Irelia,Pyke/Rek'Sai (SH/BW)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Pyke/Rek'Sai (SH/BW),2,Masters,Pyke/Rek'Sai (SH/BW),Azir/Irelia (SH/IO),64,106,0.60
-Pyke/Rek'Sai,BandleTree,Pyke/Rek'Sai (SH/BW)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pyke/Rek'Sai (SH/BW),2,Masters,Pyke/Rek'Sai (SH/BW),Poppy/Ziggs/Kennen (NX/SI),96,171,0.56
+Pyke/Rek'Sai,BandleTree,Pyke/Rek'Sai (SH/BW)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Pyke/Rek'Sai (SH/BW),2,Masters,Pyke/Rek'Sai (SH/BW),Poppy/Ziggs/Kennen (NX/SI),91,164,0.56
 Pyke/Rek'Sai,Braum/Vladimir,Pyke/Rek'Sai (SH/BW)Braum/Vladimir (FR/NX),Braum/Vladimir (FR/NX)Pyke/Rek'Sai (SH/BW),1,Masters,Pyke/Rek'Sai (SH/BW),Braum/Vladimir (FR/NX),21,35,0.60
 Pyke/Rek'Sai,Caitlyn/Senna,Pyke/Rek'Sai (SH/BW)Caitlyn/Senna (PZ/SI),Caitlyn/Senna (PZ/SI)Pyke/Rek'Sai (SH/BW),1,Masters,Pyke/Rek'Sai (SH/BW),Caitlyn/Senna (PZ/SI),27,44,0.61
 Pyke/Rek'Sai,Caitlyn/Teemo (BC/PZ),Pyke/Rek'Sai (SH/BW)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Pyke/Rek'Sai (SH/BW),2,Masters,Pyke/Rek'Sai (SH/BW),Caitlyn/Teemo (BC/PZ),129,199,0.65
@@ -1381,7 +1381,7 @@ Senna/Veigar,Ashe/LeBlanc,Senna/Veigar (SI/BC)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc 
 Senna/Veigar,Aurelion Sol/Trundle,Senna/Veigar (SI/BC)Aurelion Sol/Trundle (FR/MT),Aurelion Sol/Trundle (FR/MT)Senna/Veigar (SI/BC),1,Masters,Senna/Veigar (SI/BC),Aurelion Sol/Trundle (FR/MT),28,58,0.48
 Senna/Veigar,Aurelion Sol/Zoe (FR/MT),Senna/Veigar (SI/BC)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Senna/Veigar (SI/BC),2,Masters,Senna/Veigar (SI/BC),Aurelion Sol/Zoe (FR/MT),54,106,0.51
 Senna/Veigar,Azir/Irelia,Senna/Veigar (SI/BC)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Senna/Veigar (SI/BC),2,Masters,Senna/Veigar (SI/BC),Azir/Irelia (SH/IO),45,96,0.47
-Senna/Veigar,BandleTree,Senna/Veigar (SI/BC)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Senna/Veigar (SI/BC),2,Masters,Senna/Veigar (SI/BC),Poppy/Ziggs/Kennen (NX/SI),82,243,0.34
+Senna/Veigar,BandleTree,Senna/Veigar (SI/BC)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Senna/Veigar (SI/BC),2,Masters,Senna/Veigar (SI/BC),Poppy/Ziggs/Kennen (NX/SI),73,230,0.34
 Senna/Veigar,Braum/Vladimir,Senna/Veigar (SI/BC)Braum/Vladimir (FR/NX),Braum/Vladimir (FR/NX)Senna/Veigar (SI/BC),1,Masters,Senna/Veigar (SI/BC),Braum/Vladimir (FR/NX),16,36,0.44
 Senna/Veigar,Caitlyn/Ezreal (NX/PZ),Senna/Veigar (SI/BC)Caitlyn/Ezreal (NX/PZ),Caitlyn/Ezreal (NX/PZ)Senna/Veigar (SI/BC),1,Masters,Senna/Veigar (SI/BC),Caitlyn/Ezreal (NX/PZ),17,34,0.50
 Senna/Veigar,Caitlyn/Senna,Senna/Veigar (SI/BC)Caitlyn/Senna (PZ/SI),Caitlyn/Senna (PZ/SI)Senna/Veigar (SI/BC),1,Masters,Senna/Veigar (SI/BC),Caitlyn/Senna (PZ/SI),14,36,0.39
@@ -1484,7 +1484,7 @@ Taliyah/Ziggs,Ahri/Kennen (IO/SI),Taliyah/Ziggs (BC/SH)Ahri/Kennen (IO/SI),Ahri/
 Taliyah/Ziggs,Ahri/Lulu (IO/PZ),Taliyah/Ziggs (BC/SH)Ahri/Lulu (IO/PZ),Ahri/Lulu (IO/PZ)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Ahri/Lulu (IO/PZ),19,34,0.56
 Taliyah/Ziggs,Akshan/Sivir (DE/SH),Taliyah/Ziggs (BC/SH)Akshan/Sivir (DE/SH),Akshan/Sivir (DE/SH)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Akshan/Sivir (DE/SH),31,56,0.55
 Taliyah/Ziggs,Anivia (FR/SI),Taliyah/Ziggs (BC/SH)Anivia (FR/SI),Anivia (FR/SI)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Anivia (FR/SI),44,62,0.71
-Taliyah/Ziggs,BandleTree,Taliyah/Ziggs (BC/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Poppy/Ziggs/Kennen (NX/SI),35,56,0.63
+Taliyah/Ziggs,BandleTree,Taliyah/Ziggs (BC/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Poppy/Ziggs/Kennen (NX/SI),35,54,0.63
 Taliyah/Ziggs,Caitlyn/Teemo (BC/PZ),Taliyah/Ziggs (BC/SH)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Caitlyn/Teemo (BC/PZ),34,61,0.56
 Taliyah/Ziggs,Championless (FR/PZ),Taliyah/Ziggs (BC/SH)Poros (FR/PZ),Poros (FR/PZ)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Poros (FR/PZ),33,114,0.29
 Taliyah/Ziggs,Diana/Nocturne,Taliyah/Ziggs (BC/SH)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Taliyah/Ziggs (BC/SH),2,Masters,Taliyah/Ziggs (BC/SH),Diana/Nocturne (MT/SI),11,30,0.37
@@ -1519,7 +1519,7 @@ Trundle/Tryndamere (FR/SI),Anivia (FR/SI),Trundle/Tryndamere (FR/SI)Anivia (FR/S
 Trundle/Tryndamere (FR/SI),Ashe/LeBlanc,Trundle/Tryndamere (FR/SI)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Ashe/LeBlanc (FR/NX),18,34,0.53
 Trundle/Tryndamere (FR/SI),Aurelion Sol/Zoe (FR/MT),Trundle/Tryndamere (FR/SI)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Aurelion Sol/Zoe (FR/MT),25,54,0.46
 Trundle/Tryndamere (FR/SI),Azir/Irelia,Trundle/Tryndamere (FR/SI)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Azir/Irelia (SH/IO),11,44,0.25
-Trundle/Tryndamere (FR/SI),BandleTree,Trundle/Tryndamere (FR/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Poppy/Ziggs/Kennen (NX/SI),53,122,0.43
+Trundle/Tryndamere (FR/SI),BandleTree,Trundle/Tryndamere (FR/SI)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Poppy/Ziggs/Kennen (NX/SI),48,114,0.43
 Trundle/Tryndamere (FR/SI),Caitlyn/Teemo (BC/PZ),Trundle/Tryndamere (FR/SI)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Caitlyn/Teemo (BC/PZ),81,172,0.47
 Trundle/Tryndamere (FR/SI),Championless (FR/PZ),Trundle/Tryndamere (FR/SI)Poros (FR/PZ),Poros (FR/PZ)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Poros (FR/PZ),108,298,0.36
 Trundle/Tryndamere (FR/SI),Diana/Nocturne,Trundle/Tryndamere (FR/SI)Diana/Nocturne (MT/SI),Diana/Nocturne (MT/SI)Trundle/Tryndamere (FR/SI),2,Masters,Trundle/Tryndamere (FR/SI),Diana/Nocturne (MT/SI),78,101,0.77
@@ -1568,7 +1568,7 @@ Xerath/Zilean (BC/SH),Anivia (FR/SI),Xerath/Zilean (BC/SH)Anivia (FR/SI),Anivia 
 Xerath/Zilean (BC/SH),Ashe/LeBlanc,Xerath/Zilean (BC/SH)Ashe/LeBlanc (FR/NX),Ashe/LeBlanc (FR/NX)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Ashe/LeBlanc (FR/NX),21,43,0.49
 Xerath/Zilean (BC/SH),Aurelion Sol/Zoe (FR/MT),Xerath/Zilean (BC/SH)Aurelion Sol/Zoe (FR/MT),Aurelion Sol/Zoe (FR/MT)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Aurelion Sol/Zoe (FR/MT),28,43,0.65
 Xerath/Zilean (BC/SH),Azir/Irelia,Xerath/Zilean (BC/SH)Azir/Irelia (SH/IO),Azir/Irelia (SH/IO)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Azir/Irelia (SH/IO),13,44,0.30
-Xerath/Zilean (BC/SH),BandleTree,Xerath/Zilean (BC/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Poppy/Ziggs/Kennen (NX/SI),70,136,0.51
+Xerath/Zilean (BC/SH),BandleTree,Xerath/Zilean (BC/SH)Poppy/Ziggs/Kennen (NX/SI),Poppy/Ziggs/Kennen (NX/SI)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Poppy/Ziggs/Kennen (NX/SI),63,126,0.51
 Xerath/Zilean (BC/SH),Caitlyn/Teemo (BC/PZ),Xerath/Zilean (BC/SH)Caitlyn/Teemo (BC/PZ),Caitlyn/Teemo (BC/PZ)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Caitlyn/Teemo (BC/PZ),49,147,0.33
 Xerath/Zilean (BC/SH),Championless (FR/PZ),Xerath/Zilean (BC/SH)Poros (FR/PZ),Poros (FR/PZ)Xerath/Zilean (BC/SH),2,Masters,Xerath/Zilean (BC/SH),Poros (FR/PZ),82,305,0.27
 Xerath/Zilean (BC/SH),Darius/Elise,Xerath/Zilean (BC/SH)Darius/Elise (NX/SI),Darius/Elise (NX/SI)Xerath/Zilean (BC/SH),1,Masters,Xerath/Zilean (BC/SH),Darius/Elise (NX/SI),12,39,0.31
@@ -1693,7 +1693,7 @@ Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Xerath/Zilean (
 ,,,Azir/Irelia,2,Diamond,Azir/Irelia (SH/IO),Pantheon (DE/MT),19,57,0.33
 ,,,Azir/Irelia,2,Diamond,Azir/Irelia (SH/IO),Pantheon/Taric (DE/MT),32,57,0.56
 ,,,Azir/Irelia,2,Diamond,Azir/Irelia (SH/IO),Taliyah/Ziggs (BC/SH),30,51,0.59
-,,,BandleTree,2,Diamond,Poppy/Ziggs/Kennen (NX/SI),Aurelion Sol/Zoe (FR/MT),15,32,0.47
+,,,BandleTree,2,Diamond,Poppy/Ziggs/Kennen (NX/SI),Aurelion Sol/Zoe (FR/MT),15,33,0.47
 ,,,BandleTree,2,Diamond,Poppy/Ziggs/Kennen (NX/SI),Gangplank/Miss Fortune (BW/NX),14,32,0.44
 ,,,BandleTree,2,Diamond,Poppy/Ziggs/Kennen (NX/SI),Gangplank/Sejuani (BW/FR),17,43,0.40
 ,,,BandleTree,2,Diamond,Poppy/Ziggs/Kennen (NX/SI),Kindred/Nasus (SI/SH),16,31,0.52
@@ -1785,7 +1785,7 @@ Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Xerath/Zilean (
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Ashe/LeBlanc (FR/NX),22,31,0.71
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Aurelion Sol/Zoe (FR/MT),26,40,0.65
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Azir/Irelia (SH/IO),30,42,0.71
-,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Poppy/Ziggs/Kennen (NX/SI),22,36,0.61
+,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Poppy/Ziggs/Kennen (NX/SI),18,32,0.61
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Caitlyn/Teemo (BC/PZ),80,117,0.68
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Ekko/Zilean (PZ/SH),29,70,0.41
 ,,,Gangplank/Miss Fortune (BW/NX),2,Diamond,Gangplank/Miss Fortune (BW/NX),Elise/Kindred (PZ/SI),24,74,0.32
@@ -1807,7 +1807,7 @@ Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Xerath/Zilean (
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Ashe/LeBlanc (FR/NX),24,37,0.65
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Aurelion Sol/Zoe (FR/MT),12,39,0.31
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Azir/Irelia (SH/IO),22,46,0.48
-,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Poppy/Ziggs/Kennen (NX/SI),30,50,0.60
+,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Poppy/Ziggs/Kennen (NX/SI),26,43,0.60
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Caitlyn/Teemo (BC/PZ),84,147,0.57
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Diana/Nocturne (MT/SI),27,61,0.44
 ,,,Gangplank/Sejuani,2,Diamond,Gangplank/Sejuani (BW/FR),Diana/Zoe (BC/MT),57,104,0.55
@@ -1853,7 +1853,7 @@ Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Xerath/Zilean (
 ,,,Jayce/Lux,2,Diamond,Jayce/Lux (DE/PZ),Taliyah/Ziggs (BC/SH),30,66,0.45
 ,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Akshan/Sivir (DE/SH),26,47,0.55
 ,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Aurelion Sol/Zoe (FR/MT),17,35,0.49
-,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Poppy/Ziggs/Kennen (NX/SI),20,38,0.53
+,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Poppy/Ziggs/Kennen (NX/SI),15,31,0.53
 ,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Caitlyn/Teemo (BC/PZ),39,81,0.48
 ,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Diana/Nocturne (MT/SI),28,50,0.56
 ,,,Kindred/Nasus,2,Diamond,Kindred/Nasus (SI/SH),Diana/Zoe (BC/MT),23,54,0.43
@@ -1902,7 +1902,7 @@ Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH),Xerath/Zilean (BC/SH)Xerath/Zilean (
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Ashe/LeBlanc (FR/NX),25,39,0.64
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Aurelion Sol/Zoe (FR/MT),24,53,0.45
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Azir/Irelia (SH/IO),17,42,0.40
-,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Poppy/Ziggs/Kennen (NX/SI),21,50,0.42
+,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Poppy/Ziggs/Kennen (NX/SI),16,44,0.42
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Ekko/Zilean (PZ/SH),45,77,0.58
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Gangplank/Miss Fortune (BW/NX),26,63,0.41
 ,,,Maokai/Nautilus,2,Diamond,Maokai/Nautilus (SI/BW),Gangplank/Sejuani (BW/FR),42,66,0.64

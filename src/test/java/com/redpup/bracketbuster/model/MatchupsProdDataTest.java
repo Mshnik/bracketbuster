@@ -21,6 +21,11 @@ public final class MatchupsProdDataTest {
   private static final Path ALL_ODDS_CSV = Paths.get("src", "main", "resources", "stats.csv");
 
   /**
+   * Column index of the filter value in {@link #ALL_ODDS_CSV}.
+   */
+  private static final int FILTER_INDEX = 4;
+
+  /**
    * Column index of the player's deck in {@link #ALL_ODDS_CSV}.
    */
   private static final int PLAYER_INDEX = 6;
@@ -42,7 +47,7 @@ public final class MatchupsProdDataTest {
 
   private static MatchupList read() throws IOException {
     return readMatchupListFromCsv(ALL_ODDS_CSV,
-        PLAYER_INDEX, OPPONENT_INDEX, GAMES_INDEX, WINS_INDEX);
+        FILTER_INDEX, PLAYER_INDEX, OPPONENT_INDEX, GAMES_INDEX, WINS_INDEX);
   }
 
   @Test
@@ -52,7 +57,7 @@ public final class MatchupsProdDataTest {
 
   @Test
   public void readsCorrectNumberOfMatchups() throws IOException {
-    assertThat(read().getMatchupsList()).hasSize(1966);
+    assertThat(read().getMatchupsList()).hasSize(1569);
   }
 
   @Test
@@ -76,5 +81,12 @@ public final class MatchupsProdDataTest {
           .that(matchup.getWinRate())
           .isIn(Range.closed(0.0, 1.0));
     }
+  }
+
+  @Test
+  public void createsValidLineups() throws IOException {
+    MatchupList list = read();
+    MatchupMatrix matrix = MatchupMatrix.fromProto(list);
+    assertThat(matrix.createAllValidLineups()).hasSize(9600);
   }
 }

@@ -62,6 +62,7 @@ public final class Matchups {
    */
   public static MatchupList readMatchupListFromCsv(
       Path path,
+      int filterIndex,
       int playerIndex,
       int opponentIndex,
       int gamesIndex,
@@ -72,6 +73,7 @@ public final class Matchups {
         // Skip header line.
         .skip(1)
         .map(s -> s.split(","))
+        .filter(s -> Integer.parseInt(s[filterIndex]) > 1)
         .map(arr -> MatchupMessage.newBuilder()
             .setPlayer(sanitize(arr[playerIndex]))
             .setOpponent(sanitize(arr[opponentIndex]))
