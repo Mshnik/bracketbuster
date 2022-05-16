@@ -71,8 +71,8 @@ public final class Output {
     // Map values to meta composition size, sort by count descending.
     return metaCompCount.entrySet().stream()
         .map(e -> Pair.of(e.getKey(), (double) e.getValue() / lineupsByWinRate.size()))
-        .sorted(comparingDouble((ToDoubleFunction<Pair<?, Double>>) Pair::second).reversed())
-        .collect(toImmutableMap(Pair::first, Pair::second));
+        .sorted(Pair.<String>rightDoubleComparator().reversed())
+        .collect(Pair.toImmutableMap());
   }
 
   private final ImmutableMap<Lineup, Double> topLineups;

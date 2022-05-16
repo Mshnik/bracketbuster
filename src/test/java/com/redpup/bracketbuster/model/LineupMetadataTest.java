@@ -4,12 +4,96 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
 import com.google.common.testing.EqualsTester;
+import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class LineupMetadataTest {
+
+  private static final MatchupMessage MATCHUP_MESSAGE_A_B
+      = MatchupMessage.newBuilder()
+      .setPlayer("A (IO/NX)")
+      .setOpponent("B (IO/NX)")
+      .setWins(2)
+      .setGames(3)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_B_A
+      = MatchupMessage.newBuilder()
+      .setPlayer("B (IO/NX)")
+      .setOpponent("A (IO/NX)")
+      .setWins(1)
+      .setGames(3)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_A
+      = MatchupMessage.newBuilder()
+      .setPlayer("A (IO/NX)")
+      .setOpponent("A (IO/NX)")
+      .setWins(2)
+      .setGames(4)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_C
+      = MatchupMessage.newBuilder()
+      .setPlayer("A (IO/NX)")
+      .setOpponent("C (DE/FJ)")
+      .setWins(1)
+      .setGames(4)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_C_A
+      = MatchupMessage.newBuilder()
+      .setPlayer("C (DE/FJ)")
+      .setOpponent("A (IO/NX)")
+      .setWins(3)
+      .setGames(4)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_D
+      = MatchupMessage.newBuilder()
+      .setPlayer("A (IO/NX)")
+      .setOpponent("D (IO/SH)")
+      .setWins(1)
+      .setGames(5)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_D_A
+      = MatchupMessage.newBuilder()
+      .setPlayer("D (IO/SH)")
+      .setOpponent("A (IO/NX)")
+      .setWins(4)
+      .setGames(5)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_ZAA_B
+      = MatchupMessage.newBuilder()
+      .setPlayer("Z/A/A (IO/SH)")
+      .setOpponent("B (IO/NX)")
+      .setWins(2)
+      .setGames(3)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_ZAB_B
+      = MatchupMessage.newBuilder()
+      .setPlayer("Z/A/B (IO/FJ)")
+      .setOpponent("B (IO/NX)")
+      .setWins(2)
+      .setGames(3)
+      .build();
+
+  private static final MatchupMatrix MATCHUP_MATRIX
+      = MatchupMatrix.from(
+      MATCHUP_MESSAGE_A_A,
+      MATCHUP_MESSAGE_A_B,
+      MATCHUP_MESSAGE_A_C,
+      MATCHUP_MESSAGE_A_D,
+      MATCHUP_MESSAGE_B_A,
+      MATCHUP_MESSAGE_C_A,
+      MATCHUP_MESSAGE_D_A,
+      MATCHUP_MESSAGE_ZAA_B,
+      MATCHUP_MESSAGE_ZAB_B);
+
+  private static final Lineup LINEUP_1 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 2);
+  private static final Lineup LINEUP_2 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 3);
+  private static final Lineup LINEUP_3 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 4);
+  private static final Lineup LINEUP_4 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 5);
+  private static final Lineup LINEUP_5 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 2, 3);
+  private static final Lineup LINEUP_6 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 2, 4);
 
   @Test
   public void empty_initializesArraysWithLength() {
@@ -54,6 +138,53 @@ public class LineupMetadataTest {
   }
 
   @Test
+  public void incrementBanned_applyMatchup_addsToBestAndWorst() {
+    LineupMetadata metadata = new LineupMetadata(5);
+    metadata.applyMatchup(LINEUP_1, 0.5);
+
+    assertThat(metadata.getBestMatchups()).containsExactly(LINEUP_1, 0.5).inOrder();
+    assertThat(metadata.getWorstMatchups()).containsExactly(LINEUP_1, 0.5).inOrder();
+  }
+
+  @Test
+  public void incrementBanned_applyMatchup_addsToBestAndWorst_inOrder() {
+    LineupMetadata metadata = new LineupMetadata(5);
+    metadata.applyMatchup(LINEUP_1, 0.5);
+    metadata.applyMatchup(LINEUP_2, 0.2);
+
+    assertThat(metadata.getBestMatchups()).containsExactly(LINEUP_1, 0.5, LINEUP_2, 0.2).inOrder();
+    assertThat(metadata.getWorstMatchups()).containsExactly(LINEUP_2, 0.2, LINEUP_1, 0.5).inOrder();
+  }
+
+  @Test
+  public void incrementBanned_applyMatchup_addsToBestAndWorst_evictsAsNecessary() {
+    LineupMetadata metadata = new LineupMetadata(5);
+    metadata.applyMatchup(LINEUP_1, 0.1);
+    metadata.applyMatchup(LINEUP_2, 0.2);
+    metadata.applyMatchup(LINEUP_3, 0.3);
+    metadata.applyMatchup(LINEUP_4, 0.4);
+    metadata.applyMatchup(LINEUP_5, 0.5);
+    metadata.applyMatchup(LINEUP_6, 0.6);
+
+    assertThat(metadata.getBestMatchups())
+        .containsExactly(
+            LINEUP_6, 0.6,
+            LINEUP_5, 0.5,
+            LINEUP_4, 0.4,
+            LINEUP_3, 0.3,
+            LINEUP_2, 0.2)
+        .inOrder();
+    assertThat(metadata.getWorstMatchups())
+        .containsExactly(
+            LINEUP_1, 0.1,
+            LINEUP_2, 0.2,
+            LINEUP_3, 0.3,
+            LINEUP_4, 0.4,
+            LINEUP_5, 0.5)
+        .inOrder();
+  }
+
+  @Test
   public void obeysEqualsAndHashcode() {
     new EqualsTester()
         .addEqualityGroup(new LineupMetadata(1), new LineupMetadata(1))
@@ -62,6 +193,12 @@ public class LineupMetadataTest {
             new LineupMetadata(5).incrementPlayedAgainst(1))
         .addEqualityGroup(new LineupMetadata(5).incrementBanned(1),
             new LineupMetadata(5).incrementBanned(1))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1))
         .testEquals();
   }
 

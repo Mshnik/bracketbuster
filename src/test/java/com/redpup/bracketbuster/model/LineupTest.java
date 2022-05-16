@@ -77,10 +77,16 @@ public final class LineupTest {
       .build();
 
   private static final MatchupMatrix MATCHUP_MATRIX
-      = MatchupMatrix
-      .from(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_A_C, MATCHUP_MESSAGE_A_D,
-          MATCHUP_MESSAGE_B_A, MATCHUP_MESSAGE_C_A, MATCHUP_MESSAGE_D_A,
-          MATCHUP_MESSAGE_ZAA_B, MATCHUP_MESSAGE_ZAB_B);
+      = MatchupMatrix.from(
+      MATCHUP_MESSAGE_A_A,
+      MATCHUP_MESSAGE_A_B,
+      MATCHUP_MESSAGE_A_C,
+      MATCHUP_MESSAGE_A_D,
+      MATCHUP_MESSAGE_B_A,
+      MATCHUP_MESSAGE_C_A,
+      MATCHUP_MESSAGE_D_A,
+      MATCHUP_MESSAGE_ZAA_B,
+      MATCHUP_MESSAGE_ZAB_B);
 
 
   @Test

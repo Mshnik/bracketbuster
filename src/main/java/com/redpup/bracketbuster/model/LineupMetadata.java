@@ -1,7 +1,17 @@
 package com.redpup.bracketbuster.model;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.redpup.bracketbuster.util.Constants.NUM_BEST_WORST_MATCHUPS;
+import static com.redpup.bracketbuster.util.Pair.rightDoubleComparator;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.redpup.bracketbuster.util.Pair;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Objects;
+import java.util.PriorityQueue;
 
 /**
  * Mutable container for metadata of a given lineup.
@@ -11,13 +21,26 @@ public final class LineupMetadata {
   private final int[] playedAgainst;
   private final int[] banned;
 
+  private final PriorityQueue<Pair<Lineup, Double>> bestMatchups;
+  private final PriorityQueue<Pair<Lineup, Double>> worstMatchups;
+
   LineupMetadata(int numDecks) {
-    this(new int[numDecks], new int[numDecks]);
+    this(new int[numDecks],
+        new int[numDecks],
+        // Comparators are opposite the intended order so the "least good"
+        // element is the first to be polled when necessary.
+        // When reading the order should be reversed.
+        new PriorityQueue<>(rightDoubleComparator()),
+        new PriorityQueue<>(Pair.<Lineup>rightDoubleComparator().reversed()));
   }
 
-  private LineupMetadata(int[] playedAgainst, int[] banned) {
+  private LineupMetadata(int[] playedAgainst, int[] banned,
+      PriorityQueue<Pair<Lineup, Double>> bestMatchups,
+      PriorityQueue<Pair<Lineup, Double>> worstMatchups) {
     this.playedAgainst = playedAgainst;
     this.banned = banned;
+    this.bestMatchups = bestMatchups;
+    this.worstMatchups = worstMatchups;
   }
 
   /**
@@ -55,11 +78,52 @@ public final class LineupMetadata {
   }
 
   /**
+   * Returns {@link #bestMatchups}, in descending order of goodness. (Best first.)
+   */
+  public ImmutableMap<Lineup, Double> getBestMatchups() {
+    return bestMatchups.stream()
+        .sorted(bestMatchups.comparator().reversed())
+        .collect(Pair.toImmutableMap());
+  }
+
+  /**
+   * Returns {@link #worstMatchups}, in descending order of badness. (Worst first.)
+   */
+  public ImmutableMap<Lineup, Double> getWorstMatchups() {
+    return worstMatchups.stream()
+        .sorted(worstMatchups.comparator().reversed())
+        .collect(Pair.toImmutableMap());
+  }
+
+  /**
+   * Applies the given {@code opponent} lineup with computed {@code winRate} to this metadata.
+   * Returns self.
+   */
+  @CanIgnoreReturnValue
+  public LineupMetadata applyMatchup(Lineup opponent, double winRate) {
+    bestMatchups.add(Pair.of(opponent, winRate));
+    worstMatchups.add(Pair.of(opponent, winRate));
+
+    if (bestMatchups.size() > NUM_BEST_WORST_MATCHUPS) {
+      bestMatchups.poll();
+    }
+    if (worstMatchups.size() > NUM_BEST_WORST_MATCHUPS) {
+      worstMatchups.poll();
+    }
+
+    return this;
+  }
+
+  /**
    * Copies this metadata. This and the copy will have equivalent but separate state, so mutations
    * to this will not affect copy and vice-versa.
    */
   public LineupMetadata copy() {
-    return new LineupMetadata(getPlayedAgainst(), getBanned());
+    return new LineupMetadata(
+        getPlayedAgainst(),
+        getBanned(),
+        new PriorityQueue<>(bestMatchups),
+        new PriorityQueue<>(worstMatchups));
   }
 
   @Override
@@ -72,12 +136,15 @@ public final class LineupMetadata {
     }
     LineupMetadata metadata = (LineupMetadata) o;
     return Arrays.equals(playedAgainst, metadata.playedAgainst) &&
-        Arrays.equals(banned, metadata.banned);
+        Arrays.equals(banned, metadata.banned) &&
+        Objects.equals(getBestMatchups(), metadata.getBestMatchups()) &&
+        Objects.equals(getWorstMatchups(), metadata.getWorstMatchups());
   }
 
   @Override
   public int hashCode() {
-    int result = Arrays.hashCode(playedAgainst);
+    int result = Objects.hash(getBestMatchups(), getWorstMatchups());
+    result = 31 * result + Arrays.hashCode(playedAgainst);
     result = 31 * result + Arrays.hashCode(banned);
     return result;
   }
@@ -87,6 +154,8 @@ public final class LineupMetadata {
     return "LineupMetadata{" +
         "playedAgainst=" + Arrays.toString(playedAgainst) +
         ", banned=" + Arrays.toString(banned) +
+        ", bestMatchups=" + bestMatchups +
+        ", worstMatchups=" + worstMatchups +
         '}';
   }
 }
