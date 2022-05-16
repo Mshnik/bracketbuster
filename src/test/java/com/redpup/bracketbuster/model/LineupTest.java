@@ -157,6 +157,17 @@ public final class LineupTest {
   }
 
   @Test
+  public void reset_clearsMetadataFields() {
+    Lineup lineup = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1);
+    lineup.metadata()
+        .incrementPlayedAgainst(1)
+        .incrementPlayedAgainst(1)
+        .incrementBanned(1).applyMatchup(Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 3), 0.2);
+
+    assertThat(lineup.resetMetadata()).isEqualTo(Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1));
+  }
+
+  @Test
   public void copy_createsEqualLineup() {
     Lineup lineup = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1);
 

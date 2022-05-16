@@ -203,6 +203,16 @@ public class LineupMetadataTest {
   }
 
   @Test
+  public void reset_clearsFields() {
+    LineupMetadata metadata = new LineupMetadata(2)
+        .incrementPlayedAgainst(1)
+        .incrementPlayedAgainst(1)
+        .incrementBanned(1).applyMatchup(LINEUP_1, 0.2);
+
+    assertThat(metadata.reset()).isEqualTo(new LineupMetadata(2));
+  }
+
+  @Test
   public void copy_createsEqualMetadata() {
     LineupMetadata metadata = new LineupMetadata(2)
         .incrementPlayedAgainst(1)

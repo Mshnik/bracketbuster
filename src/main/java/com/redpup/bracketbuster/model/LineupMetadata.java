@@ -115,6 +115,18 @@ public final class LineupMetadata {
   }
 
   /**
+   * Resets this LineupMetadata, clearing all data. Returns self.
+   */
+  @CanIgnoreReturnValue
+  public LineupMetadata reset() {
+    Arrays.fill(playedAgainst, 0);
+    Arrays.fill(banned, 0);
+    bestMatchups.clear();
+    worstMatchups.clear();
+    return this;
+  }
+
+  /**
    * Copies this metadata. This and the copy will have equivalent but separate state, so mutations
    * to this will not affect copy and vice-versa.
    */

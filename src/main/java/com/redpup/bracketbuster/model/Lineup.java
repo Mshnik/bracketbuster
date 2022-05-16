@@ -3,6 +3,7 @@ package com.redpup.bracketbuster.model;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.redpup.bracketbuster.util.Strings;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,13 @@ public final class Lineup {
    */
   public LineupMetadata metadata() {
     return metadata;
+  }
+
+  /** Reset this' metadata. Returns self. */
+  @CanIgnoreReturnValue
+  public Lineup resetMetadata() {
+    metadata.reset();
+    return this;
   }
 
   /**
