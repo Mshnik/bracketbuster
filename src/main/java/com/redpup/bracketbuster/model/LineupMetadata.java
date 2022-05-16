@@ -1,9 +1,12 @@
 package com.redpup.bracketbuster.model;
 
+import java.util.Arrays;
+
 /**
  * Mutable container for metadata of a given lineup.
  */
 public final class LineupMetadata {
+
   private final int[] playedAgainst;
   private final int[] banned;
 
@@ -12,9 +15,33 @@ public final class LineupMetadata {
     this.banned = new int[numDecks];
   }
 
-  public void playAgainst(int deck) {}
+  /**
+   * Returns {@link #playedAgainst}. The result is defensively copied; mutations will not be
+   * reflected in this metadata.
+   */
+  public int[] getPlayedAgainst() {
+    return Arrays.copyOf(playedAgainst, playedAgainst.length);
+  }
 
-  public void banned(int deck) {
+  /**
+   * Increments the count of playing against {@code deck}.
+   */
+  public void incrementPlayedAgainst(int deck) {
+    playedAgainst[deck]++;
+  }
 
+  /**
+   * Returns {@link #banned}. The result is defensively copied; mutations will not be reflected in
+   * this metadata.
+   */
+  public int[] getBanned() {
+    return Arrays.copyOf(banned, banned.length);
+  }
+
+  /**
+   * Increments the count of banning {@code deck}.
+   */
+  public void incrementBanned(int deck) {
+    banned[deck]++;
   }
 }

@@ -43,7 +43,7 @@ public final class Calculations {
         opponent.getDecks());
 
     for (int opponentDeck : opponent.getDecks()) {
-      player.metadata().playAgainst(opponentDeck);
+      player.metadata().incrementPlayedAgainst(opponentDeck);
     }
 
     double[][] winRates = new double[Constants.PLAYER_DECK_COUNT][Constants.PLAYER_DECK_COUNT];
@@ -56,7 +56,7 @@ public final class Calculations {
 
     int bestPlayerDeckToBan = banPlayerDeck(winRates);
     int bestOpponentDeckToBan = banOpponentDeck(winRates);
-    player.metadata().banned(opponent.getDeck(bestOpponentDeckToBan));
+    player.metadata().incrementBanned(opponent.getDeck(bestOpponentDeckToBan));
 
     return winRateBestTwoOfThree(
         dropBannedDecksAndFlatten(winRates, bestPlayerDeckToBan, bestOpponentDeckToBan));
