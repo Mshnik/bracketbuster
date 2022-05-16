@@ -32,6 +32,13 @@ public class MatchupMatrixTest {
       .setWins(2)
       .setGames(4)
       .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_B_WITH_WIN_RATE =
+      Matchups.populateWinRate(MATCHUP_MESSAGE_A_B);
+  private static final MatchupMessage MATCHUP_MESSAGE_B_A_WITH_WIN_RATE =
+      Matchups.populateWinRate(MATCHUP_MESSAGE_B_A);
+  private static final MatchupMessage MATCHUP_MESSAGE_A_A_WITH_WIN_RATE =
+      Matchups.populateWinRate(MATCHUP_MESSAGE_A_A);
+
 
   @Test
   public void getNumDecks_returnsValue() {
@@ -51,11 +58,11 @@ public class MatchupMatrixTest {
         MATCHUP_MESSAGE_B_A);
 
     assertThat(matrix.getMatchup("A", "B"))
-        .isEqualTo(MATCHUP_MESSAGE_A_B);
+        .isEqualTo(MATCHUP_MESSAGE_A_B_WITH_WIN_RATE);
     assertThat(matrix.getMatchup("B", "A"))
-        .isEqualTo(MATCHUP_MESSAGE_B_A);
+        .isEqualTo(MATCHUP_MESSAGE_B_A_WITH_WIN_RATE);
     assertThat(matrix.getMatchup("A", "A"))
-        .isEqualTo(MATCHUP_MESSAGE_A_A);
+        .isEqualTo(MATCHUP_MESSAGE_A_A_WITH_WIN_RATE);
     assertThat(matrix.getMatchup("B", "B"))
         .isNull();
   }

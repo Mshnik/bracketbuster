@@ -2,7 +2,10 @@ package com.redpup.bracketbuster.model;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.redpup.bracketbuster.model.Matchups.inverse;
+import static com.redpup.bracketbuster.model.Matchups.populateWinRate;
 import static com.redpup.bracketbuster.model.Matchups.readMatchupListFromCsv;
+import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
 import com.google.common.collect.Range;
 import com.redpup.bracketbuster.model.proto.MatchupList;
@@ -48,55 +51,139 @@ public final class MatchupsTest {
   @Test
   public void inverse_reversesValues_noWinRate() {
     assertThat(
-        Matchups.inverse(MatchupMessage
-            .newBuilder().setPlayer("A")
-            .setOpponent("B")
-            .setGames(10)
-            .setWins(4)
-            .build()))
-        .isEqualTo(MatchupMessage
-            .newBuilder().setOpponent("A")
-            .setPlayer("B")
-            .setGames(10)
-            .setWins(6)
-            .build());
+        inverse(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(4)
+                .build()))
+        .isEqualTo(
+            MatchupMessage.newBuilder()
+                .setOpponent("A")
+                .setPlayer("B")
+                .setGames(10)
+                .setWins(6)
+                .build());
   }
 
   @Test
   public void inverse_reversesValues_withWinRate() {
     assertThat(
-        Matchups.inverse(MatchupMessage
-            .newBuilder().setPlayer("A")
-            .setOpponent("B")
-            .setGames(10)
-            .setWins(4)
-            .setWinRate(0.4)
-            .build()))
-        .isEqualTo(MatchupMessage
-            .newBuilder().setOpponent("A")
-            .setPlayer("B")
-            .setGames(10)
-            .setWins(6)
-            .setWinRate(0.6)
-            .build());
+        inverse(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(4)
+                .setWinRate(0.4)
+                .build()))
+        .isEqualTo(
+            MatchupMessage.newBuilder()
+                .setOpponent("A")
+                .setPlayer("B")
+                .setGames(10)
+                .setWins(6)
+                .setWinRate(0.6)
+                .build());
   }
 
   @Test
   public void inverse_reversesValues_withWinRate_fromNoWins() {
     assertThat(
-        Matchups.inverse(MatchupMessage
-            .newBuilder().setPlayer("A")
-            .setOpponent("B")
-            .setGames(10)
-            .setWins(0)
-            .build()))
-        .isEqualTo(MatchupMessage
-            .newBuilder().setOpponent("A")
-            .setPlayer("B")
-            .setGames(10)
-            .setWins(10)
-            .setWinRate(1.0)
-            .build());
+        inverse(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(0)
+                .build()))
+        .isEqualTo(
+            MatchupMessage.newBuilder()
+                .setOpponent("A")
+                .setPlayer("B")
+                .setGames(10)
+                .setWins(10)
+                .setWinRate(1.0)
+                .build());
+  }
+
+  @Test
+  public void populateWinRate_noWins() {
+    assertThat(
+        populateWinRate(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(0)
+                .build()))
+        .isEqualTo(
+            populateWinRate(
+                MatchupMessage.newBuilder()
+                    .setPlayer("A")
+                    .setOpponent("B")
+                    .setGames(10)
+                    .setWins(0)
+                    .build()));
+  }
+
+  @Test
+  public void populateWinRate_setsWinRate() {
+    assertThat(
+        populateWinRate(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(4)
+                .build()))
+        .isEqualTo(
+            populateWinRate(
+                MatchupMessage.newBuilder()
+                    .setPlayer("A")
+                    .setOpponent("B")
+                    .setGames(10)
+                    .setWins(4)
+                    .setWinRate(0.4)
+                    .build()));
+  }
+
+  @Test
+  public void populateWinRate_checksWinRate() {
+    assertThat(
+        populateWinRate(
+            MatchupMessage.newBuilder()
+                .setPlayer("A")
+                .setOpponent("B")
+                .setGames(10)
+                .setWins(4)
+                .setWinRate(0.4)
+                .build()))
+        .isEqualTo(
+            populateWinRate(
+                MatchupMessage.newBuilder()
+                    .setPlayer("A")
+                    .setOpponent("B")
+                    .setGames(10)
+                    .setWins(4)
+                    .setWinRate(0.4)
+                    .build()));
+  }
+
+
+  @Test
+  public void populateWinRate_checksWinRate_throwsIfWrong() {
+    assertThrows(
+        IllegalStateException.class, () ->
+            populateWinRate(
+                MatchupMessage.newBuilder()
+                    .setPlayer("A")
+                    .setOpponent("B")
+                    .setGames(10)
+                    .setWins(4)
+                    .setWinRate(0.7)
+                    .build()));
   }
 
   @Test

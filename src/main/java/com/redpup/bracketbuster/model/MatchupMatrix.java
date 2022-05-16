@@ -54,13 +54,22 @@ public final class MatchupMatrix {
       checkArgument(row != null, "Player %s not found in %s", message.getPlayer(), headers);
       checkArgument(col != null, "Opponent %s not found in %s", message.getOpponent(), headers);
 
-      checkArgument(matchups[row][col] == null, "Duplicate matchup %s vs %s", message.getPlayer(),
-          message.getOpponent());
-      matchups[row][col] = message;
+      MatchupMessage messageWithWinRate = Matchups.populateWinRate(message);
+
+      checkArgument(matchups[row][col] == null || matchups[row][col].equals(messageWithWinRate),
+          "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s", message.getPlayer(),
+          message.getOpponent(), matchups[row][col], messageWithWinRate);
+
+      matchups[row][col] = messageWithWinRate;
+      if (!row.equals(col)) {
+        matchups[col][row] = Matchups.inverse(messageWithWinRate);
+      }
     }
   }
 
-  /** Returns the number of unique decks in this matchup matrix. */
+  /**
+   * Returns the number of unique decks in this matchup matrix.
+   */
   public int getNumDecks() {
     return headers.size();
   }
