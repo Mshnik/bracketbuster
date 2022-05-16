@@ -10,6 +10,9 @@ public interface Logger {
    */
   public void log(String message);
 
+  /** Sets the current iteration. Calling this again may override the previous value. */
+  public void setIteration(int i);
+
   /**
    * Sets the current step that is executing. Calling this again may overwrite the previous step.
    */

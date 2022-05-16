@@ -30,7 +30,11 @@ public abstract class Runner {
    */
   public static void main(String[] args) throws Exception {
     Path matchupsFilePath = Paths.get("src", "main", "resources", "stats.csv");
-    builder().setMatchupMatrixFromFile(matchupsFilePath).build().run();
+    builder()
+        .setMatchupMatrixFromFile(matchupsFilePath)
+        .setPruneRatios(ImmutableList.of(0.7, 0.5, 0.2, 0.1, 0.001, 0.0))
+        .build()
+        .run();
   }
 
   Runner() {
@@ -154,6 +158,7 @@ public abstract class Runner {
     logger().log(String.format("Created %d lineups.", originalSize));
 
     for (int i = 0; i < pruneRatios().size(); i++) {
+      logger().setIteration(i);
       // Order all lineups by winrate against the current set of lineups.
       logger().setCurrentStep("Computing All Lineup Win Rates");
       logger().setTotalMatchups(countTotalMatches(lineups, lineups));

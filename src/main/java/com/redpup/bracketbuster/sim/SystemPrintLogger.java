@@ -5,6 +5,7 @@ package com.redpup.bracketbuster.sim;
  */
 public final class SystemPrintLogger implements Logger {
 
+  private int iteration;
   private long count;
 
   @Override
@@ -13,9 +14,14 @@ public final class SystemPrintLogger implements Logger {
   }
 
   @Override
+  public void setIteration(int i) {
+    iteration = i;
+  }
+
+  @Override
   public void setCurrentStep(String step) {
     System.out.println("==================================================");
-    System.out.println(step);
+    System.out.printf("Iteration %d: %s%n", iteration, step);
     System.out.println("==================================================");
   }
 
