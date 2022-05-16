@@ -32,6 +32,34 @@ public class MatchupMatrixTest {
       .setWins(1)
       .setGames(3)
       .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_B_B
+      = MatchupMessage.newBuilder()
+      .setPlayer("B")
+      .setOpponent("B")
+      .setWins(1)
+      .setGames(2)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_C_C
+      = MatchupMessage.newBuilder()
+      .setPlayer("C")
+      .setOpponent("C")
+      .setWins(1)
+      .setGames(2)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_A_C
+      = MatchupMessage.newBuilder()
+      .setPlayer("A")
+      .setOpponent("C")
+      .setWins(2)
+      .setGames(3)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_B_C
+      = MatchupMessage.newBuilder()
+      .setPlayer("B")
+      .setOpponent("C")
+      .setWins(2)
+      .setGames(3)
+      .build();
   private static final MatchupMessage MATCHUP_MESSAGE_A_A_WITH_WIN_RATE =
       Matchups.populateWinRate(MATCHUP_MESSAGE_A_A);
   private static final MatchupMessage MATCHUP_MESSAGE_A_B_WITH_WIN_RATE =
@@ -73,6 +101,23 @@ public class MatchupMatrixTest {
         MATCHUP_MESSAGE_B_A);
 
     assertThat(matrix.getHeaders()).containsExactly("A", "B").inOrder();
+  }
+
+  @Test
+  public void hasMatchup_returnsCheck() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A);
+
+    assertThat(matrix.hasMatchup("A", "B"))
+        .isTrue();
+    assertThat(matrix.hasMatchup("B", "A"))
+        .isTrue();
+    assertThat(matrix.hasMatchup("A", "A"))
+        .isTrue();
+    assertThat(matrix.hasMatchup("B", "B"))
+        .isFalse();
   }
 
   @Test
@@ -200,6 +245,37 @@ public class MatchupMatrixTest {
             Lineup.ofDeckIndices(matrix, 0, 1, 3),
             Lineup.ofDeckIndices(matrix, 0, 2, 3),
             Lineup.ofDeckIndices(matrix, 1, 2, 3));
+  }
+
+  @Test
+  public void canPlay_returnsTrue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_B_B,
+        MATCHUP_MESSAGE_C_C,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_A_C,
+        MATCHUP_MESSAGE_B_C);
+
+    assertThat(matrix.canPlay(
+        Lineup.ofDeckNames(matrix, "A", "B", "C"),
+        Lineup.ofDeckNames(matrix, "A", "B", "C")))
+        .isTrue();
+  }
+
+  @Test
+  public void canPlay_returnsFalse() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_A_C);
+
+    assertThat(matrix.canPlay(
+        Lineup.ofDeckNames(matrix, "A", "B", "C"),
+        Lineup.ofDeckNames(matrix, "A", "B", "C")))
+        .isFalse();
   }
 
 }

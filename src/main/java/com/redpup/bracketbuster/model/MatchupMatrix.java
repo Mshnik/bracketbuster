@@ -77,7 +77,9 @@ public final class MatchupMatrix {
     return headers.size();
   }
 
-  /** Returns {@link #headers} in order. */
+  /**
+   * Returns {@link #headers} in order.
+   */
   public ImmutableList<String> getHeaders() {
     return headers.keySet().asList();
   }
@@ -98,6 +100,26 @@ public final class MatchupMatrix {
     checkArgument(headers.inverse().containsKey(headerIndex), "Index %s not found: %s", headerIndex,
         headers.inverse());
     return headers.inverse().get(headerIndex);
+  }
+
+  /**
+   * Returns true iff the given matchup has data.
+   */
+  public boolean hasMatchup(int player, int opponent) {
+    return matchups[player][opponent] != null;
+  }
+
+  /**
+   * Returns true iff the given matchup has data.
+   */
+  public boolean hasMatchup(String player, String opponent) {
+    Integer row = headers.get(player);
+    Integer col = headers.get(opponent);
+
+    checkArgument(row != null, "Player %s not found in %s", player, headers);
+    checkArgument(col != null, "Opponent %s not found in %s", opponent, headers);
+
+    return hasMatchup(row, col);
   }
 
   /**
@@ -136,5 +158,15 @@ public final class MatchupMatrix {
                 .map(deck3 -> Lineup.ofDeckIndices(this, deck1, deck2, deck3))))
         .filter(Lineup::isValid)
         .collect(toImmutableList());
+  }
+
+  /**
+   * Returns true iff {@code player} and {@code opponent} can play. Returns false if any pair of
+   * decks between {@code player} and {@code opponent} have no matchup data.
+   */
+  public boolean canPlay(Lineup player, Lineup opponent) {
+    return player.getDecks().stream()
+        .flatMap(p -> opponent.getDecks().stream().map(o -> Pair.of(p, o)))
+        .allMatch(pair -> hasMatchup(pair.first(), pair.second()));
   }
 }
