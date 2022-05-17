@@ -3,8 +3,6 @@ package com.redpup.bracketbuster.sim;
 import static com.redpup.bracketbuster.util.Constants.NUM_BEST_WORST_MATCHUPS;
 import static java.util.stream.Collectors.joining;
 
-import com.redpup.bracketbuster.util.Constants;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**

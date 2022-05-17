@@ -7,6 +7,7 @@ import static com.redpup.bracketbuster.sim.Output.buildOutput;
 import static java.lang.Math.min;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
@@ -152,7 +153,8 @@ public abstract class Runner {
    * Computes the top {@link Lineup}s against every possible lineup. Output is streamed into {@link
    * #logger()}.
    */
-  private void computeTopLineupsAgainstEveryone() {
+  @VisibleForTesting
+  void computeTopLineupsAgainstEveryone() {
     final List<Lineup> lineups = new ArrayList<>(allLineups());
     int originalSize = lineups.size();
     logger().log(String.format("Created %d lineups.", originalSize));
@@ -207,7 +209,8 @@ public abstract class Runner {
    *
    * <p>Metadata collected along the way are stored in {@link Lineup#metadata()}.
    */
-  private double computeTotalWinRate(Lineup player, List<Lineup> allPlayers) {
+  @VisibleForTesting
+  double computeTotalWinRate(Lineup player, List<Lineup> allPlayers) {
     player.resetMetadata();
     return allPlayers.stream()
         .filter(opponent -> matchupMatrix().canPlay(player, opponent))
@@ -219,7 +222,8 @@ public abstract class Runner {
   /**
    * Computes the best and worst matchups for {@code player} against the given {@code topKPlayers}.
    */
-  private void computeBestAndWorstMatchupsWithWinRates(Lineup player,
+  @VisibleForTesting
+  void computeBestAndWorstMatchupsWithWinRates(Lineup player,
       List<? extends Pair<Lineup, ?>> topKPlayers) {
     computeBestAndWorstMatchups(player, transform(topKPlayers, Pair::first));
   }
@@ -227,7 +231,8 @@ public abstract class Runner {
   /**
    * Computes the best and worst matchups for {@code player} against the given {@code topKPlayers}.
    */
-  private void computeBestAndWorstMatchups(Lineup player,
+  @VisibleForTesting
+  void computeBestAndWorstMatchups(Lineup player,
       List<Lineup> topKPlayers) {
     topKPlayers.stream()
         .filter(opponent -> matchupMatrix().canPlay(player, opponent))
@@ -239,7 +244,8 @@ public abstract class Runner {
   /**
    * Computes the win rate of {@code player} against {@code opponent}.
    */
-  private double computeMatchupWinRate(Lineup player, Lineup opponent) {
+  @VisibleForTesting
+  double computeMatchupWinRate(Lineup player, Lineup opponent) {
     logger().handleMatchup();
     return winRateBestTwoOfThreeOneBan(player, opponent, matchupMatrix());
   }

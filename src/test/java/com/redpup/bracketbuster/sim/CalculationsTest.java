@@ -2,7 +2,6 @@ package com.redpup.bracketbuster.sim;
 
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.redpup.bracketbuster.model.Matchups.inverse;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
 import com.google.common.collect.Range;
