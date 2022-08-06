@@ -46,6 +46,7 @@ public abstract class Runner {
    */
   public static Builder builder() {
     return new com.redpup.bracketbuster.sim.AutoValue_Runner.Builder()
+        .setPruneRatios(ImmutableList.of(0.0))
         .setTopKToReceiveBestAndWorstMatchupAnalysis(25)
         .setTopKToParticipateInBestAndWorstMatchupAnalysis(100)
         .setLogger(new SystemPrintLogger());
