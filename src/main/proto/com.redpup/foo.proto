@@ -3,6 +3,8 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "com.redpup.proto";
 
+// A test proto for ensuring the proto build system functions correctly.
+// Next ID: 2.
 message FooMessage {
   string value = 1;
 }

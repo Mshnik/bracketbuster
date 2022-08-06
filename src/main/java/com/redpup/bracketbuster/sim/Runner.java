@@ -21,13 +21,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Top level executable runner class for running the bracketbuster.
  *
+ * <p>Parameterizable along certain axes. See {@link Builder} for settable parameters.
  */
 @AutoValue
 public abstract class Runner {
 
   /**
    * Executes this runner.
+   *
+   * <p>Parameters to the run can be set on the builder below, before building and running.
    */
   public static void main(String[] args) throws Exception {
     Path matchupsFilePath = Paths.get("src", "main", "resources", "stats.csv");

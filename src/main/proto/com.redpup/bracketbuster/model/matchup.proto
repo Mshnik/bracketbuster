@@ -4,6 +4,7 @@ option java_multiple_files = true;
 option java_package = "com.redpup.bracketbuster.model.proto";
 
 // Summary of a single matchup.
+// Next ID: 6.
 message MatchupMessage {
   // The name of player in this matchup.
   string player = 1;
@@ -20,6 +21,7 @@ message MatchupMessage {
 }
 
 // A list of matchups.
+// Next ID: 2.
 message MatchupList {
   repeated MatchupMessage matchups = 1;
 }
