@@ -26,16 +26,11 @@ public final class LinearProgrammingTest {
 
     assertThat(lp.value()).isWithin(ERROR).of(800.0);
 
-    double[] primal = lp.primal();
-    assertThat(primal).hasLength(2);
-    assertThat(primal[0]).isWithin(ERROR).of(12.0);
-    assertThat(primal[1]).isWithin(ERROR).of(28.0);
+    assertThat(lp.primal()).usingTolerance(ERROR)
+        .containsExactly(12.0, 28.0).inOrder();
 
-    double[] dual = lp.dual();
-    assertThat(dual).hasLength(3);
-    assertThat(dual[0]).isWithin(ERROR).of(1.0);
-    assertThat(dual[1]).isWithin(ERROR).of(2.0);
-    assertThat(dual[2]).isWithin(ERROR).of(0.0);
+    assertThat(lp.dual()).usingTolerance(ERROR)
+        .containsExactly(1.0, 2.0, 0.0).inOrder();
   }
 
 
@@ -64,17 +59,10 @@ public final class LinearProgrammingTest {
 
     assertThat(lp.value()).isWithin(ERROR).of(1.0);
 
-    double[] primal = lp.primal();
-    assertThat(primal).hasLength(4);
-    assertThat(primal[0]).isWithin(ERROR).of(1.0);
-    assertThat(primal[1]).isWithin(ERROR).of(0.0);
-    assertThat(primal[2]).isWithin(ERROR).of(1.0);
-    assertThat(primal[3]).isWithin(ERROR).of(0.0);
+    assertThat(lp.primal()).usingTolerance(ERROR)
+        .containsExactly(1.0, 0.0, 1.0, 0.0).inOrder();
 
-    double[] dual = lp.dual();
-    assertThat(dual).hasLength(3);
-    assertThat(dual[0]).isWithin(ERROR).of(0.0);
-    assertThat(dual[1]).isWithin(ERROR).of(18.0);
-    assertThat(dual[2]).isWithin(ERROR).of(1.0);
+    assertThat(lp.dual()).usingTolerance(ERROR)
+        .containsExactly(0.0, 18.0, 1.0).inOrder();
   }
 }

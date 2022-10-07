@@ -12,6 +12,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public class LineupMetadataTest {
 
+  private static final double ERROR = 1.0e-8;
+
   private static final MatchupMessage MATCHUP_MESSAGE_A_B
       = MatchupMessage.newBuilder()
       .setPlayer("A (IO/NX)")
@@ -98,8 +100,8 @@ public class LineupMetadataTest {
   @Test
   public void empty_initializesArraysWithLength() {
     LineupMetadata metadata = new LineupMetadata(5);
-    assertThat(metadata.getPlayedAgainst()).isEqualTo(new int[]{0, 0, 0, 0, 0});
-    assertThat(metadata.getBanned()).isEqualTo(new int[]{0, 0, 0, 0, 0});
+    assertThat(metadata.getPlayedAgainst()).asList().containsExactly(0, 0, 0, 0, 0).inOrder();
+    assertThat(metadata.getBanned()).usingTolerance(ERROR).containsExactly(0.0, 0.0, 0.0, 0.0, 0.0);
   }
 
   @Test
@@ -108,7 +110,7 @@ public class LineupMetadataTest {
     metadata.incrementPlayedAgainst(0);
     metadata.incrementPlayedAgainst(1);
     metadata.incrementPlayedAgainst(1);
-    assertThat(metadata.getPlayedAgainst()).isEqualTo(new int[]{1, 2, 0, 0, 0});
+    assertThat(metadata.getPlayedAgainst()).asList().containsExactly(1, 2, 0, 0, 0).inOrder();
   }
 
 
@@ -117,7 +119,7 @@ public class LineupMetadataTest {
     LineupMetadata metadata = new LineupMetadata(5);
     assertThrows(ArrayIndexOutOfBoundsException.class, () -> metadata.incrementPlayedAgainst(-1));
     assertThrows(ArrayIndexOutOfBoundsException.class, () -> metadata.incrementPlayedAgainst(10));
-    assertThat(metadata.getPlayedAgainst()).isEqualTo(new int[]{0, 0, 0, 0, 0});
+    assertThat(metadata.getPlayedAgainst()).asList().containsExactly(0, 0, 0, 0, 0).inOrder();
   }
 
   @Test
@@ -126,7 +128,18 @@ public class LineupMetadataTest {
     metadata.incrementBanned(0);
     metadata.incrementBanned(1);
     metadata.incrementBanned(1);
-    assertThat(metadata.getBanned()).isEqualTo(new int[]{1, 2, 0, 0, 0});
+    assertThat(metadata.getBanned()).usingTolerance(ERROR).containsExactly(1.0, 2.0, 0.0, 0.0, 0.0)
+        .inOrder();
+  }
+
+  @Test
+  public void incrementBannedByAmount_incrementsValues() {
+    LineupMetadata metadata = new LineupMetadata(5);
+    metadata.incrementBanned(0);
+    metadata.incrementBanned(1, 0.5);
+    metadata.incrementBanned(1);
+    assertThat(metadata.getBanned()).usingTolerance(ERROR).containsExactly(1.0, 1.5, 0.0, 0.0, 0.0)
+        .inOrder();
   }
 
   @Test
@@ -134,7 +147,7 @@ public class LineupMetadataTest {
     LineupMetadata metadata = new LineupMetadata(5);
     assertThrows(ArrayIndexOutOfBoundsException.class, () -> metadata.incrementBanned(-1));
     assertThrows(ArrayIndexOutOfBoundsException.class, () -> metadata.incrementBanned(10));
-    assertThat(metadata.getBanned()).isEqualTo(new int[]{0, 0, 0, 0, 0});
+    assertThat(metadata.getBanned()).usingTolerance(ERROR).containsExactly(0, 0, 0, 0, 0).inOrder();
   }
 
   @Test

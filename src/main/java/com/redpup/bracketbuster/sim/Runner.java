@@ -2,7 +2,8 @@ package com.redpup.bracketbuster.sim;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Lists.transform;
-import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBan;
+import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNaive;
+import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNash;
 import static com.redpup.bracketbuster.sim.Output.buildOutput;
 import static java.lang.Math.min;
 
@@ -13,6 +14,7 @@ import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.model.Matchups;
 import com.redpup.bracketbuster.model.proto.MatchupList;
+import com.redpup.bracketbuster.sim.Calculations.CalculationType;
 import com.redpup.bracketbuster.util.Pair;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -50,6 +52,7 @@ public abstract class Runner {
    */
   public static Builder builder() {
     return new com.redpup.bracketbuster.sim.AutoValue_Runner.Builder()
+        .setCalculationType(CalculationType.NAIVE)
         .setPruneRatios(ImmutableList.of(0.0))
         .setTopKToReceiveBestAndWorstMatchupAnalysis(25)
         .setTopKToParticipateInBestAndWorstMatchupAnalysis(100)
@@ -94,9 +97,17 @@ public abstract class Runner {
   abstract int topKToParticipateInBestAndWorstMatchupAnalysis();
 
   /**
+   * How to apply calculations.
+   */
+  abstract CalculationType calculationType();
+
+  /**
    * Handler for logs and other UI updates while running a simulation.
    */
   abstract Logger logger();
+
+  /** Converts this runner back into a {@link Builder}. */
+  abstract Builder toBuilder();
 
   /**
    * Builder class for {@link Runner}.
@@ -134,6 +145,11 @@ public abstract class Runner {
      * Sets {@link #topKToParticipateInBestAndWorstMatchupAnalysis()}.
      */
     public abstract Builder setTopKToParticipateInBestAndWorstMatchupAnalysis(int k);
+
+    /**
+     * Sets {@link #calculationType()}.
+     */
+    public abstract Builder setCalculationType(CalculationType calculationType);
 
     /**
      * Sets {@link #logger()}.
@@ -252,6 +268,13 @@ public abstract class Runner {
   @VisibleForTesting
   double computeMatchupWinRate(Lineup player, Lineup opponent) {
     logger().handleMatchup();
-    return winRateBestTwoOfThreeOneBan(player, opponent, matchupMatrix());
+    switch (calculationType()) {
+      case NAIVE:
+        return winRateBestTwoOfThreeOneBanNaive(player, opponent, matchupMatrix());
+      case NASH:
+        return winRateBestTwoOfThreeOneBanNash(player, opponent, matchupMatrix());
+    }
+
+    throw new UnsupportedOperationException("Unsupported calculationType:" + calculationType());
   }
 }

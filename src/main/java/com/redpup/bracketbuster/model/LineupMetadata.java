@@ -24,14 +24,14 @@ import java.util.stream.Collectors;
 public final class LineupMetadata {
 
   private final int[] playedAgainst;
-  private final int[] banned;
+  private final double[] banned;
 
   private final PriorityQueue<Pair<Lineup, Double>> bestMatchups;
   private final PriorityQueue<Pair<Lineup, Double>> worstMatchups;
 
   LineupMetadata(int numDecks) {
     this(new int[numDecks],
-        new int[numDecks],
+        new double[numDecks],
         // Comparators are opposite the intended order so the "least good"
         // element is the first to be polled when necessary.
         // When reading the order should be reversed.
@@ -39,7 +39,7 @@ public final class LineupMetadata {
         new PriorityQueue<>(Pair.<Lineup>rightDoubleComparator().reversed()));
   }
 
-  private LineupMetadata(int[] playedAgainst, int[] banned,
+  private LineupMetadata(int[] playedAgainst, double[] banned,
       PriorityQueue<Pair<Lineup, Double>> bestMatchups,
       PriorityQueue<Pair<Lineup, Double>> worstMatchups) {
     this.playedAgainst = playedAgainst;
@@ -69,7 +69,7 @@ public final class LineupMetadata {
    * Returns {@link #banned}. The result is defensively copied; mutations will not be reflected in
    * this metadata.
    */
-  public int[] getBanned() {
+  public double[] getBanned() {
     return Arrays.copyOf(banned, banned.length);
   }
 
@@ -79,6 +79,16 @@ public final class LineupMetadata {
   @CanIgnoreReturnValue
   public LineupMetadata incrementBanned(int deck) {
     banned[deck]++;
+    return this;
+  }
+
+
+  /**
+   * Increments the count of banning {@code deck} by {@code amount}.
+   */
+  @CanIgnoreReturnValue
+  public LineupMetadata incrementBanned(int deck, double amount) {
+    banned[deck] += amount;
     return this;
   }
 
@@ -195,10 +205,10 @@ public final class LineupMetadata {
     Map<String, Double> banPercents = new HashMap<>();
     for (int i = 0; i < matchups.getHeaders().size(); i++) {
       int plays = playedAgainst[i];
-      int bans = banned[i];
+      double bans = banned[i];
 
       if (plays > 0) {
-        banPercents.put(matchups.getHeaderName(i), (double) bans / (double) plays);
+        banPercents.put(matchups.getHeaderName(i), bans / (double) plays);
       }
     }
 

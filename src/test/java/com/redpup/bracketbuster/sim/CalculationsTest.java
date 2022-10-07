@@ -15,6 +15,8 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class CalculationsTest {
 
+  private static final double ERROR = 1.0e-8;
+
   private static final MatchupMessage MATCHUP_MESSAGE_A_1
       = MatchupMessage.newBuilder()
       .setPlayer("A")
@@ -79,6 +81,28 @@ public final class CalculationsTest {
       .setOpponent("3")
       .setWins(3)
       .setGames(6)
+      .build();
+
+  private static final MatchupMessage MATCHUP_MESSAGE_A_1_LOSE
+      = MatchupMessage.newBuilder()
+      .setPlayer("A")
+      .setOpponent("1")
+      .setWins(0)
+      .setGames(2)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_B_1_LOSE
+      = MatchupMessage.newBuilder()
+      .setPlayer("B")
+      .setOpponent("1")
+      .setWins(0)
+      .setGames(10)
+      .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_C_1_LOSE
+      = MatchupMessage.newBuilder()
+      .setPlayer("C")
+      .setOpponent("1")
+      .setWins(0)
+      .setGames(10)
       .build();
 
   @Test
@@ -169,14 +193,14 @@ public final class CalculationsTest {
 
   @Test
   public void banPlayerDeck_oneDeck() {
-    assertThat(Calculations.banPlayerDeck(new double[][]{
+    assertThat(Calculations.banPlayerDeckNaive(new double[][]{
         {0.0}
     })).isEqualTo(0);
   }
 
   @Test
   public void banPlayerDeck_allDecksEqual_bansFirstIndex() {
-    assertThat(Calculations.banPlayerDeck(new double[][]{
+    assertThat(Calculations.banPlayerDeckNaive(new double[][]{
         {0.5, 0.5, 0.5},
         {0.5, 0.5, 0.5},
         {0.5, 0.5, 0.5}
@@ -185,7 +209,7 @@ public final class CalculationsTest {
 
   @Test
   public void banPlayerDeck_bansBestDeck() {
-    assertThat(Calculations.banPlayerDeck(new double[][]{
+    assertThat(Calculations.banPlayerDeckNaive(new double[][]{
         {0.5, 0.5, 0.5},
         {0.9, 0.9, 0.9},
         {0.1, 0.1, 0.1}
@@ -194,7 +218,7 @@ public final class CalculationsTest {
 
   @Test
   public void banPlayerDeck_bansBestDeckOverall() {
-    assertThat(Calculations.banPlayerDeck(new double[][]{
+    assertThat(Calculations.banPlayerDeckNaive(new double[][]{
         {0.5, 0.5, 0.5},
         {0.9, 0.5, 0.1},
         {0.5, 0.9, 0.5}
@@ -204,14 +228,14 @@ public final class CalculationsTest {
 
   @Test
   public void banOpponentDeck_oneDeck() {
-    assertThat(Calculations.banOpponentDeck(new double[][]{
+    assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.0}
     })).isEqualTo(0);
   }
 
   @Test
   public void banOpponentDeck_allDecksEqual_bansFirstIndex() {
-    assertThat(Calculations.banOpponentDeck(new double[][]{
+    assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.5},
         {0.5, 0.5, 0.5},
         {0.5, 0.5, 0.5}
@@ -220,7 +244,7 @@ public final class CalculationsTest {
 
   @Test
   public void banOpponentDeck_bansWorstDeckForPlayer() {
-    assertThat(Calculations.banOpponentDeck(new double[][]{
+    assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.1},
         {0.5, 0.9, 0.1},
         {0.2, 0.5, 0.1}
@@ -229,7 +253,7 @@ public final class CalculationsTest {
 
   @Test
   public void banOpponentDeck_bansWorstDeckForPlayerOverall() {
-    assertThat(Calculations.banOpponentDeck(new double[][]{
+    assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.1},
         {0.9, 0.5, 0.2},
         {0.5, 0.3, 0.5}
@@ -248,7 +272,7 @@ public final class CalculationsTest {
   }
 
   @Test
-  public void winRateBestTwoOfThreeOneBan_oneOpponent() {
+  public void winRateBestTwoOfThreeOneBan_naive() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_1,
         MATCHUP_MESSAGE_A_2,
@@ -263,15 +287,71 @@ public final class CalculationsTest {
     Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
     Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");
 
-    double winRate = Calculations.winRateBestTwoOfThreeOneBan(
+    double winRate = Calculations.winRateBestTwoOfThreeOneBanNaive(
         player, opponent, matrix);
 
     assertThat(winRate).isIn(Range.open(0.0, 1.0));
 
     assertThat(player.metadata().getPlayedAgainst()).asList()
         .containsExactly(1, 1, 1, 0, 0, 0).inOrder();
-    assertThat(player.metadata().getBanned()).asList()
-        .containsExactly(1, 0, 0, 0, 0, 0).inOrder();
+    assertThat(player.metadata().getBanned()).usingTolerance(ERROR)
+        .containsExactly(1.0, 0.0, 0.0, 0.0, 0.0, 0.0).inOrder();
+  }
+
+  @Test
+  public void winRateBestTwoOfThreeOneBan_nash() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_1,
+        MATCHUP_MESSAGE_A_2,
+        MATCHUP_MESSAGE_A_3,
+        MATCHUP_MESSAGE_B_1,
+        MATCHUP_MESSAGE_B_2,
+        MATCHUP_MESSAGE_B_3,
+        MATCHUP_MESSAGE_C_1,
+        MATCHUP_MESSAGE_C_2,
+        MATCHUP_MESSAGE_C_3);
+
+    Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
+    Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");
+
+    double winRate = Calculations.winRateBestTwoOfThreeOneBanNash(
+        player, opponent, matrix);
+
+    assertThat(winRate).isIn(Range.open(0.0, 1.0));
+
+    assertThat(player.metadata().getPlayedAgainst()).asList()
+        .containsExactly(1, 1, 1, 0, 0, 0).inOrder();
+    assertThat(player.metadata().getBanned()).usingTolerance(ERROR)
+        .containsExactly(0.0, 0.0, 1.0, 0.0, 0.0, 0.0)
+        .inOrder();
+  }
+
+  @Test
+  public void winRateBestTwoOfThreeOneBan_nash_alwaysBanOneDeck() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_1_LOSE,
+        MATCHUP_MESSAGE_A_2,
+        MATCHUP_MESSAGE_A_3,
+        MATCHUP_MESSAGE_B_1_LOSE,
+        MATCHUP_MESSAGE_B_2,
+        MATCHUP_MESSAGE_B_3,
+        MATCHUP_MESSAGE_C_1_LOSE,
+        MATCHUP_MESSAGE_C_2,
+        MATCHUP_MESSAGE_C_3);
+
+    Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
+    Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");
+
+    double winRate = Calculations.winRateBestTwoOfThreeOneBanNash(
+        player, opponent, matrix);
+
+    assertThat(winRate).isIn(Range.open(0.0, 1.0));
+
+    assertThat(player.metadata().getPlayedAgainst()).asList()
+        .containsExactly(1, 1, 1, 0, 0, 0).inOrder();
+    assertThat(player.metadata().getBanned()).usingTolerance(ERROR)
+        .containsExactly(1.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        .inOrder();
   }
 
 }

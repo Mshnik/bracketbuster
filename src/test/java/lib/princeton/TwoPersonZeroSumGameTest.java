@@ -15,7 +15,7 @@ public final class TwoPersonZeroSumGameTest {
   private static final Range<Double> ZERO_TO_ONE = Range.closed(-0.0, 1.0);
 
   @Test
-  public void onceChoice_alwaysWin() {
+  public void oneChoice_alwaysWin() {
     double[][] payoff = {
         {5}
     };
@@ -32,13 +32,15 @@ public final class TwoPersonZeroSumGameTest {
     assertThat(y).hasLength(payoff.length);
     assertValidChoiceArray(y);
 
-    assertThat(x[0]).isWithin(ERROR).of(1.0);
+    assertThat(x).usingTolerance(ERROR)
+        .containsExactly(1.0).inOrder();
 
-    assertThat(y[0]).isWithin(ERROR).of(1.0);
+    assertThat(y).usingTolerance(ERROR)
+        .containsExactly(1.0).inOrder();
   }
 
   @Test
-  public void onceChoice_alwaysLose() {
+  public void oneChoice_alwaysLose() {
     double[][] payoff = {
         {-5}
     };
@@ -55,9 +57,37 @@ public final class TwoPersonZeroSumGameTest {
     assertThat(y).hasLength(payoff.length);
     assertValidChoiceArray(y);
 
-    assertThat(x[0]).isWithin(ERROR).of(1.0);
+    assertThat(x).usingTolerance(ERROR)
+        .containsExactly(1.0).inOrder();
 
-    assertThat(y[0]).isWithin(ERROR).of(1.0);
+    assertThat(y).usingTolerance(ERROR)
+        .containsExactly(1.0).inOrder();
+  }
+
+  @Test
+  public void oneCorrectChoice() {
+    double[][] payoff = {
+        {-5, -5, -5},
+        {0, 5, 1}
+    };
+
+    TwoPersonZeroSumGame zeroSumGame = new TwoPersonZeroSumGame(payoff);
+
+    assertThat(zeroSumGame.value()).isWithin(ERROR).of(0.0);
+
+    double[] x = zeroSumGame.row();
+    assertThat(x).hasLength(payoff[0].length);
+    assertValidChoiceArray(x);
+
+    double[] y = zeroSumGame.column();
+    assertThat(y).hasLength(payoff.length);
+    assertValidChoiceArray(y);
+
+    assertThat(x).usingTolerance(ERROR)
+        .containsExactly(1.0, 0.0, 0.0).inOrder();
+
+    assertThat(y).usingTolerance(ERROR)
+        .containsExactly(0.0, 1.0).inOrder();
   }
 
   @Test
@@ -80,13 +110,11 @@ public final class TwoPersonZeroSumGameTest {
     assertThat(y).hasLength(payoff.length);
     assertValidChoiceArray(y);
 
-    assertThat(x[0]).isWithin(ERROR).of(1.0 / 3.0);
-    assertThat(x[1]).isWithin(ERROR).of(1.0 / 3.0);
-    assertThat(x[2]).isWithin(ERROR).of(1.0 / 3.0);
+    assertThat(x).usingTolerance(ERROR)
+        .containsExactly(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.0).inOrder();
 
-    assertThat(y[0]).isWithin(ERROR).of(1.0 / 3.0);
-    assertThat(y[1]).isWithin(ERROR).of(1.0 / 3.0);
-    assertThat(y[2]).isWithin(ERROR).of(1.0 / 3.0);
+    assertThat(y).usingTolerance(ERROR)
+        .containsExactly(1.0 / 3.0, 1.0 / 3.0, 1.0 / 3.).inOrder();
   }
 
   @Test
@@ -108,12 +136,11 @@ public final class TwoPersonZeroSumGameTest {
     assertThat(y).hasLength(payoff.length);
     assertValidChoiceArray(y);
 
-    assertThat(x[0]).isWithin(ERROR).of(0.0 / 7.0);
-    assertThat(x[1]).isWithin(ERROR).of(4.0 / 7.0);
-    assertThat(x[2]).isWithin(ERROR).of(3.0 / 7.0);
+    assertThat(x).usingTolerance(ERROR)
+        .containsExactly(0.0, 4.0 / 7.0, 3.0 / 7.0).inOrder();
 
-    assertThat(y[0]).isWithin(ERROR).of(4.0 / 7.0);
-    assertThat(y[1]).isWithin(ERROR).of(3.0 / 7.0);
+    assertThat(y).usingTolerance(ERROR)
+        .containsExactly(4.0 / 7.0, 3.0 / 7.0).inOrder();
   }
 
   @Test

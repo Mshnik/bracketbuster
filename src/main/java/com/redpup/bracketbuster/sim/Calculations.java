@@ -7,6 +7,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.VisibleForTesting;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
+import lib.princeton.TwoPersonZeroSumGame;
 
 /**
  * Math class for calculating win rates from {@link Lineup}s referencing a given {@link
@@ -15,6 +16,43 @@ import com.redpup.bracketbuster.model.MatchupMatrix;
 public final class Calculations {
 
   private Calculations() {
+  }
+
+  /** Ways of computing a matchup between players. */
+  enum CalculationType {
+    /** Players ban the deck against them with overall best odds. */
+    NAIVE,
+    /** Players ban the deck against them according to nash equilibrium. */
+    NASH;
+  }
+
+  /**
+   * Returns the chance that {@code player} wins against {@code opponent}, given that each is
+   * allowed to ban one deck from the other.
+   *
+   * <p>Each player bans the best deck to ban given a two player zero sum analysis done by {@link
+   * lib.princeton.TwoPersonZeroSumGame}.
+   *
+   * <p>After banning one deck each, the resulting win rate for {@code player} is the chance they
+   * win two matches in a best of three, where the winner of a game cannot repeat the same winning
+   * deck again in the match. This effectively means that {@code player} must win with both
+   * un-banned decks to win the match (before their opponent does the same.)
+   */
+  public static double winRateBestTwoOfThreeOneBanNash(Lineup player, Lineup opponent,
+      MatchupMatrix matchups) {
+    double[][] winRates = checkDecksIncrementPlayedAndComputeWinRates(player, opponent, matchups);
+    double[][] winRatesAfterBans = computeExpectedWinRatesWithBans(winRates);
+
+    TwoPersonZeroSumGame zeroSumGame = new TwoPersonZeroSumGame(winRatesAfterBans);
+    double[] banProbabilities = zeroSumGame.column();
+
+    for (int i = 0; i < PLAYER_DECK_COUNT; i++) {
+      if (banProbabilities[i] > 0) {
+        player.metadata().incrementBanned(opponent.getDeck(i), banProbabilities[i]);
+      }
+    }
+
+    return zeroSumGame.value();
   }
 
   /**
@@ -30,7 +68,25 @@ public final class Calculations {
    * deck again in the match. This effectively means that {@code player} must win with both
    * un-banned decks to win the match (before their opponent does the same.)
    */
-  public static double winRateBestTwoOfThreeOneBan(Lineup player, Lineup opponent,
+  public static double winRateBestTwoOfThreeOneBanNaive(Lineup player, Lineup opponent,
+      MatchupMatrix matchups) {
+    double[][] winRates = checkDecksIncrementPlayedAndComputeWinRates(player, opponent, matchups);
+
+    int bestPlayerDeckToBan = banPlayerDeckNaive(winRates);
+    int bestOpponentDeckToBan = banOpponentDeckNaive(winRates);
+    player.metadata().incrementBanned(opponent.getDeck(bestOpponentDeckToBan));
+
+    return winRateBestTwoOfThree(
+        dropBannedDecksAndFlatten(winRates, bestPlayerDeckToBan, bestOpponentDeckToBan));
+  }
+
+  /**
+   * Asserts that {@code player} and {@code opponent} have the expected number of decks set,
+   * increments {@code player}'s played against stat, and computes win rates of every deck into
+   * every deck.
+   */
+  private static double[][] checkDecksIncrementPlayedAndComputeWinRates(Lineup player,
+      Lineup opponent,
       MatchupMatrix matchups) {
     checkArgument(player.getDecks().size() == PLAYER_DECK_COUNT,
         "Expected %s decks, found %s",
@@ -53,12 +109,7 @@ public final class Calculations {
       }
     }
 
-    int bestPlayerDeckToBan = banPlayerDeck(winRates);
-    int bestOpponentDeckToBan = banOpponentDeck(winRates);
-    player.metadata().incrementBanned(opponent.getDeck(bestOpponentDeckToBan));
-
-    return winRateBestTwoOfThree(
-        dropBannedDecksAndFlatten(winRates, bestPlayerDeckToBan, bestOpponentDeckToBan));
+    return winRates;
   }
 
   /**
@@ -76,7 +127,7 @@ public final class Calculations {
    * </pre>
    */
   @VisibleForTesting
-  static int banPlayerDeck(double[][] winRates) {
+  static int banPlayerDeckNaive(double[][] winRates) {
     double[] playerWinSums = new double[winRates.length];
     for (int row = 0; row < winRates.length; row++) {
       for (int col = 0; col < winRates[row].length; col++) {
@@ -102,7 +153,7 @@ public final class Calculations {
    * </pre>
    */
   @VisibleForTesting
-  static int banOpponentDeck(double[][] winRates) {
+  static int banOpponentDeckNaive(double[][] winRates) {
     double[] opponentWinSums = new double[winRates[0].length];
     for (int row = 0; row < winRates.length; row++) {
       for (int col = 0; col < winRates[row].length; col++) {
@@ -111,6 +162,21 @@ public final class Calculations {
     }
 
     return minIndex(opponentWinSums);
+  }
+
+  /**
+   * Computes a winRate matrix where each element {@code [i, j]} is the overall win rate for the
+   * player given the banning player's deck i and opponent's deck j.
+   */
+  @VisibleForTesting
+  static double[][] computeExpectedWinRatesWithBans(double[][] winRates) {
+    double[][] postBanWinRates = new double[PLAYER_DECK_COUNT][PLAYER_DECK_COUNT];
+    for (int i = 0; i < PLAYER_DECK_COUNT; i++) {
+      for (int j = 0; j < PLAYER_DECK_COUNT; j++) {
+        postBanWinRates[i][j] = winRateBestTwoOfThree(dropBannedDecksAndFlatten(winRates, i, j));
+      }
+    }
+    return postBanWinRates;
   }
 
   /**
