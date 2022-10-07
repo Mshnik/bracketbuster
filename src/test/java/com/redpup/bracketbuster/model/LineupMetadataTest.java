@@ -143,6 +143,16 @@ public class LineupMetadataTest {
   }
 
   @Test
+  public void incrementBannedByAmount_roundsAmount() {
+    LineupMetadata metadata = new LineupMetadata(5);
+    metadata.incrementBanned(0);
+    metadata.incrementBanned(1, 0.000000000001);
+    metadata.incrementBanned(2, 0.9999999999);
+    assertThat(metadata.getBanned()).usingExactEquality().containsExactly(1.0, 0.0, 1.0, 0.0, 0.0)
+        .inOrder();
+  }
+
+  @Test
   public void incrementBanned_throwsIfOOB() {
     LineupMetadata metadata = new LineupMetadata(5);
     assertThrows(ArrayIndexOutOfBoundsException.class, () -> metadata.incrementBanned(-1));

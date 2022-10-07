@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
  */
 public final class LineupMetadata {
 
+  private static final double BAN_ERROR = 1.0e-8;
+
   private final int[] playedAgainst;
   private final double[] banned;
 
@@ -88,8 +90,15 @@ public final class LineupMetadata {
    */
   @CanIgnoreReturnValue
   public LineupMetadata incrementBanned(int deck, double amount) {
-    banned[deck] += amount;
+    banned[deck] += roundBanAmount(amount);
     return this;
+  }
+
+  /**
+   * Rounds {@code value} to be within one {@link #BAN_ERROR} of sig figs.
+   */
+  private static double roundBanAmount(double value) {
+    return Math.round(value / BAN_ERROR) * BAN_ERROR;
   }
 
   /**
