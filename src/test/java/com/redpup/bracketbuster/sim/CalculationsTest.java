@@ -227,14 +227,14 @@ public final class CalculationsTest {
 
 
   @Test
-  public void banOpponentDeck_oneDeck() {
+  public void banOpponentDeckNaive_oneDeck() {
     assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.0}
     })).isEqualTo(0);
   }
 
   @Test
-  public void banOpponentDeck_allDecksEqual_bansFirstIndex() {
+  public void banOpponentDeckNaive_allDecksEqual_bansFirstIndex() {
     assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.5},
         {0.5, 0.5, 0.5},
@@ -243,7 +243,7 @@ public final class CalculationsTest {
   }
 
   @Test
-  public void banOpponentDeck_bansWorstDeckForPlayer() {
+  public void banOpponentDeckNaive_bansWorstDeckForPlayer() {
     assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.1},
         {0.5, 0.9, 0.1},
@@ -252,12 +252,51 @@ public final class CalculationsTest {
   }
 
   @Test
-  public void banOpponentDeck_bansWorstDeckForPlayerOverall() {
+  public void banOpponentDeckNaive_bansWorstDeckForPlayerOverall() {
     assertThat(Calculations.banOpponentDeckNaive(new double[][]{
         {0.5, 0.5, 0.1},
         {0.9, 0.5, 0.2},
         {0.5, 0.3, 0.5}
     })).isEqualTo(2);
+  }
+
+  @Test
+  public void computeExpectedWinRatesWithBans() {
+    double a1 = 0.5;
+    double a2 = 0.5;
+    double a3 = 0.1;
+    double b1 = 0.9;
+    double b2 = 0.5;
+    double b3 = 0.2;
+    double c1 = 0.5;
+    double c2 = 0.3;
+    double c3 = 0.5;
+
+    assertThat(Calculations.computeExpectedWinRatesWithBans(new double[][]{
+        {a1, a2, a3},
+        {b1, b2, b3},
+        {c1, c2, c3}
+    })).isEqualTo(
+        new double[][]{
+            {
+                Calculations.winRateBestTwoOfThree(b2, b3, c2, c3),
+                Calculations.winRateBestTwoOfThree(b1, b3, c1, c3),
+                Calculations.winRateBestTwoOfThree(b1, b2, c1, c2),
+            },
+            {
+                Calculations.winRateBestTwoOfThree(a2, a3, c2, c3),
+                Calculations.winRateBestTwoOfThree(a1, a3, c1, c3),
+                Calculations.winRateBestTwoOfThree(a1, a2, c1, c2),
+            },
+            {
+                Calculations.winRateBestTwoOfThree(a2, a3, b2, b3),
+                Calculations.winRateBestTwoOfThree(a1, a3, b1, b3),
+                Calculations.winRateBestTwoOfThree(a1, a2, b1, b2),
+            }
+        }
+
+    );
+
   }
 
   @Test
