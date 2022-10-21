@@ -74,6 +74,13 @@ public class MatchupMatrixTest {
   private static final MatchupMessage MATCHUP_MESSAGE_B_A_WITH_WIN_RATE =
       Matchups.populateWinRate(MATCHUP_MESSAGE_B_A);
 
+  private static final MatchupMessage MATCHUP_MESSAGE_AB12_AB12
+      = MatchupMessage.newBuilder()
+      .setPlayer("A/B (1/2)")
+      .setOpponent("A/B (1/2)")
+      .setWins(4)
+      .setGames(8)
+      .build();
   private static final MatchupMessage MATCHUP_MESSAGE_AB12_CD34
       = MatchupMessage.newBuilder()
       .setPlayer("A/B (1/2)")
@@ -85,7 +92,7 @@ public class MatchupMatrixTest {
       = MatchupMessage.newBuilder()
       .setPlayer("E/F (5/6)")
       .setOpponent("G/H (7/8)")
-      .setWins(2)
+      .setWins(3)
       .setGames(6)
       .build();
 
@@ -355,6 +362,21 @@ public class MatchupMatrixTest {
             Lineup.ofDeckIndices(matrix, 0, 1, 3),
             Lineup.ofDeckIndices(matrix, 0, 2, 3),
             Lineup.ofDeckIndices(matrix, 1, 2, 3));
+  }
+
+  @Test
+  public void createWeightedValidLineups_withLineups() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_AB12_AB12,
+        MATCHUP_MESSAGE_AB12_CD34,
+        MATCHUP_MESSAGE_EF56_GH78);
+
+    assertThat(matrix.createWeightedValidLineups())
+        .containsExactly(
+            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.015380859375,
+            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.015380859375,
+            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.015380859375,
+            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.006591796875);
   }
 
   @Test

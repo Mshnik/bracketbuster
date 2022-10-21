@@ -7,6 +7,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
@@ -79,7 +80,11 @@ public final class MatchupMatrix {
             message.getOpponent(), matchups[row][col], messageWithWinRate);
       }
 
-      if (!row.equals(col)) {
+      if (row.equals(col)) {
+        checkArgument(messageWithWinRate.getWinRate() == 0.5,
+            "Mirror match with win rate other than 50%% for %s: %s", message.getPlayer(),
+            messageWithWinRate);
+      } else {
         MatchupMessage inverseMessageWithWinRate = Matchups.inverse(messageWithWinRate);
 
         if (matchups[col][row] == null) {
@@ -222,6 +227,17 @@ public final class MatchupMatrix {
                 .map(deck3 -> Lineup.ofDeckIndices(this, deck1, deck2, deck3))))
         .filter(Lineup::isValid)
         .collect(toImmutableList());
+  }
+
+  /**
+   * Builds and returns a map of all valid {@link Lineup}s that can be build from this matchup data
+   * to their multiplied play rate. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
+   */
+  public ImmutableMap<Lineup, Double> createWeightedValidLineups() {
+    return Maps.toMap(
+        createAllValidLineups(),
+        l -> l.getDecks().stream().mapToDouble(this::getHeaderWeight)
+            .reduce(1.0, (p1, p2) -> p1 * p2));
   }
 
   /**
