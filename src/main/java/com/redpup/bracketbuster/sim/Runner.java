@@ -1,6 +1,7 @@
 package com.redpup.bracketbuster.sim;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.Lists.transform;
 import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNaive;
 import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNash;
@@ -19,8 +20,10 @@ import com.redpup.bracketbuster.util.Pair;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Top level executable runner class for running the bracketbuster.
@@ -54,6 +57,7 @@ public abstract class Runner {
   public static Builder builder() {
     return new com.redpup.bracketbuster.sim.AutoValue_Runner.Builder()
         .setCalculationType(CalculationType.NAIVE)
+        .setSortType(SortType.WIN_RATE)
         .setPruneRatios(ImmutableList.of(0.0))
         .setTopKToReceiveBestAndWorstMatchupAnalysis(25)
         .setTopKToParticipateInBestAndWorstMatchupAnalysis(100)
@@ -71,6 +75,29 @@ public abstract class Runner {
   final List<Lineup> allLineups() {
     return matchupMatrix().createAllValidLineups();
   }
+
+  /**
+   * All valid lineups within {@link #matchupMatrix()} weighted by lineup play rate.
+   */
+  final Map<Lineup, Double> weightedLineups() {
+    return matchupMatrix().createWeightedValidLineups();
+  }
+
+  /**
+   * How to sort lineups after a round of play.
+   */
+  enum SortType {
+    /**
+     * Sort lineups by win rate, descending.
+     */
+    WIN_RATE,
+    /**
+     * Sort lineups by _weighted_ win rate, descending.
+     */
+    WEIGHTED_WIN_RATE;
+  }
+
+  abstract SortType sortType();
 
   /**
    * Ratios of the domain to prune down to after each round.
@@ -107,7 +134,9 @@ public abstract class Runner {
    */
   abstract Logger logger();
 
-  /** Converts this runner back into a {@link Builder}. */
+  /**
+   * Converts this runner back into a {@link Builder}.
+   */
   abstract Builder toBuilder();
 
   /**
@@ -131,6 +160,11 @@ public abstract class Runner {
       MatchupList list = Matchups.readMatchupListFromCsv(filePath);
       return setMatchupMatrix(MatchupMatrix.fromProto(list));
     }
+
+    /**
+     * Sets {@link #sortType()}.
+     */
+    public abstract Builder setSortType(SortType sortType);
 
     /**
      * Sets {@link #pruneRatios()}.
@@ -177,7 +211,7 @@ public abstract class Runner {
    */
   @VisibleForTesting
   void computeTopLineupsAgainstEveryone() {
-    final List<Lineup> lineups = new ArrayList<>(allLineups());
+    final Map<Lineup, Double> lineups = new HashMap<>(weightedLineups());
     int originalSize = lineups.size();
     logger().log(String.format("Created %d lineups.", originalSize));
 
@@ -186,8 +220,8 @@ public abstract class Runner {
       // Order all lineups by winrate against the current set of lineups.
       logger().setCurrentStep("Computing All Lineup Win Rates");
       ImmutableList<Pair<Lineup, Double>> playersByWinRate =
-          lineups.stream()
-              .map(p -> Pair.of(p, computeTotalWinRate(p, lineups)))
+          lineups.keySet().stream()
+              .map(p -> Pair.of(p, computeWinRate(p, lineups)))
               .sorted(Pair.<Lineup>rightDoubleComparator().reversed())
               .collect(toImmutableList());
 
@@ -217,13 +251,28 @@ public abstract class Runner {
 
       // Prune lineups for next iteration, if there is a next iteration.
       if (i < pruneRatios().size() - 1) {
-        lineups.clear();
-        lineups.addAll(playersByWinRate.stream()
-            .limit((long) (originalSize * pruneRatio(i)))
-            .map(Pair::first)
-            .collect(toImmutableList()));
+        lineups.keySet().retainAll(
+            playersByWinRate.stream()
+                .limit((long) (originalSize * pruneRatio(i)))
+                .map(Pair::first)
+                .collect(toImmutableSet()));
       }
     }
+  }
+
+  /**
+   * Computes the total win rate of {@code player} against {@code allPlayersWithWeights} subject to
+   * {@link #sortType()}.
+   */
+  private double computeWinRate(Lineup player, Map<Lineup, Double> allPlayersWithWeights) {
+    switch (sortType()) {
+      case WIN_RATE:
+        return computeTotalWinRate(player, allPlayersWithWeights.keySet());
+      case WEIGHTED_WIN_RATE:
+        return computeTotalWeightedWinRate(player, allPlayersWithWeights);
+    }
+
+    throw new UnsupportedOperationException("Unsupported sortType: " + sortType());
   }
 
   /**
@@ -232,13 +281,46 @@ public abstract class Runner {
    * <p>Metadata collected along the way are stored in {@link Lineup#metadata()}.
    */
   @VisibleForTesting
-  double computeTotalWinRate(Lineup player, List<Lineup> allPlayers) {
+  double computeTotalWinRate(Lineup player, Collection<Lineup> allPlayers) {
     player.resetMetadata();
-    return allPlayers.stream()
-        .filter(opponent -> matchupMatrix().canPlay(player, opponent))
-        .mapToDouble(opponent -> computeMatchupWinRate(player, opponent))
-        .average()
-        .orElse(0);
+
+    double winRate = 0;
+    int numMatches = 0;
+
+    for (Lineup opponent : allPlayers) {
+      if (matchupMatrix().canPlay(player, opponent)) {
+        winRate += computeMatchupWinRate(player, opponent);
+        numMatches++;
+      }
+    }
+
+    return winRate / numMatches;
+  }
+
+  /**
+   * Computes the total weighted win rate of {@code player} against {@code allPlayers}.
+   *
+   * <p>Metadata collected along the way are stored in {@link Lineup#metadata()}.
+   */
+  @VisibleForTesting
+  double computeTotalWeightedWinRate(Lineup player, Map<Lineup, Double> allPlayersWithWeights) {
+    player.resetMetadata();
+
+    double winRate = 0;
+    double weightSum = 0;
+
+    for (Map.Entry<Lineup, Double> opponent : allPlayersWithWeights.entrySet()) {
+      if (matchupMatrix().canPlay(player, opponent.getKey())) {
+        winRate += computeMatchupWinRate(player, opponent.getKey()) * opponent.getValue();
+        weightSum += opponent.getValue();
+      }
+    }
+
+    if (weightSum > 0) {
+      return winRate / weightSum;
+    } else {
+      return 0;
+    }
   }
 
   /**

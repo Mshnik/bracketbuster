@@ -8,6 +8,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
@@ -332,5 +333,24 @@ public final class RunnerTest {
     verify(logger, times(3)).handleMatchup();
   }
 
+  @Test
+  public void computeWinRate() {
+    assertThat(
+        runner.computeTotalWinRate(player, ImmutableList.of(opponent1, opponent2, opponent3)))
+        .isEqualTo(
+            (runner.computeMatchupWinRate(player, opponent1)
+                + runner.computeMatchupWinRate(player, opponent2)
+                + runner.computeMatchupWinRate(player, opponent3)) / 3);
+  }
 
+  @Test
+  public void computeWeightedWinRate() {
+    assertThat(
+        runner.computeTotalWeightedWinRate(player, ImmutableMap.of(opponent1,
+            0.1, opponent2, 0.2, opponent3, 0.3)))
+        .isWithin(0.000000001).of(
+        (runner.computeMatchupWinRate(player, opponent1) * 0.1
+            + runner.computeMatchupWinRate(player, opponent2) * 0.2
+            + runner.computeMatchupWinRate(player, opponent3) * 0.3) / 0.6);
+  }
 }
