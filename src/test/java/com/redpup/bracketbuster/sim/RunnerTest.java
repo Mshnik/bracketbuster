@@ -344,6 +344,11 @@ public final class RunnerTest {
   }
 
   @Test
+  public void computeWinRate_noMatchups() {
+    assertThat(runner.computeTotalWinRate(player, ImmutableList.of())).isEqualTo(0.0);
+  }
+
+  @Test
   public void computeWeightedWinRate() {
     assertThat(
         runner.computeTotalWeightedWinRate(player, ImmutableMap.of(opponent1,
@@ -352,5 +357,10 @@ public final class RunnerTest {
         (runner.computeMatchupWinRate(player, opponent1) * 0.1
             + runner.computeMatchupWinRate(player, opponent2) * 0.2
             + runner.computeMatchupWinRate(player, opponent3) * 0.3) / 0.6);
+  }
+
+  @Test
+  public void computeWeightedWinRate_noMatchups() {
+    assertThat(runner.computeTotalWeightedWinRate(player, ImmutableMap.of())).isEqualTo(0.0);
   }
 }

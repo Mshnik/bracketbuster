@@ -294,7 +294,11 @@ public abstract class Runner {
       }
     }
 
-    return winRate / numMatches;
+    if (numMatches > 0) {
+      return winRate / numMatches;
+    } else {
+      return 0;
+    }
   }
 
   /**
