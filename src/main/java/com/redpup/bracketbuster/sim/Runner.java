@@ -38,6 +38,7 @@ public abstract class Runner {
   public static void main(String[] args) throws Exception {
     Path matchupsFilePath = Paths.get("src", "main", "resources", "stats.csv");
     builder()
+        .setCalculationType(CalculationType.NASH)
         .setMatchupMatrixFromFile(matchupsFilePath)
         .setPruneRatios(ImmutableList.of(0.7, 0.5, 0.2, 0.1, 0.001, 0.0))
         .build()

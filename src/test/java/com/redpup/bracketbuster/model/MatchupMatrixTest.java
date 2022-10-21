@@ -32,6 +32,13 @@ public class MatchupMatrixTest {
       .setWins(1)
       .setGames(3)
       .build();
+  private static final MatchupMessage MATCHUP_MESSAGE_B_A_BAD_SYMMETRY
+      = MatchupMessage.newBuilder()
+      .setPlayer("B")
+      .setOpponent("A")
+      .setWins(2)
+      .setGames(5)
+      .build();
   private static final MatchupMessage MATCHUP_MESSAGE_B_B
       = MatchupMessage.newBuilder()
       .setPlayer("B")
@@ -84,6 +91,15 @@ public class MatchupMatrixTest {
 
 
   @Test
+  public void invalidConstruction_invalidSymmetry() {
+    assertThrows(IllegalArgumentException.class,
+        () -> MatchupMatrix.from(
+            MATCHUP_MESSAGE_A_A,
+            MATCHUP_MESSAGE_A_B,
+            MATCHUP_MESSAGE_B_A_BAD_SYMMETRY));
+  }
+
+  @Test
   public void getNumDecks_returnsValue() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_A_A,
@@ -91,6 +107,50 @@ public class MatchupMatrixTest {
         MATCHUP_MESSAGE_B_A);
 
     assertThat(matrix.getNumDecks()).isEqualTo(2);
+  }
+
+  @Test
+  public void getTotalGames_hasSymmetry_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getTotalGames()).isEqualTo(12);
+  }
+
+  @Test
+  public void getTotalGames_missingSymmetry_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getTotalGames()).isEqualTo(12);
+  }
+
+  @Test
+  public void getPlayRate_hasSymmetry_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getPlayRate("A")).isEqualTo(7);
+    assertThat(matrix.getPlayRate("B")).isEqualTo(5);
+  }
+
+  @Test
+  public void getPlayRate_missingSymmetry_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getPlayRate("A")).isEqualTo(7);
+    assertThat(matrix.getPlayRate("B")).isEqualTo(5);
   }
 
   @Test
@@ -224,6 +284,56 @@ public class MatchupMatrixTest {
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getHeaderName(-1));
   }
+
+  @Test
+  public void getHeaderWeight_byIndex() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getHeaderWeight(0)).isEqualTo(7.0 / 12.0);
+    assertThat(matrix.getHeaderWeight(1)).isEqualTo(5.0 / 12.0);
+  }
+
+  @Test
+  public void getHeaderWeight_byIndex_unknownThrows() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getHeaderWeight(-1));
+  }
+
+
+  @Test
+  public void getHeaderWeight_byName() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThat(matrix.getHeaderWeight("A")).isEqualTo(7.0 / 12.0);
+    assertThat(matrix.getHeaderWeight("B")).isEqualTo(5.0 / 12.0);
+  }
+
+  @Test
+  public void getHeaderWeight_byName_unknownThrows() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_A_A,
+        MATCHUP_MESSAGE_A_B,
+        MATCHUP_MESSAGE_B_A,
+        MATCHUP_MESSAGE_B_B);
+
+    assertThrows(IllegalArgumentException.class,
+        () -> matrix.getHeaderWeight("C"));
+  }
+
 
   @Test
   public void createAllValidLineups_notEnoughDecks() {

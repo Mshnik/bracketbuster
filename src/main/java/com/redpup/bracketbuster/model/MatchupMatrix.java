@@ -6,12 +6,15 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import com.redpup.bracketbuster.util.Pair;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -36,6 +39,8 @@ public final class MatchupMatrix {
   }
 
   private final ImmutableBiMap<String, Integer> headers;
+  private final int totalGames;
+  private final ImmutableMap<String, Integer> playRate;
   private final MatchupMessage[][] matchups;
 
   private MatchupMatrix(List<MatchupMessage> matchupsList) {
@@ -46,10 +51,14 @@ public final class MatchupMatrix {
                 matchupsList.stream().map(MatchupMessage::getOpponent))
                 .distinct()
                 .sorted(),
-            Pair::of
-        ).collect(toImmutableBiMap(Pair::first, p -> p.second().intValue()));
+            Pair::of).collect(toImmutableBiMap(Pair::first, p -> p.second().intValue()));
 
+    Map<String, Integer> playRate = new HashMap<>();
+    headers.keySet().forEach(header -> playRate.put(header, 0));
+
+    int totalGames = 0;
     matchups = new MatchupMessage[headers.size()][headers.size()];
+
     for (MatchupMessage message : matchupsList) {
       Integer row = headers.get(message.getPlayer());
       Integer col = headers.get(message.getOpponent());
@@ -59,15 +68,35 @@ public final class MatchupMatrix {
 
       MatchupMessage messageWithWinRate = Matchups.populateWinRate(message);
 
-      checkArgument(matchups[row][col] == null || matchups[row][col].equals(messageWithWinRate),
-          "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s", message.getPlayer(),
-          message.getOpponent(), matchups[row][col], messageWithWinRate);
+      if (matchups[row][col] == null) {
+        matchups[row][col] = messageWithWinRate;
+        totalGames += message.getGames();
+        playRate.compute(message.getPlayer(), (key, value) -> value + message.getGames());
+      } else {
+        checkArgument(matchups[row][col].equals(messageWithWinRate),
+            "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s",
+            message.getPlayer(),
+            message.getOpponent(), matchups[row][col], messageWithWinRate);
+      }
 
-      matchups[row][col] = messageWithWinRate;
       if (!row.equals(col)) {
-        matchups[col][row] = Matchups.inverse(messageWithWinRate);
+        MatchupMessage inverseMessageWithWinRate = Matchups.inverse(messageWithWinRate);
+
+        if (matchups[col][row] == null) {
+          matchups[col][row] = inverseMessageWithWinRate;
+          totalGames += message.getGames();
+          playRate.compute(message.getOpponent(), (key, value) -> value + message.getGames());
+        } else {
+          checkArgument(matchups[col][row].equals(inverseMessageWithWinRate),
+              "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s",
+              message.getOpponent(),
+              message.getPlayer(), matchups[col][row], inverseMessageWithWinRate);
+        }
       }
     }
+
+    this.totalGames = totalGames;
+    this.playRate = ImmutableMap.copyOf(playRate);
   }
 
   /**
@@ -75,6 +104,21 @@ public final class MatchupMatrix {
    */
   public int getNumDecks() {
     return headers.size();
+  }
+
+  /**
+   * Returns the total number of games played by all {@link #matchups}. This specifically double
+   * counts games so it can be counted with each participating deck as the "player".
+   */
+  int getTotalGames() {
+    return totalGames;
+  }
+
+  /**
+   * Returns the number of games the given {@code headerName} plays in as a player (not opponent).
+   */
+  int getPlayRate(String headerName) {
+    return playRate.get(headerName);
   }
 
   /**
@@ -100,6 +144,26 @@ public final class MatchupMatrix {
     checkArgument(headers.inverse().containsKey(headerIndex), "Index %s not found: %s", headerIndex,
         headers.inverse());
     return headers.inverse().get(headerIndex);
+  }
+
+  /**
+   * Returns the weight of {@code headerName} as the number of games using this header over the
+   * total number of games.
+   */
+  public double getHeaderWeight(String headerName) {
+    checkArgument(headers.containsKey(headerName), "Name %s not found: %s", headerName,
+        headers);
+    return (double) getPlayRate(headerName) / totalGames;
+  }
+
+  /**
+   * Returns the weight of {@code headerIndex} as the number of games using this header over the
+   * total number of games.
+   */
+  public double getHeaderWeight(int headerIndex) {
+    checkArgument(headers.inverse().containsKey(headerIndex), "Index %s not found: %s", headerIndex,
+        headers.inverse());
+    return getHeaderWeight(headers.inverse().get(headerIndex));
   }
 
   /**
