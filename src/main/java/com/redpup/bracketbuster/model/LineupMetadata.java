@@ -1,16 +1,13 @@
 package com.redpup.bracketbuster.model;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.redpup.bracketbuster.util.Constants.NUM_BEST_WORST_MATCHUPS;
 import static com.redpup.bracketbuster.util.Pair.rightDoubleComparator;
 import static java.util.Comparator.comparingDouble;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.redpup.bracketbuster.util.Pair;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
