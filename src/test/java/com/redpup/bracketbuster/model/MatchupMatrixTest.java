@@ -365,18 +365,33 @@ public class MatchupMatrixTest {
   }
 
   @Test
-  public void createWeightedValidLineups_withLineups() {
+  public void createWeightedValidLineups_withLineups_averageWeighting() {
     MatchupMatrix matrix = MatchupMatrix.from(
         MATCHUP_MESSAGE_AB12_AB12,
         MATCHUP_MESSAGE_AB12_CD34,
         MATCHUP_MESSAGE_EF56_GH78);
 
-    assertThat(matrix.createWeightedValidLineups())
+    assertThat(matrix.createWeightedValidLineups(LineupWeightType.AVERAGE))
         .containsExactly(
-            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.015380859375,
-            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.015380859375,
-            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.015380859375,
-            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.006591796875);
+            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.2708333333333333,
+            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.2708333333333333,
+            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.2708333333333333,
+            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.1875);
+  }
+
+  @Test
+  public void createWeightedValidLineups_withLineups_geometricWeighting() {
+    MatchupMatrix matrix = MatchupMatrix.from(
+        MATCHUP_MESSAGE_AB12_AB12,
+        MATCHUP_MESSAGE_AB12_CD34,
+        MATCHUP_MESSAGE_EF56_GH78);
+
+    assertThat(matrix.createWeightedValidLineups(LineupWeightType.GEOMETRIC))
+        .containsExactly(
+            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.2486910754935245,
+            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.2486910754935245,
+            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.2486910754935245,
+            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.18750000000000003);
   }
 
   @Test

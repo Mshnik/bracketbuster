@@ -231,13 +231,14 @@ public final class MatchupMatrix {
 
   /**
    * Builds and returns a map of all valid {@link Lineup}s that can be build from this matchup data
-   * to their multiplied play rate. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
+   * to play rates combined by the given {@link LineupWeightType}. Assumes lineups have size {@link
+   * com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
    */
-  public ImmutableMap<Lineup, Double> createWeightedValidLineups() {
+  public ImmutableMap<Lineup, Double> createWeightedValidLineups(
+      LineupWeightType lineupWeightType) {
     return Maps.toMap(
         createAllValidLineups(),
-        l -> l.getDecks().stream().mapToDouble(this::getHeaderWeight)
-            .reduce(1.0, (p1, p2) -> p1 * p2));
+        l -> lineupWeightType.collect(l.getDecks().stream().mapToDouble(this::getHeaderWeight)));
   }
 
   /**

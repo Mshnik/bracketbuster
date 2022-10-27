@@ -12,6 +12,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.redpup.bracketbuster.model.Lineup;
+import com.redpup.bracketbuster.model.LineupWeightType;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.model.Matchups;
 import com.redpup.bracketbuster.model.proto.MatchupList;
@@ -58,6 +59,7 @@ public abstract class Runner {
     return new com.redpup.bracketbuster.sim.AutoValue_Runner.Builder()
         .setCalculationType(CalculationType.NAIVE)
         .setSortType(SortType.WIN_RATE)
+        .setLineupWeightType(LineupWeightType.AVERAGE)
         .setPruneRatios(ImmutableList.of(0.0))
         .setTopKToReceiveBestAndWorstMatchupAnalysis(25)
         .setTopKToParticipateInBestAndWorstMatchupAnalysis(100)
@@ -80,7 +82,7 @@ public abstract class Runner {
    * All valid lineups within {@link #matchupMatrix()} weighted by lineup play rate.
    */
   final Map<Lineup, Double> weightedLineups() {
-    return matchupMatrix().createWeightedValidLineups();
+    return matchupMatrix().createWeightedValidLineups(lineupWeightType());
   }
 
   /**
@@ -128,6 +130,11 @@ public abstract class Runner {
    * How to apply calculations.
    */
   abstract CalculationType calculationType();
+
+  /**
+   * How to compute lineup weights. Only used in {@link SortType#WEIGHTED_WIN_RATE}.
+   */
+  abstract LineupWeightType lineupWeightType();
 
   /**
    * Handler for logs and other UI updates while running a simulation.
@@ -185,6 +192,11 @@ public abstract class Runner {
      * Sets {@link #calculationType()}.
      */
     public abstract Builder setCalculationType(CalculationType calculationType);
+
+    /**
+     * Sets {@link #lineupWeightType()}.
+     */
+    public abstract Builder setLineupWeightType(LineupWeightType lineupWeightType);
 
     /**
      * Sets {@link #logger()}.
