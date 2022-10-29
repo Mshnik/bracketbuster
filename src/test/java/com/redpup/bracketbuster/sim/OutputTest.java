@@ -6,10 +6,10 @@ import static com.redpup.bracketbuster.sim.Output.computeMetaCompPercentMap;
 import static com.redpup.bracketbuster.sim.Output.limitAndCopyTopLineups;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.MoreCollectors;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
+import com.redpup.bracketbuster.util.WeightedDoubleMetric;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -71,65 +71,66 @@ public class OutputTest {
   public void limitAndCopyTopLineups_notLimited() {
     assertThat(limitAndCopyTopLineups(
         ImmutableMap.of(
-            LINEUP_1, 0.1,
-            LINEUP_2, 0.2,
-            LINEUP_3, 0.3,
-            LINEUP_4, 0.4,
-            LINEUP_5, 0.5
-        ), 10))
+            LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build(),
+            LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+            LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+            LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+            LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build()
+        ),
+        SortType.UNWEIGHTED_MEAN_WIN_RATE, 10))
         .containsExactly(
-            LINEUP_5, 0.5,
-            LINEUP_4, 0.4,
-            LINEUP_3, 0.3,
-            LINEUP_2, 0.2,
-            LINEUP_1, 0.1);
+            LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build(),
+            LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+            LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+            LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+            LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build());
   }
 
   @Test
   public void limitAndCopyTopLineups_limited() {
     assertThat(limitAndCopyTopLineups(
         ImmutableMap.of(
-            LINEUP_1, 0.1,
-            LINEUP_2, 0.2,
-            LINEUP_3, 0.3,
-            LINEUP_4, 0.4,
-            LINEUP_5, 0.5
-        ), 2))
+            LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build(),
+            LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+            LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+            LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+            LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build()
+        ), SortType.UNWEIGHTED_MEAN_WIN_RATE, 2))
         .containsExactly(
-            LINEUP_5, 0.5,
-            LINEUP_4, 0.4);
+            LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build(),
+            LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build());
   }
 
   @Test
   public void limitAndCopyTopLineups_mapKeysGet() {
-    ImmutableMap<Lineup, Double> map =
+    ImmutableMap<Lineup, WeightedDoubleMetric> map =
         limitAndCopyTopLineups(
             ImmutableMap.of(
-                LINEUP_1, 0.1,
-                LINEUP_2, 0.2,
-                LINEUP_3, 0.3,
-                LINEUP_4, 0.4,
-                LINEUP_5, 0.5),
-            5);
+                LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build(),
+                LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+                LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+                LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+                LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build()),
+            SortType.UNWEIGHTED_MEAN_WIN_RATE, 5);
 
-    assertThat(map.get(LINEUP_1)).isEqualTo(0.1);
-    assertThat(map.get(LINEUP_2)).isEqualTo(0.2);
-    assertThat(map.get(LINEUP_3)).isEqualTo(0.3);
-    assertThat(map.get(LINEUP_4)).isEqualTo(0.4);
-    assertThat(map.get(LINEUP_5)).isEqualTo(0.5);
+    assertThat(map.get(LINEUP_1)).isEqualTo(WeightedDoubleMetric.builder().add(0.1).build());
+    assertThat(map.get(LINEUP_2)).isEqualTo(WeightedDoubleMetric.builder().add(0.2).build());
+    assertThat(map.get(LINEUP_3)).isEqualTo(WeightedDoubleMetric.builder().add(0.3).build());
+    assertThat(map.get(LINEUP_4)).isEqualTo(WeightedDoubleMetric.builder().add(0.4).build());
+    assertThat(map.get(LINEUP_5)).isEqualTo(WeightedDoubleMetric.builder().add(0.5).build());
   }
 
   @Test
   public void limitAndCopyTopLineups_copiesKeys() {
-    ImmutableMap<Lineup, Double> map =
+    ImmutableMap<Lineup, WeightedDoubleMetric> map =
         limitAndCopyTopLineups(
             ImmutableMap.of(
-                LINEUP_1, 0.1,
-                LINEUP_2, 0.2,
-                LINEUP_3, 0.3,
-                LINEUP_4, 0.4,
-                LINEUP_5, 0.5),
-            5);
+                LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build(),
+                LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+                LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+                LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+                LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build()),
+            SortType.UNWEIGHTED_MEAN_WIN_RATE, 5);
 
     assertThat(map.keySet().stream().filter(l -> l.equals(LINEUP_1)).collect(onlyElement()))
         .isNotSameInstanceAs(LINEUP_1);
@@ -160,19 +161,20 @@ public class OutputTest {
     assertThat(
         Output.buildOutput(
             ImmutableMap.of(
-                LINEUP_1, 0.1,
-                LINEUP_2, 0.2,
-                LINEUP_3, 0.3,
-                LINEUP_4, 0.4,
-                LINEUP_5, 0.5),
+                LINEUP_1, WeightedDoubleMetric.builder().add(0.1).build(),
+                LINEUP_2, WeightedDoubleMetric.builder().add(0.2).build(),
+                LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build(),
+                LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+                LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build()),
             MATCHUP_MATRIX,
+            SortType.UNWEIGHTED_MEAN_WIN_RATE,
             3))
         .isEqualTo(
             new Output(
                 ImmutableMap.of(
-                    LINEUP_5, 0.5,
-                    LINEUP_4, 0.4,
-                    LINEUP_3, 0.3),
+                    LINEUP_5, WeightedDoubleMetric.builder().add(0.5).build(),
+                    LINEUP_4, WeightedDoubleMetric.builder().add(0.4).build(),
+                    LINEUP_3, WeightedDoubleMetric.builder().add(0.3).build()),
                 ImmutableMap.of("A", 1.0,
                     "B", 0.6,
                     "C", 0.6,

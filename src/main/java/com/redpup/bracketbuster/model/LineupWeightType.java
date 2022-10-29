@@ -5,7 +5,6 @@ import static java.util.stream.Collectors.reducing;
 
 import com.redpup.bracketbuster.util.Constants;
 import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 /**

@@ -2,7 +2,6 @@ package com.redpup.bracketbuster.util;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 /**

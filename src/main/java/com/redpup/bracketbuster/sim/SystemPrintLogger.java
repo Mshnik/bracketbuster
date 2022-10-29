@@ -45,8 +45,7 @@ public final class SystemPrintLogger implements Logger {
 
     System.out.println(">>--------------------");
 
-    System.out.printf("[%s] Best %d lineups:%n", label,
-        runner.topKToReceiveBestAndWorstMatchupAnalysis());
+    System.out.printf("[%s] Best %d lineups:%n", label, runner.topKToPrintLimit());
 
     System.out.printf("Deck1,Deck2,Deck3,WinRate,Best Matchups%sWorstMatchups%sBans %%%n",
         Stream.generate(() -> ",").limit(NUM_BEST_WORST_MATCHUPS * 2).collect(joining()),

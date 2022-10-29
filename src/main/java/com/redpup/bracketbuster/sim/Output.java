@@ -1,7 +1,7 @@
 package com.redpup.bracketbuster.sim;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
-import static java.util.Comparator.comparingDouble;
+import static java.util.Map.Entry.comparingByValue;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -9,10 +9,10 @@ import com.google.common.collect.ImmutableMap;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.util.Pair;
+import com.redpup.bracketbuster.util.WeightedDoubleMetric;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.ToDoubleFunction;
 
 /**
  * Collection of output of a simulation.
@@ -23,10 +23,11 @@ public final class Output {
    * Builds a {@link Output} of the given args.
    */
   public static Output buildOutput(
-      Map<Lineup, Double> lineupsByWinRate, MatchupMatrix matchups, int limit) {
+      Map<Lineup, WeightedDoubleMetric> lineupsByWinRateMetric, MatchupMatrix matchups,
+      SortType sortType, int limit) {
     return new Output(
-        limitAndCopyTopLineups(lineupsByWinRate, limit),
-        computeMetaCompPercentMap(lineupsByWinRate, matchups));
+        limitAndCopyTopLineups(lineupsByWinRateMetric, sortType, limit),
+        computeMetaCompPercentMap(lineupsByWinRateMetric, matchups));
   }
 
   /**
@@ -36,13 +37,12 @@ public final class Output {
    * further mutations to metadata will not mutate this map.
    */
   @VisibleForTesting
-  static ImmutableMap<Lineup, Double> limitAndCopyTopLineups(
-      Map<Lineup, Double> lineupsByWinRate, int limit) {
+  static ImmutableMap<Lineup, WeightedDoubleMetric> limitAndCopyTopLineups(
+      Map<Lineup, WeightedDoubleMetric> lineupsByWinRate, SortType sortType, int limit) {
     return lineupsByWinRate
         .entrySet()
         .stream()
-        .sorted(comparingDouble((ToDoubleFunction<Map.Entry<?, Double>>) Map.Entry::getValue)
-            .reversed())
+        .sorted(comparingByValue(sortType.comparator))
         .limit(limit)
         .collect(toImmutableMap(p -> p.getKey().copy(), Map.Entry::getValue));
   }
@@ -75,12 +75,12 @@ public final class Output {
         .collect(Pair.toImmutableMap());
   }
 
-  public final ImmutableMap<Lineup, Double> topLineups;
+  public final ImmutableMap<Lineup, WeightedDoubleMetric> topLineups;
   public final ImmutableMap<String, Double> metaCompPercent;
 
   @VisibleForTesting
   Output(
-      ImmutableMap<Lineup, Double> topLineups,
+      ImmutableMap<Lineup, WeightedDoubleMetric> topLineups,
       ImmutableMap<String, Double> metaCompPercent) {
     this.topLineups = topLineups;
     this.metaCompPercent = metaCompPercent;

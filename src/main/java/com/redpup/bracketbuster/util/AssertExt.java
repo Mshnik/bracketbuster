@@ -16,12 +16,12 @@ public final class AssertExt {
    */
   @FunctionalInterface
   @VisibleForTesting
-  public static interface ThrowingRunnable<E extends Exception> {
+  public interface ThrowingRunnable<E extends Exception> {
 
     /**
      * Executes this runnable. May throw {@link E}.
      */
-    public void run() throws E;
+    void run() throws E;
   }
 
   /**

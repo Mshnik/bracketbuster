@@ -2,6 +2,7 @@ package com.redpup.bracketbuster.util;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.testing.EqualsTester;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -126,6 +127,22 @@ public final class WeightedDoubleMetricTest {
     assertThat(metric.getWeightedMean()).isWithin(ERROR).of(2.5892857142);
     assertThat(metric.getStdDev()).isWithin(ERROR).of(1.4719601443);
     assertThat(metric.getMedian()).isEqualTo(2.5);
+  }
+
+  @Test
+  public void obeysHashAndEquals() {
+    new EqualsTester()
+        .addEqualityGroup(new WeightedDoubleMetric(0.0, 0.0, 0.0, 0.0),
+            new WeightedDoubleMetric(0.0, 0.0, 0.0, 0.0))
+        .addEqualityGroup(new WeightedDoubleMetric(1.0, 0.0, 0.0, 0.0),
+            new WeightedDoubleMetric(1.0, 0.0, 0.0, 0.0))
+        .addEqualityGroup(new WeightedDoubleMetric(0.0, 1.0, 0.0, 0.0),
+            new WeightedDoubleMetric(0.0, 1.0, 0.0, 0.0))
+        .addEqualityGroup(new WeightedDoubleMetric(0.0, 0.0, 1.0, 0.0),
+            new WeightedDoubleMetric(0.0, 0.0, 1.0, 0.0))
+        .addEqualityGroup(new WeightedDoubleMetric(0.0, 0.0, 0.0, 1.0),
+            new WeightedDoubleMetric(0.0, 0.0, 0.0, 1.0))
+        .testEquals();
   }
 
 }

@@ -3,8 +3,10 @@ package com.redpup.bracketbuster.util;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -18,7 +20,8 @@ public final class WeightedDoubleMetric {
   private final double stdDev;
   private final double median;
 
-  private WeightedDoubleMetric(double unweightedMean, double weightedMean, double stdDev,
+  @VisibleForTesting
+  WeightedDoubleMetric(double unweightedMean, double weightedMean, double stdDev,
       double median) {
     this.unweightedMean = unweightedMean;
     this.weightedMean = weightedMean;
@@ -164,4 +167,33 @@ public final class WeightedDoubleMetric {
     }
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    WeightedDoubleMetric that = (WeightedDoubleMetric) o;
+    return Double.compare(that.unweightedMean, unweightedMean) == 0 &&
+        Double.compare(that.weightedMean, weightedMean) == 0 &&
+        Double.compare(that.stdDev, stdDev) == 0 &&
+        Double.compare(that.median, median) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(unweightedMean, weightedMean, stdDev, median);
+  }
+
+  @Override
+  public String toString() {
+    return "WeightedDoubleMetric{" +
+        "unweightedMean=" + unweightedMean +
+        ", weightedMean=" + weightedMean +
+        ", stdDev=" + stdDev +
+        ", median=" + median +
+        '}';
+  }
 }

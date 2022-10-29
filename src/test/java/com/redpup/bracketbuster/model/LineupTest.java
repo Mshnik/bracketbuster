@@ -162,7 +162,7 @@ public final class LineupTest {
     lineup.metadata()
         .incrementPlayedAgainst(1)
         .incrementPlayedAgainst(1)
-        .incrementBanned(1).applyMatchup(Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 3), 0.2);
+        .incrementBanned(1).applyMatchup(Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 3), 0.2, 1);
 
     assertThat(lineup.resetMetadata()).isEqualTo(Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1));
   }

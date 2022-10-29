@@ -7,7 +7,9 @@ import static java.util.Comparator.comparingDouble;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.redpup.bracketbuster.util.Pair;
+import com.redpup.bracketbuster.util.WeightedDoubleMetric;
 import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -24,6 +26,9 @@ public final class LineupMetadata {
 
   private final int[] playedAgainst;
   private final double[] banned;
+
+  private WeightedDoubleMetric winRateMetric;
+  private WeightedDoubleMetric.Builder winRateMetricBuilder;
 
   private final PriorityQueue<Pair<Lineup, Double>> bestMatchups;
   private final PriorityQueue<Pair<Lineup, Double>> worstMatchups;
@@ -43,6 +48,7 @@ public final class LineupMetadata {
       PriorityQueue<Pair<Lineup, Double>> worstMatchups) {
     this.playedAgainst = playedAgainst;
     this.banned = banned;
+    this.winRateMetricBuilder = WeightedDoubleMetric.builder();
     this.bestMatchups = bestMatchups;
     this.worstMatchups = worstMatchups;
   }
@@ -117,13 +123,19 @@ public final class LineupMetadata {
   }
 
   /**
-   * Applies the given {@code opponent} lineup with computed {@code winRate} to this metadata.
-   * Returns self.
+   * Applies the given {@code opponent} lineup with computed {@code unweightedWinRate} and {@code
+   * weight} to this metadata. Returns self.
    */
   @CanIgnoreReturnValue
-  public LineupMetadata applyMatchup(Lineup opponent, double winRate) {
-    bestMatchups.add(Pair.of(opponent, winRate));
-    worstMatchups.add(Pair.of(opponent, winRate));
+  public LineupMetadata applyMatchup(Lineup opponent, double unweightedWinRate, double weight) {
+    if (winRateMetric != null) {
+      winRateMetric = null;
+    }
+
+    winRateMetricBuilder.add(unweightedWinRate, weight);
+
+    bestMatchups.add(Pair.of(opponent, unweightedWinRate));
+    worstMatchups.add(Pair.of(opponent, unweightedWinRate));
 
     if (bestMatchups.size() > NUM_BEST_WORST_MATCHUPS) {
       bestMatchups.poll();
@@ -136,12 +148,27 @@ public final class LineupMetadata {
   }
 
   /**
+   * Computes the {@link DoubleSummaryStatistics} for this metadata. Should only be called after all
+   * matchups are applied through {@link #applyMatchup(Lineup, double, double)}, as this cleans up
+   * the builder to avoid the memory footprint.
+   */
+  public WeightedDoubleMetric getWinRateMetric() {
+    if (winRateMetric == null) {
+      winRateMetric = winRateMetricBuilder.build();
+      winRateMetricBuilder = null;
+    }
+    return winRateMetric;
+  }
+
+  /**
    * Resets this LineupMetadata, clearing all data. Returns self.
    */
   @CanIgnoreReturnValue
   public LineupMetadata reset() {
     Arrays.fill(playedAgainst, 0);
     Arrays.fill(banned, 0);
+    winRateMetricBuilder = WeightedDoubleMetric.builder();
+    winRateMetric = null;
     bestMatchups.clear();
     worstMatchups.clear();
     return this;

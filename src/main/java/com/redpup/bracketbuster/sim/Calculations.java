@@ -18,12 +18,18 @@ public final class Calculations {
   private Calculations() {
   }
 
-  /** Ways of computing a matchup between players. */
+  /**
+   * Ways of computing a matchup between players.
+   */
   enum CalculationType {
-    /** Players ban the deck against them with overall best odds. */
+    /**
+     * Players ban the deck against them with overall best odds.
+     */
     NAIVE,
-    /** Players ban the deck against them according to nash equilibrium. */
-    NASH;
+    /**
+     * Players ban the deck against them according to nash equilibrium.
+     */
+    NASH
   }
 
   /**

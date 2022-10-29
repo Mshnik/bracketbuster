@@ -2,8 +2,6 @@ package com.redpup.bracketbuster.sim;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNaive;
-import static com.redpup.bracketbuster.sim.Calculations.winRateBestTwoOfThreeOneBanNash;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -12,8 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
-import com.redpup.bracketbuster.sim.Calculations.CalculationType;
-import com.redpup.bracketbuster.util.Pair;
+import com.redpup.bracketbuster.util.WeightedDoubleMetric;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,6 +22,8 @@ import org.mockito.junit.MockitoRule;
 
 @RunWith(JUnit4.class)
 public final class RunnerTest {
+
+  private static final double ERROR = 1.0e-8;
 
   private static final MatchupMessage MATCHUP_MESSAGE_A_A
       = MatchupMessage.newBuilder()
@@ -196,171 +195,36 @@ public final class RunnerTest {
   }
 
   @Test
-  public void computeBestAndWorstMatchups_empty() {
-    runner.computeBestAndWorstMatchups(player, ImmutableList.of());
-
-    assertThat(player.metadata().getBestMatchups()).isEmpty();
-    assertThat(player.metadata().getWorstMatchups()).isEmpty();
-
-    verify(logger, never()).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchups_skipsLineupMissingMatchupData() {
-    runner.computeBestAndWorstMatchups(player, ImmutableList.of(missingMatchupPlayer));
-
-    assertThat(player.metadata().getBestMatchups()).isEmpty();
-    assertThat(player.metadata().getWorstMatchups()).isEmpty();
-
-    verify(logger, never()).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchups_handlesLineup_naive() {
-    runner.toBuilder().setCalculationType(CalculationType.NAIVE).build()
-        .computeBestAndWorstMatchups(player, ImmutableList.of(opponent1));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX))
-        .inOrder();
-
-    verify(logger, times(1)).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchups_handlesManyLineups_naive() {
-    runner.toBuilder().setCalculationType(CalculationType.NAIVE).build()
-        .computeBestAndWorstMatchups(player, ImmutableList.of(opponent1, opponent2, opponent3));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(
-            opponent3, winRateBestTwoOfThreeOneBanNaive(player, opponent3, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNaive(player, opponent2, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(
-            opponent2, winRateBestTwoOfThreeOneBanNaive(player, opponent2, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX),
-            opponent3, winRateBestTwoOfThreeOneBanNaive(player, opponent3, MATRIX))
-        .inOrder();
-
-    verify(logger, times(3)).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchupsWithWinRates_naive() {
-    // WinRates are unused.
-    runner.toBuilder().setCalculationType(CalculationType.NAIVE).build()
-        .computeBestAndWorstMatchupsWithWinRates(player, ImmutableList.of(
-            Pair.of(opponent1, 100.0), Pair.of(opponent2, 200.0), Pair.of(opponent3, 300.0)));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(
-            opponent3, winRateBestTwoOfThreeOneBanNaive(player, opponent3, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNaive(player, opponent2, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(
-            opponent2, winRateBestTwoOfThreeOneBanNaive(player, opponent2, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNaive(player, opponent1, MATRIX),
-            opponent3, winRateBestTwoOfThreeOneBanNaive(player, opponent3, MATRIX))
-        .inOrder();
-
-    verify(logger, times(3)).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchups_handlesLineup_nash() {
-    runner.toBuilder().setCalculationType(CalculationType.NASH).build()
-        .computeBestAndWorstMatchups(player, ImmutableList.of(opponent1));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX))
-        .inOrder();
-
-    verify(logger, times(1)).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchups_handlesManyLineups_nash() {
-    runner.toBuilder().setCalculationType(CalculationType.NASH).build()
-        .computeBestAndWorstMatchups(player, ImmutableList.of(opponent1, opponent2, opponent3));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(
-            opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNash(player, opponent2, MATRIX),
-            opponent3, winRateBestTwoOfThreeOneBanNash(player, opponent3, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(
-            opponent3, winRateBestTwoOfThreeOneBanNash(player, opponent3, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNash(player, opponent2, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX))
-        .inOrder();
-
-    verify(logger, times(3)).handleMatchup();
-  }
-
-  @Test
-  public void computeBestAndWorstMatchupsWithWinRates_nash() {
-    // WinRates are unused.
-    runner.toBuilder().setCalculationType(CalculationType.NASH).build()
-        .computeBestAndWorstMatchupsWithWinRates(player, ImmutableList.of(
-            Pair.of(opponent1, 100.0), Pair.of(opponent2, 200.0), Pair.of(opponent3, 300.0)));
-
-    assertThat(player.metadata().getBestMatchups())
-        .containsExactly(
-            opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNash(player, opponent2, MATRIX),
-            opponent3, winRateBestTwoOfThreeOneBanNash(player, opponent3, MATRIX))
-        .inOrder();
-    assertThat(player.metadata().getWorstMatchups())
-        .containsExactly(
-            opponent3, winRateBestTwoOfThreeOneBanNash(player, opponent3, MATRIX),
-            opponent2, winRateBestTwoOfThreeOneBanNash(player, opponent2, MATRIX),
-            opponent1, winRateBestTwoOfThreeOneBanNash(player, opponent1, MATRIX))
-        .inOrder();
-
-    verify(logger, times(3)).handleMatchup();
-  }
-
-  @Test
-  public void computeWinRate() {
-    assertThat(
-        runner.computeTotalWinRate(player, ImmutableList.of(opponent1, opponent2, opponent3)))
-        .isEqualTo(
-            (runner.computeMatchupWinRate(player, opponent1)
-                + runner.computeMatchupWinRate(player, opponent2)
-                + runner.computeMatchupWinRate(player, opponent3)) / 3);
-  }
-
-  @Test
-  public void computeWinRate_noMatchups() {
-    assertThat(runner.computeTotalWinRate(player, ImmutableList.of())).isEqualTo(0.0);
-  }
-
-  @Test
   public void computeWeightedWinRate() {
-    assertThat(
-        runner.computeTotalWeightedWinRate(player, ImmutableMap.of(opponent1,
-            0.1, opponent2, 0.2, opponent3, 0.3)))
-        .isWithin(0.000000001).of(
-        (runner.computeMatchupWinRate(player, opponent1) * 0.1
-            + runner.computeMatchupWinRate(player, opponent2) * 0.2
-            + runner.computeMatchupWinRate(player, opponent3) * 0.3) / 0.6);
-  }
+    WeightedDoubleMetric weightedDoubleMetric
+        = runner.computeTotalWinRate(player, ImmutableMap.of(opponent1,
+        0.1, opponent2, 0.2, opponent3, 0.3, missingMatchupPlayer, 0.4));
 
-  @Test
-  public void computeWeightedWinRate_noMatchups() {
-    assertThat(runner.computeTotalWeightedWinRate(player, ImmutableMap.of())).isEqualTo(0.0);
+    verify(logger, times(3)).handleMatchup();
+
+    double winRate1 = runner.computeMatchupWinRate(player, opponent1);
+    double winRate2 = runner.computeMatchupWinRate(player, opponent2);
+    double winRate3 = runner.computeMatchupWinRate(player, opponent3);
+
+    assertThat(weightedDoubleMetric.getWeightedMean())
+        .isWithin(ERROR).of((winRate1 * 0.1 + winRate2 * 0.2 + winRate3 * 0.3) / 0.6);
+    assertThat(weightedDoubleMetric.getUnweightedMean())
+        .isWithin(ERROR).of((winRate1 + winRate2 + winRate3) / 3.0);
+    assertThat(weightedDoubleMetric.getMedian())
+        .isEqualTo(runner.computeMatchupWinRate(player, opponent1));
+
+    assertThat(player.metadata().getBestMatchups())
+        .containsExactly(
+            opponent3, winRate3,
+            opponent1, winRate1,
+            opponent2, winRate2)
+        .inOrder();
+    assertThat(player.metadata().getWorstMatchups())
+        .containsExactly(
+            opponent2, winRate2,
+            opponent1, winRate1,
+            opponent3, winRate3)
+        .inOrder();
+
   }
 }

@@ -163,7 +163,7 @@ public class LineupMetadataTest {
   @Test
   public void incrementBanned_applyMatchup_addsToBestAndWorst() {
     LineupMetadata metadata = new LineupMetadata(5);
-    metadata.applyMatchup(LINEUP_1, 0.5);
+    metadata.applyMatchup(LINEUP_1, 0.5, 1);
 
     assertThat(metadata.getBestMatchups()).containsExactly(LINEUP_1, 0.5).inOrder();
     assertThat(metadata.getWorstMatchups()).containsExactly(LINEUP_1, 0.5).inOrder();
@@ -172,8 +172,8 @@ public class LineupMetadataTest {
   @Test
   public void incrementBanned_applyMatchup_addsToBestAndWorst_inOrder() {
     LineupMetadata metadata = new LineupMetadata(5);
-    metadata.applyMatchup(LINEUP_1, 0.5);
-    metadata.applyMatchup(LINEUP_2, 0.2);
+    metadata.applyMatchup(LINEUP_1, 0.5, 1);
+    metadata.applyMatchup(LINEUP_2, 0.2, 1);
 
     assertThat(metadata.getBestMatchups()).containsExactly(LINEUP_1, 0.5, LINEUP_2, 0.2).inOrder();
     assertThat(metadata.getWorstMatchups()).containsExactly(LINEUP_2, 0.2, LINEUP_1, 0.5).inOrder();
@@ -182,12 +182,12 @@ public class LineupMetadataTest {
   @Test
   public void incrementBanned_applyMatchup_addsToBestAndWorst_evictsAsNecessary() {
     LineupMetadata metadata = new LineupMetadata(5);
-    metadata.applyMatchup(LINEUP_1, 0.1);
-    metadata.applyMatchup(LINEUP_2, 0.2);
-    metadata.applyMatchup(LINEUP_3, 0.3);
-    metadata.applyMatchup(LINEUP_4, 0.4);
-    metadata.applyMatchup(LINEUP_5, 0.5);
-    metadata.applyMatchup(LINEUP_6, 0.6);
+    metadata.applyMatchup(LINEUP_1, 0.1, 1);
+    metadata.applyMatchup(LINEUP_2, 0.2, 1);
+    metadata.applyMatchup(LINEUP_3, 0.3, 1);
+    metadata.applyMatchup(LINEUP_4, 0.4, 1);
+    metadata.applyMatchup(LINEUP_5, 0.5, 1);
+    metadata.applyMatchup(LINEUP_6, 0.6, 1);
 
     assertThat(metadata.getBestMatchups())
         .containsExactly(
@@ -216,12 +216,12 @@ public class LineupMetadataTest {
             new LineupMetadata(5).incrementPlayedAgainst(1))
         .addEqualityGroup(new LineupMetadata(5).incrementBanned(1),
             new LineupMetadata(5).incrementBanned(1))
-        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1),
-            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1))
-        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5),
-            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5))
-        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1),
-            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1, 1),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.1, 1))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5, 1),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_1, 0.5, 1))
+        .addEqualityGroup(new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1, 1),
+            new LineupMetadata(5).incrementBanned(1).applyMatchup(LINEUP_2, 0.1, 1))
         .testEquals();
   }
 
@@ -230,7 +230,7 @@ public class LineupMetadataTest {
     LineupMetadata metadata = new LineupMetadata(2)
         .incrementPlayedAgainst(1)
         .incrementPlayedAgainst(1)
-        .incrementBanned(1).applyMatchup(LINEUP_1, 0.2);
+        .incrementBanned(1).applyMatchup(LINEUP_1, 0.2, 1);
 
     assertThat(metadata.reset()).isEqualTo(new LineupMetadata(2));
   }

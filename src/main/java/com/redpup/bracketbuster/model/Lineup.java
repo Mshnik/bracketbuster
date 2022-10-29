@@ -52,7 +52,9 @@ public final class Lineup {
     return metadata;
   }
 
-  /** Reset this' metadata. Returns self. */
+  /**
+   * Reset this' metadata. Returns self.
+   */
   @CanIgnoreReturnValue
   public Lineup resetMetadata() {
     metadata.reset();
