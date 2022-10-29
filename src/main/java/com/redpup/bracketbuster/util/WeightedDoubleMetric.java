@@ -80,6 +80,8 @@ public final class WeightedDoubleMetric {
     private final Queue<Double> maxHeap;
 
     private Builder() {
+      // TODO: These could be optimized to be primitive double PriorityQueues,
+      // since right now we are autoboxing every element that goes in.
       minHeap = new PriorityQueue<>();
       maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
     }
