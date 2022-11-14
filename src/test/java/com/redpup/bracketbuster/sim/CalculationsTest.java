@@ -4,6 +4,8 @@ package com.redpup.bracketbuster.sim;
 import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
@@ -313,7 +315,7 @@ public final class CalculationsTest {
   @Test
   public void winRateBestTwoOfThreeOneBan_naive() {
     MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_1,
+        ImmutableList.of(MATCHUP_MESSAGE_A_1,
         MATCHUP_MESSAGE_A_2,
         MATCHUP_MESSAGE_A_3,
         MATCHUP_MESSAGE_B_1,
@@ -321,7 +323,9 @@ public final class CalculationsTest {
         MATCHUP_MESSAGE_B_3,
         MATCHUP_MESSAGE_C_1,
         MATCHUP_MESSAGE_C_2,
-        MATCHUP_MESSAGE_C_3);
+        MATCHUP_MESSAGE_C_3),
+        ImmutableList.of(), ImmutableMap.of()
+        );
 
     Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
     Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");
@@ -340,7 +344,7 @@ public final class CalculationsTest {
   @Test
   public void winRateBestTwoOfThreeOneBan_nash() {
     MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_1,
+        ImmutableList.of(MATCHUP_MESSAGE_A_1,
         MATCHUP_MESSAGE_A_2,
         MATCHUP_MESSAGE_A_3,
         MATCHUP_MESSAGE_B_1,
@@ -348,7 +352,10 @@ public final class CalculationsTest {
         MATCHUP_MESSAGE_B_3,
         MATCHUP_MESSAGE_C_1,
         MATCHUP_MESSAGE_C_2,
-        MATCHUP_MESSAGE_C_3);
+        MATCHUP_MESSAGE_C_3)
+        ,
+        ImmutableList.of(), ImmutableMap.of()
+    );
 
     Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
     Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");
@@ -368,7 +375,7 @@ public final class CalculationsTest {
   @Test
   public void winRateBestTwoOfThreeOneBan_nash_alwaysBanOneDeck() {
     MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_1_LOSE,
+        ImmutableList.of(MATCHUP_MESSAGE_A_1_LOSE,
         MATCHUP_MESSAGE_A_2,
         MATCHUP_MESSAGE_A_3,
         MATCHUP_MESSAGE_B_1_LOSE,
@@ -376,7 +383,8 @@ public final class CalculationsTest {
         MATCHUP_MESSAGE_B_3,
         MATCHUP_MESSAGE_C_1_LOSE,
         MATCHUP_MESSAGE_C_2,
-        MATCHUP_MESSAGE_C_3);
+        MATCHUP_MESSAGE_C_3),
+        ImmutableList.of(), ImmutableMap.of());
 
     Lineup player = Lineup.ofDeckNames(matrix, "A", "B", "C");
     Lineup opponent = Lineup.ofDeckNames(matrix, "1", "2", "3");

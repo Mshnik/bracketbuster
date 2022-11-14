@@ -3,6 +3,8 @@ package com.redpup.bracketbuster.model;
 import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.EqualsTester;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import org.junit.Test;
@@ -78,15 +80,17 @@ public final class LineupTest {
 
   private static final MatchupMatrix MATCHUP_MATRIX
       = MatchupMatrix.from(
-      MATCHUP_MESSAGE_A_A,
-      MATCHUP_MESSAGE_A_B,
-      MATCHUP_MESSAGE_A_C,
-      MATCHUP_MESSAGE_A_D,
-      MATCHUP_MESSAGE_B_A,
-      MATCHUP_MESSAGE_C_A,
-      MATCHUP_MESSAGE_D_A,
-      MATCHUP_MESSAGE_ZAA_B,
-      MATCHUP_MESSAGE_ZAB_B);
+      ImmutableList.of(MATCHUP_MESSAGE_A_A,
+          MATCHUP_MESSAGE_A_B,
+          MATCHUP_MESSAGE_A_C,
+          MATCHUP_MESSAGE_A_D,
+          MATCHUP_MESSAGE_B_A,
+          MATCHUP_MESSAGE_C_A,
+          MATCHUP_MESSAGE_D_A,
+          MATCHUP_MESSAGE_ZAA_B,
+          MATCHUP_MESSAGE_ZAB_B),
+      ImmutableList.of("A (IO/NX)"),
+      ImmutableMap.of("Z/A/B (IO/FJ)", 0.5));
 
 
   @Test

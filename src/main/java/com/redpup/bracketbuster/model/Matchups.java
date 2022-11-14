@@ -87,6 +87,8 @@ public final class Matchups {
         .map(Matchups::populateWinRate)
         .forEach(builder::addMatchups);
 
+    // TODO: Add player and opponent*winRate to builder here once we have the new file format.
+
     return builder.build();
   }
 

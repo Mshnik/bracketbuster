@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.sim.Output.computeMetaCompPercentMap;
 import static com.redpup.bracketbuster.sim.Output.limitAndCopyTopLineups;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
@@ -54,12 +55,9 @@ public class OutputTest {
       .build();
 
   private static final MatchupMatrix MATCHUP_MATRIX =
-      MatchupMatrix.from(
-          MATCHUP_MESSAGE_A_A,
-          MATCHUP_MESSAGE_A_B,
-          MATCHUP_MESSAGE_A_C,
-          MATCHUP_MESSAGE_A_D,
-          MATCHUP_MESSAGE_A_E);
+      MatchupMatrix.from(ImmutableList.copyOf(
+          new MatchupMessage[]{MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_A_C,
+              MATCHUP_MESSAGE_A_D, MATCHUP_MESSAGE_A_E}), ImmutableList.of(), ImmutableMap.of());
 
   private static final Lineup LINEUP_1 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 2);
   private static final Lineup LINEUP_2 = Lineup.ofDeckIndices(MATCHUP_MATRIX, 0, 1, 3);

@@ -23,8 +23,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Top level executable runner class for running the bracketbuster.
@@ -44,7 +46,7 @@ public abstract class Runner {
     builder()
         .setCalculationType(CalculationType.NASH)
         .setMatchupMatrixFromFile(matchupsFilePath)
-        .setPruneRatios(ImmutableList.of(0.7, 0.5, 0.2, 0.1, 0.001, 0.0))
+        .setPruneRatios(ImmutableList.of(0.0))
         .build()
         .run();
   }
@@ -71,17 +73,17 @@ public abstract class Runner {
   abstract MatchupMatrix matchupMatrix();
 
   /**
-   * All valid lineups within {@link #matchupMatrix()}.
+   * All valid player lineups within {@link #matchupMatrix()}.
    */
-  final List<Lineup> allLineups() {
-    return matchupMatrix().createAllValidLineups();
+  final List<Lineup> allPlayerLineups() {
+    return matchupMatrix().createAllValidPlayerLineups();
   }
 
   /**
-   * All valid lineups within {@link #matchupMatrix()} weighted by lineup play rate.
+   * All valid opponent lineups within {@link #matchupMatrix()} weighted by lineup play rate.
    */
-  final Map<Lineup, Double> weightedLineups() {
-    return matchupMatrix().createWeightedValidLineups(lineupWeightType());
+  final Map<Lineup, Double> allWeightedOpponentLineups() {
+    return matchupMatrix().createWeightedValidOpponentLineups(lineupWeightType());
   }
 
   /**
@@ -196,22 +198,25 @@ public abstract class Runner {
   }
 
   /**
-   * Computes the top {@link Lineup}s against every possible lineup. Output is streamed into {@link
-   * #logger()}.
+   * Computes the top player {@link Lineup}s against every possible opponent lineup. Output is
+   * streamed into {@link #logger()}.
    */
   @VisibleForTesting
   void computeTopLineupsAgainstEveryone() {
-    final Map<Lineup, Double> lineups = new HashMap<>(weightedLineups());
-    int originalSize = lineups.size();
-    logger().log(String.format("Created %d lineups.", originalSize));
+    final Set<Lineup> playerLineups = new HashSet<>(allPlayerLineups());
+    final Map<Lineup, Double> opponentLineups = new HashMap<>(allWeightedOpponentLineups());
+    logger().log(String
+        .format("Created %d player lineups and %d opponent lineups.", playerLineups.size(),
+            opponentLineups.size()));
 
+    int originalSize = playerLineups.size();
     for (int i = 0; i < pruneRatios().size(); i++) {
       logger().setIteration(i);
       // Order all lineups by winrate against the current set of lineups.
       logger().setCurrentStep("Computing Lineup Win Rates");
       ImmutableList<Pair<Lineup, WeightedDoubleMetric>> playersByWinRateMetric =
-          lineups.keySet().stream()
-              .map(p -> Pair.of(p, computeTotalWinRate(p, lineups)))
+          playerLineups.stream()
+              .map(p -> Pair.of(p, computeTotalWinRate(p, opponentLineups)))
               .sorted(Comparator.comparing(Pair::second, sortType().comparator))
               .collect(toImmutableList());
 
@@ -227,7 +232,10 @@ public abstract class Runner {
 
       // Prune lineups for next iteration, if there is a next iteration.
       if (i < pruneRatios().size() - 1) {
-        lineups.keySet().retainAll(
+        // TODO: This is sorta broken now that player and opponent lineups are separated,
+        // as opponent lineups are no longer pruned here. This is ok as we are no longer using
+        // the prune functionality, but if we do this will have to be fixed.
+        playerLineups.retainAll(
             playersByWinRateMetric.stream()
                 .limit((long) (originalSize * pruneRatio(i)))
                 .map(Pair::first)

@@ -3,6 +3,9 @@ package com.redpup.bracketbuster.model;
 import static com.google.common.truth.Truth.assertThat;
 import static com.redpup.bracketbuster.util.AssertExt.assertThrows;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.truth.Correspondence;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +13,8 @@ import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public class MatchupMatrixTest {
+
+  private static final double ERROR = 1.0e-8;
 
   private static final MatchupMessage MATCHUP_MESSAGE_A_A
       = MatchupMessage.newBuilder()
@@ -74,24 +79,29 @@ public class MatchupMatrixTest {
   private static final MatchupMessage MATCHUP_MESSAGE_B_A_WITH_WIN_RATE =
       Matchups.populateWinRate(MATCHUP_MESSAGE_B_A);
 
+  private static final String A_B_1_2 = "A/B (1/2)";
+  private static final String C_D_3_4 = "C/D (3/4)";
+  private static final String E_F_5_6 = "E/F (5/6)";
+  private static final String G_H_7_8 = "G/H (7/8)";
+
   private static final MatchupMessage MATCHUP_MESSAGE_AB12_AB12
       = MatchupMessage.newBuilder()
-      .setPlayer("A/B (1/2)")
-      .setOpponent("A/B (1/2)")
+      .setPlayer(A_B_1_2)
+      .setOpponent(A_B_1_2)
       .setWins(4)
       .setGames(8)
       .build();
   private static final MatchupMessage MATCHUP_MESSAGE_AB12_CD34
       = MatchupMessage.newBuilder()
-      .setPlayer("A/B (1/2)")
-      .setOpponent("C/D (3/4)")
+      .setPlayer(A_B_1_2)
+      .setOpponent(C_D_3_4)
       .setWins(2)
       .setGames(6)
       .build();
   private static final MatchupMessage MATCHUP_MESSAGE_EF56_GH78
       = MatchupMessage.newBuilder()
-      .setPlayer("E/F (5/6)")
-      .setOpponent("G/H (7/8)")
+      .setPlayer(E_F_5_6)
+      .setOpponent(G_H_7_8)
       .setWins(3)
       .setGames(6)
       .build();
@@ -100,82 +110,52 @@ public class MatchupMatrixTest {
   @Test
   public void invalidConstruction_invalidSymmetry() {
     assertThrows(IllegalArgumentException.class,
-        () -> MatchupMatrix.from(
-            MATCHUP_MESSAGE_A_A,
-            MATCHUP_MESSAGE_A_B,
-            MATCHUP_MESSAGE_B_A_BAD_SYMMETRY));
+        () -> MatchupMatrix.from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B,
+            MATCHUP_MESSAGE_B_A_BAD_SYMMETRY), ImmutableList.of("A", "B"),
+            ImmutableMap.of("A", 0.5)));
   }
 
   @Test
   public void getNumDecks_returnsValue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getNumDecks()).isEqualTo(2);
   }
 
   @Test
   public void getTotalGames_hasSymmetry_returnsValue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A,
+            MATCHUP_MESSAGE_B_B), ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
-    assertThat(matrix.getTotalGames()).isEqualTo(12);
+    assertThat(matrix.getNumDecks()).isEqualTo(2);
   }
 
   @Test
   public void getTotalGames_missingSymmetry_returnsValue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_B);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_B),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
-    assertThat(matrix.getTotalGames()).isEqualTo(12);
-  }
-
-  @Test
-  public void getPlayRate_hasSymmetry_returnsValue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
-
-    assertThat(matrix.getPlayRate("A")).isEqualTo(7);
-    assertThat(matrix.getPlayRate("B")).isEqualTo(5);
-  }
-
-  @Test
-  public void getPlayRate_missingSymmetry_returnsValue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_B);
-
-    assertThat(matrix.getPlayRate("A")).isEqualTo(7);
-    assertThat(matrix.getPlayRate("B")).isEqualTo(5);
+    assertThat(matrix.getMatchup("B", "A")).isEqualTo(MATCHUP_MESSAGE_B_A_WITH_WIN_RATE);
   }
 
   @Test
   public void getHeaders_returnsValues() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getHeaders()).containsExactly("A", "B").inOrder();
   }
 
   @Test
   public void hasMatchup_returnsCheck() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.hasMatchup("A", "B"))
         .isTrue();
@@ -189,10 +169,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getMatchup_returnsValueOrNull() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getMatchup("A", "B"))
         .isEqualTo(MATCHUP_MESSAGE_A_B_WITH_WIN_RATE);
@@ -206,9 +185,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getMatchup_inverseIsPopulated() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getMatchup("A", "B"))
         .isEqualTo(MATCHUP_MESSAGE_A_B_WITH_WIN_RATE);
@@ -220,10 +199,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getMatchup_oobThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getMatchup(-1, 1));
@@ -237,10 +215,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getMatchup_unknownNameThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getMatchup("A", "C"));
@@ -250,10 +227,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getHeaderIndex() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getHeaderIndex("A")).isEqualTo(0);
     assertThat(matrix.getHeaderIndex("B")).isEqualTo(1);
@@ -261,10 +237,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getHeaderIndex_unknownThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getHeaderIndex("C"));
@@ -272,10 +247,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void getHeaderName() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.getHeaderName(0)).isEqualTo("A");
     assertThat(matrix.getHeaderName(1)).isEqualTo("B");
@@ -283,80 +257,59 @@ public class MatchupMatrixTest {
 
   @Test
   public void getHeaderName_unknownThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThrows(IllegalArgumentException.class,
         () -> matrix.getHeaderName(-1));
   }
 
   @Test
-  public void getHeaderWeight_byIndex() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
+  public void getHeaderWeight_returnsValue() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A,
+            MATCHUP_MESSAGE_B_B), ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
-    assertThat(matrix.getHeaderWeight(0)).isEqualTo(7.0 / 12.0);
-    assertThat(matrix.getHeaderWeight(1)).isEqualTo(5.0 / 12.0);
+    assertThat(matrix.getHeaderWeight("A")).isEqualTo(0.5);
   }
 
   @Test
-  public void getHeaderWeight_byIndex_unknownThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
+  public void getHeaderWeight_returnsZeroForNonOpponent() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A,
+            MATCHUP_MESSAGE_B_B), ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> matrix.getHeaderWeight(-1));
-  }
-
-
-  @Test
-  public void getHeaderWeight_byName() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
-
-    assertThat(matrix.getHeaderWeight("A")).isEqualTo(7.0 / 12.0);
-    assertThat(matrix.getHeaderWeight("B")).isEqualTo(5.0 / 12.0);
+    assertThat(matrix.getHeaderWeight("B")).isEqualTo(0.0);
   }
 
   @Test
-  public void getHeaderWeight_byName_unknownThrows() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_B_B);
+  public void getHeaderWeight_unknownThrows() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A,
+            MATCHUP_MESSAGE_B_B), ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
-    assertThrows(IllegalArgumentException.class,
-        () -> matrix.getHeaderWeight("C"));
-  }
-
-
-  @Test
-  public void createAllValidLineups_notEnoughDecks() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_AB12_CD34);
-
-    assertThat(matrix.createAllValidLineups()).isEmpty();
+    assertThrows(IllegalArgumentException.class, () -> matrix.getHeaderWeight("C"));
   }
 
   @Test
-  public void createAllValidLineups_withLineups() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_AB12_CD34,
-        MATCHUP_MESSAGE_EF56_GH78);
+  public void createAllValidPlayerLineups_notEnoughDecks() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78),
+            ImmutableList.of(A_B_1_2), ImmutableMap.of());
 
-    assertThat(matrix.createAllValidLineups())
+    assertThat(matrix.createAllValidPlayerLineups()).isEmpty();
+  }
+
+  @Test
+  public void createAllValidPlayerLineups_withLineups() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78),
+            ImmutableList.of(A_B_1_2, C_D_3_4, E_F_5_6, G_H_7_8), ImmutableMap.of("A", 0.5));
+
+    assertThat(matrix.createAllValidPlayerLineups())
         .containsExactly(
             Lineup.ofDeckIndices(matrix, 0, 1, 2),
             Lineup.ofDeckIndices(matrix, 0, 1, 3),
@@ -365,45 +318,69 @@ public class MatchupMatrixTest {
   }
 
   @Test
-  public void createWeightedValidLineups_withLineups_averageWeighting() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_AB12_AB12,
-        MATCHUP_MESSAGE_AB12_CD34,
-        MATCHUP_MESSAGE_EF56_GH78);
+  public void createAllValidOpponentLineups_notEnoughDecks() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78),
+            ImmutableList.of(), ImmutableMap.of(A_B_1_2, 0.5));
 
-    assertThat(matrix.createWeightedValidLineups(LineupWeightType.AVERAGE))
+    assertThat(matrix.createAllValidOpponentLineups()).isEmpty();
+  }
+
+  @Test
+  public void createAllValidOpponentLineups_withLineups() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78),
+            ImmutableList.of(),
+            ImmutableMap.of(A_B_1_2, 0.1, C_D_3_4, 0.2, E_F_5_6, 0.3, G_H_7_8, 0.5));
+
+    assertThat(matrix.createAllValidOpponentLineups())
         .containsExactly(
-            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.2708333333333333,
-            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.2708333333333333,
-            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.2708333333333333,
-            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.1875);
+            Lineup.ofDeckIndices(matrix, 0, 1, 2),
+            Lineup.ofDeckIndices(matrix, 0, 1, 3),
+            Lineup.ofDeckIndices(matrix, 0, 2, 3),
+            Lineup.ofDeckIndices(matrix, 1, 2, 3));
+  }
+
+  @Test
+  public void createWeightedValidOpponentLineups_withLineups_averageWeighting() {
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78), ImmutableList.of(),
+            ImmutableMap.of(A_B_1_2, 0.1, C_D_3_4, 0.2, E_F_5_6, 0.3, G_H_7_8, 0.5));
+
+    assertThat(matrix.createWeightedValidOpponentLineups(LineupWeightType.AVERAGE))
+        .comparingValuesUsing(Correspondence.tolerance(ERROR))
+        .containsExactly(
+            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.2,
+            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.26666666666,
+            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.3,
+            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.3333333333);
   }
 
   @Test
   public void createWeightedValidLineups_withLineups_geometricWeighting() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_AB12_AB12,
-        MATCHUP_MESSAGE_AB12_CD34,
-        MATCHUP_MESSAGE_EF56_GH78);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_AB12_AB12, MATCHUP_MESSAGE_AB12_CD34,
+            MATCHUP_MESSAGE_EF56_GH78), ImmutableList.of(),
+            ImmutableMap.of(A_B_1_2, 0.1, C_D_3_4, 0.2, E_F_5_6, 0.3, G_H_7_8, 0.5));
 
-    assertThat(matrix.createWeightedValidLineups(LineupWeightType.GEOMETRIC))
+    assertThat(matrix.createWeightedValidOpponentLineups(LineupWeightType.GEOMETRIC))
+        .comparingValuesUsing(Correspondence.tolerance(ERROR))
         .containsExactly(
-            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.2486910754935245,
-            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.2486910754935245,
-            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.2486910754935245,
-            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.18750000000000003);
+            Lineup.ofDeckIndices(matrix, 0, 1, 2), 0.1817120592,
+            Lineup.ofDeckIndices(matrix, 0, 1, 3), 0.2154434690,
+            Lineup.ofDeckIndices(matrix, 0, 2, 3), 0.2466212074,
+            Lineup.ofDeckIndices(matrix, 1, 2, 3), 0.3107232505);
   }
 
   @Test
   public void canPlay_returnsTrue() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_B_B,
-        MATCHUP_MESSAGE_C_C,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_A_C,
-        MATCHUP_MESSAGE_B_C);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_B_B, MATCHUP_MESSAGE_C_C,
+            MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A, MATCHUP_MESSAGE_A_C, MATCHUP_MESSAGE_B_C),
+            ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.canPlay(
         Lineup.ofDeckNames(matrix, "A", "B", "C"),
@@ -413,11 +390,9 @@ public class MatchupMatrixTest {
 
   @Test
   public void canPlay_returnsFalse() {
-    MatchupMatrix matrix = MatchupMatrix.from(
-        MATCHUP_MESSAGE_A_A,
-        MATCHUP_MESSAGE_A_B,
-        MATCHUP_MESSAGE_B_A,
-        MATCHUP_MESSAGE_A_C);
+    MatchupMatrix matrix = MatchupMatrix
+        .from(ImmutableList.of(MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_A_B, MATCHUP_MESSAGE_B_A,
+            MATCHUP_MESSAGE_A_C), ImmutableList.of("A", "B"), ImmutableMap.of("A", 0.5));
 
     assertThat(matrix.canPlay(
         Lineup.ofDeckNames(matrix, "A", "B", "C"),

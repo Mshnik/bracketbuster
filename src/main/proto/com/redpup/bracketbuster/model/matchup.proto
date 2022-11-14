@@ -23,5 +23,10 @@ message MatchupMessage {
 // A list of matchups.
 // Next ID: 2.
 message MatchupList {
+  // A matrix of matchups.
   repeated MatchupMessage matchups = 1;
+  // Decks that can be included as a player.
+  repeated string players = 2;
+  // Decks that can be included as an opponent, mapped to their play frequency.
+  map<string, double> opponent = 3;
 }

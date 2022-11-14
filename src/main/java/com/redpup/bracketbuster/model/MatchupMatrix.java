@@ -7,16 +7,15 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import com.redpup.bracketbuster.util.Pair;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -29,22 +28,25 @@ public final class MatchupMatrix {
    * Returns a new {@link MatchupMatrix} from the given {@code list}.
    */
   public static MatchupMatrix fromProto(MatchupList list) {
-    return new MatchupMatrix(list.getMatchupsList());
+    return new MatchupMatrix(list.getMatchupsList(), list.getPlayersList(), list.getOpponentMap());
   }
 
   /**
    * Returns a new {@link MatchupMatrix} from the given {@code matchups}.
    */
-  public static MatchupMatrix from(MatchupMessage... matchups) {
-    return new MatchupMatrix(Arrays.asList(matchups));
+  public static MatchupMatrix from(Collection<MatchupMessage> matchups, Collection<String> players,
+      Map<String, Double> opponentsWithPlayRates) {
+    return new MatchupMatrix(matchups, players, opponentsWithPlayRates);
   }
 
   private final ImmutableBiMap<String, Integer> headers;
-  private final int totalGames;
-  private final ImmutableMap<String, Integer> playRate;
+
+  private final ImmutableSet<String> playerHeaders;
+  private final ImmutableMap<String, Double> opponentHeadersAndPlayRates;
   private final MatchupMessage[][] matchups;
 
-  private MatchupMatrix(List<MatchupMessage> matchupsList) {
+  private MatchupMatrix(Collection<MatchupMessage> matchupsList, Collection<String> playerHeaders,
+      Map<String, Double> opponentHeadersWithPlayRates) {
     headers =
         Streams.mapWithIndex(
             Stream.concat(
@@ -53,11 +55,12 @@ public final class MatchupMatrix {
                 .distinct()
                 .sorted(),
             Pair::of).collect(toImmutableBiMap(Pair::first, p -> p.second().intValue()));
+    this.playerHeaders = ImmutableSet.copyOf(playerHeaders);
+    this.opponentHeadersAndPlayRates = ImmutableMap.copyOf(opponentHeadersWithPlayRates);
 
     Map<String, Integer> playRate = new HashMap<>();
     headers.keySet().forEach(header -> playRate.put(header, 0));
 
-    int totalGames = 0;
     matchups = new MatchupMessage[headers.size()][headers.size()];
 
     for (MatchupMessage message : matchupsList) {
@@ -71,7 +74,6 @@ public final class MatchupMatrix {
 
       if (matchups[row][col] == null) {
         matchups[row][col] = messageWithWinRate;
-        totalGames += message.getGames();
         playRate.compute(message.getPlayer(), (key, value) -> value + message.getGames());
       } else {
         checkArgument(matchups[row][col].equals(messageWithWinRate),
@@ -89,7 +91,6 @@ public final class MatchupMatrix {
 
         if (matchups[col][row] == null) {
           matchups[col][row] = inverseMessageWithWinRate;
-          totalGames += message.getGames();
           playRate.compute(message.getOpponent(), (key, value) -> value + message.getGames());
         } else {
           checkArgument(matchups[col][row].equals(inverseMessageWithWinRate),
@@ -99,9 +100,6 @@ public final class MatchupMatrix {
         }
       }
     }
-
-    this.totalGames = totalGames;
-    this.playRate = ImmutableMap.copyOf(playRate);
   }
 
   /**
@@ -109,21 +107,6 @@ public final class MatchupMatrix {
    */
   public int getNumDecks() {
     return headers.size();
-  }
-
-  /**
-   * Returns the total number of games played by all {@link #matchups}. This specifically double
-   * counts games so it can be counted with each participating deck as the "player".
-   */
-  int getTotalGames() {
-    return totalGames;
-  }
-
-  /**
-   * Returns the number of games the given {@code headerName} plays in as a player (not opponent).
-   */
-  int getPlayRate(String headerName) {
-    return playRate.get(headerName);
   }
 
   /**
@@ -158,17 +141,7 @@ public final class MatchupMatrix {
   public double getHeaderWeight(String headerName) {
     checkArgument(headers.containsKey(headerName), "Name %s not found: %s", headerName,
         headers);
-    return (double) getPlayRate(headerName) / totalGames;
-  }
-
-  /**
-   * Returns the weight of {@code headerIndex} as the number of games using this header over the
-   * total number of games.
-   */
-  public double getHeaderWeight(int headerIndex) {
-    checkArgument(headers.inverse().containsKey(headerIndex), "Index %s not found: %s", headerIndex,
-        headers.inverse());
-    return getHeaderWeight(headers.inverse().get(headerIndex));
+    return opponentHeadersAndPlayRates.getOrDefault(headerName, 0.0);
   }
 
   /**
@@ -217,15 +190,36 @@ public final class MatchupMatrix {
   }
 
   /**
-   * Builds and returns a list of all valid {@link Lineup}s that can be build from this matchup
-   * data. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
+   * Builds and returns a list of all valid {@link Lineup}s that can be build from this matchup data
+   * for a player. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
    */
-  public ImmutableList<Lineup> createAllValidLineups() {
-    return IntStream.range(0, headers.size()).boxed()
-        .flatMap(deck1 -> IntStream.range(deck1 + 1, headers.size()).boxed()
-            .flatMap(deck2 -> IntStream.range(deck2 + 1, headers.size()).boxed()
-                .map(deck3 -> Lineup.ofDeckIndices(this, deck1, deck2, deck3))))
+  public ImmutableList<Lineup> createAllValidPlayerLineups() {
+    return playerHeaders.stream()
+        .flatMap(deck1 -> playerHeaders.stream()
+            .flatMap(deck2 -> playerHeaders.stream()
+                .map(deck3 -> Stream.of(deck1, deck2, deck3).sorted().collect(toImmutableList()))
+                .map(deckNames ->
+                    Lineup
+                        .ofDeckNames(this, deckNames.get(0), deckNames.get(1), deckNames.get(2)))))
         .filter(Lineup::isValid)
+        .distinct()
+        .collect(toImmutableList());
+  }
+
+  /**
+   * Builds and returns a list of all valid {@link Lineup}s that can be build from this matchup data
+   * for a player. Assumes lineups have size {@link com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
+   */
+  public ImmutableList<Lineup> createAllValidOpponentLineups() {
+    return opponentHeadersAndPlayRates.keySet().stream()
+        .flatMap(deck1 -> opponentHeadersAndPlayRates.keySet().stream()
+            .flatMap(deck2 -> opponentHeadersAndPlayRates.keySet().stream()
+                .map(deck3 -> Stream.of(deck1, deck2, deck3).sorted().collect(toImmutableList()))
+                .map(deckNames ->
+                    Lineup
+                        .ofDeckNames(this, deckNames.get(0), deckNames.get(1), deckNames.get(2)))))
+        .filter(Lineup::isValid)
+        .distinct()
         .collect(toImmutableList());
   }
 
@@ -234,11 +228,12 @@ public final class MatchupMatrix {
    * to play rates combined by the given {@link LineupWeightType}. Assumes lineups have size {@link
    * com.redpup.bracketbuster.util.Constants#PLAYER_DECK_COUNT}.
    */
-  public ImmutableMap<Lineup, Double> createWeightedValidLineups(
+  public ImmutableMap<Lineup, Double> createWeightedValidOpponentLineups(
       LineupWeightType lineupWeightType) {
     return Maps.toMap(
-        createAllValidLineups(),
-        l -> lineupWeightType.collect(l.getDecks().stream().mapToDouble(this::getHeaderWeight)));
+        createAllValidOpponentLineups(),
+        l -> lineupWeightType
+            .collect(l.getDeckNames().stream().mapToDouble(this::getHeaderWeight)));
   }
 
   /**
