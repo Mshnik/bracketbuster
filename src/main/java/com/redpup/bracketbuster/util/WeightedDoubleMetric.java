@@ -5,10 +5,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import java.util.Comparator;
+import com.redpup.bracketbuster.util.DoublePriorityQueue.DoubleComparator;
 import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 /**
  * A tracker on a stream of weighted doubles, to compute various statistics on it.
@@ -76,14 +74,12 @@ public final class WeightedDoubleMetric {
     private double totalWeight;
     private int count;
 
-    private final Queue<Double> minHeap;
-    private final Queue<Double> maxHeap;
+    private final DoublePriorityQueue minHeap;
+    private final DoublePriorityQueue maxHeap;
 
     private Builder() {
-      // TODO: These could be optimized to be primitive double PriorityQueues,
-      // since right now we are autoboxing every element that goes in.
-      minHeap = new PriorityQueue<>();
-      maxHeap = new PriorityQueue<>(Comparator.reverseOrder());
+      minHeap = new DoublePriorityQueue(DoubleComparator.ascending());
+      maxHeap = new DoublePriorityQueue(DoubleComparator.descending());
     }
 
     /**
