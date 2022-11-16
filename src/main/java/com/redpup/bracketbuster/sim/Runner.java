@@ -42,11 +42,14 @@ public abstract class Runner {
    * <p>Parameters to the run can be set on the builder below, before building and running.
    */
   public static void main(String[] args) throws Exception {
-    Path matchupsFilePath = Paths.get("src", "main", "resources", "stats.csv");
+    Path matchupsFilePath = Paths.get("src", "main", "resources", "stats_new.csv");
     builder()
         .setCalculationType(CalculationType.NASH)
+        .setLineupWeightType(LineupWeightType.GEOMETRIC)
+        .setSortType(SortType.WEIGHTED_MEAN_WIN_RATE)
         .setMatchupMatrixFromFile(matchupsFilePath)
         .setPruneRatios(ImmutableList.of(0.0))
+        .setTopKToPrintLimit(80)
         .build()
         .run();
   }

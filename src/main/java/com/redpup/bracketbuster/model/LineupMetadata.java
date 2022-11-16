@@ -225,9 +225,11 @@ public final class LineupMetadata {
   public String toBestAndWorstMatchupsString() {
     StringBuilder sb = new StringBuilder();
     bestMatchups.stream().sorted(Pair.<Lineup>rightDoubleComparator().reversed())
-        .forEach(p -> sb.append(p.first()).append(",").append(p.second()).append(","));
+        .forEach(p -> sb.append(String.join(";", p.first().getDeckNames())).append(",")
+            .append(p.second()).append(","));
     worstMatchups.stream().sorted(Pair.rightDoubleComparator())
-        .forEach(p -> sb.append(p.first()).append(",").append(p.second()).append(","));
+        .forEach(p -> sb.append(String.join(";", p.first().getDeckNames())).append(",")
+            .append(p.second()).append(","));
     return sb.toString();
   }
 

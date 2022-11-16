@@ -47,17 +47,20 @@ public final class SystemPrintLogger implements Logger {
 
     System.out.printf("[%s] Best %d lineups:%n", label, runner.topKToPrintLimit());
 
-    System.out.printf("Deck1,Deck2,Deck3,WinRate,Best Matchups%sWorstMatchups%sBans %%%n",
+    System.out.printf(
+        "Deck1,Deck2,Deck3,WinRate(WeightedMean),WinRate(UnweightedMean),WinRate(UnweightedMedian),Best Matchups%sWorstMatchups%sBans %%%n",
         Stream.generate(() -> ",").limit(NUM_BEST_WORST_MATCHUPS * 2).collect(joining()),
         Stream.generate(() -> ",").limit(NUM_BEST_WORST_MATCHUPS * 2 + 1).collect(joining()));
 
     output.topLineups.entrySet().stream()
         .map(
-            p -> String.format("%s,%s,%s,%.5f,%s,%s",
+            p -> String.format("%s,%s,%s,%.5f,%.5f,%.5f,%s,%s",
                 p.getKey().getDeckName(0),
                 p.getKey().getDeckName(1),
                 p.getKey().getDeckName(2),
-                p.getValue(),
+                p.getValue().getWeightedMean(),
+                p.getValue().getUnweightedMean(),
+                p.getValue().getMedian(),
                 p.getKey().metadata().toBestAndWorstMatchupsString(),
                 p.getKey().metadata().toBanPercentString(runner.matchupMatrix())))
         .forEach(System.out::println);
