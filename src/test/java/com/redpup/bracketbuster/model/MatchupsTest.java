@@ -21,36 +21,10 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class MatchupsTest {
 
-  private static final Path ALL_ODDS_CSV = Paths.get("src", "test", "resources", "stats.csv");
-
-  /**
-   * Column index of the filter value in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int FILTER_INDEX = 4;
-
-  /**
-   * Column index of the player's deck in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int PLAYER_INDEX = 6;
-
-  /**
-   * Column index of the opponent's deck in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int OPPONENT_INDEX = 7;
-
-  /**
-   * Column index of the number of wins in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int WINS_INDEX = 8;
-
-  /**
-   * Column index of the number of games in {@link #ALL_ODDS_CSV}.
-   */
-  private static final int GAMES_INDEX = 9;
+  private static final Path ALL_ODDS_CSV = Paths.get("src", "test", "resources", "stats_new.csv");
 
   private static MatchupList read() throws IOException {
-    return readMatchupListFromCsv(ALL_ODDS_CSV,
-        FILTER_INDEX, PLAYER_INDEX, OPPONENT_INDEX, GAMES_INDEX, WINS_INDEX);
+    return readMatchupListFromCsv(ALL_ODDS_CSV);
   }
 
   @Test
@@ -198,7 +172,7 @@ public final class MatchupsTest {
 
   @Test
   public void readsCorrectNumberOfMatchups() throws IOException {
-    assertThat(read().getMatchupsList()).hasSize(1569);
+    assertThat(read().getMatchupsList()).hasSize(400);
   }
 
   @Test

@@ -58,9 +58,6 @@ public final class MatchupMatrix {
     this.playerHeaders = ImmutableSet.copyOf(playerHeaders);
     this.opponentHeadersAndPlayRates = ImmutableMap.copyOf(opponentHeadersWithPlayRates);
 
-    Map<String, Integer> playRate = new HashMap<>();
-    headers.keySet().forEach(header -> playRate.put(header, 0));
-
     matchups = new MatchupMessage[headers.size()][headers.size()];
 
     for (MatchupMessage message : matchupsList) {
@@ -74,30 +71,11 @@ public final class MatchupMatrix {
 
       if (matchups[row][col] == null) {
         matchups[row][col] = messageWithWinRate;
-        playRate.compute(message.getPlayer(), (key, value) -> value + message.getGames());
       } else {
         checkArgument(matchups[row][col].equals(messageWithWinRate),
             "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s",
             message.getPlayer(),
             message.getOpponent(), matchups[row][col], messageWithWinRate);
-      }
-
-      if (row.equals(col)) {
-        checkArgument(messageWithWinRate.getWinRate() == 0.5,
-            "Mirror match with win rate other than 50%% for %s: %s", message.getPlayer(),
-            messageWithWinRate);
-      } else {
-        MatchupMessage inverseMessageWithWinRate = Matchups.inverse(messageWithWinRate);
-
-        if (matchups[col][row] == null) {
-          matchups[col][row] = inverseMessageWithWinRate;
-          playRate.compute(message.getOpponent(), (key, value) -> value + message.getGames());
-        } else {
-          checkArgument(matchups[col][row].equals(inverseMessageWithWinRate),
-              "Duplicate and disagreeing matchup %s vs %s.\nExisting: %s\nNew: %s",
-              message.getOpponent(),
-              message.getPlayer(), matchups[col][row], inverseMessageWithWinRate);
-        }
       }
     }
   }

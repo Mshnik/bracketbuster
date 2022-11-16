@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.redpup.bracketbuster.model.Lineup;
 import com.redpup.bracketbuster.model.MatchupMatrix;
+import com.redpup.bracketbuster.model.Matchups;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
 import com.redpup.bracketbuster.util.WeightedDoubleMetric;
 import org.junit.Before;
@@ -141,12 +142,37 @@ public final class RunnerTest {
       .setGames(17)
       .build();
 
-  private static final MatchupMatrix MATRIX = MatchupMatrix.from(ImmutableList.copyOf(
-      new MatchupMessage[]{MATCHUP_MESSAGE_A_A, MATCHUP_MESSAGE_B_B, MATCHUP_MESSAGE_C_C,
-          MATCHUP_MESSAGE_A_1, MATCHUP_MESSAGE_A_2, MATCHUP_MESSAGE_A_3, MATCHUP_MESSAGE_A_B,
-          MATCHUP_MESSAGE_A_C, MATCHUP_MESSAGE_B_1, MATCHUP_MESSAGE_B_2, MATCHUP_MESSAGE_B_3,
-          MATCHUP_MESSAGE_B_C, MATCHUP_MESSAGE_C_1, MATCHUP_MESSAGE_C_2, MATCHUP_MESSAGE_C_3,
-          MATCHUP_MESSAGE_C_Z}), ImmutableList.of(), ImmutableMap.of());
+  private static final MatchupMatrix MATRIX = MatchupMatrix.from(ImmutableList.of(
+      MATCHUP_MESSAGE_A_A,
+      MATCHUP_MESSAGE_B_B,
+      MATCHUP_MESSAGE_C_C,
+      MATCHUP_MESSAGE_A_1,
+      MATCHUP_MESSAGE_A_2,
+      MATCHUP_MESSAGE_A_3,
+      MATCHUP_MESSAGE_A_B,
+      MATCHUP_MESSAGE_A_C,
+      MATCHUP_MESSAGE_B_1,
+      MATCHUP_MESSAGE_B_2,
+      MATCHUP_MESSAGE_B_3,
+      MATCHUP_MESSAGE_B_C,
+      MATCHUP_MESSAGE_C_1,
+      MATCHUP_MESSAGE_C_2,
+      MATCHUP_MESSAGE_C_3,
+      MATCHUP_MESSAGE_C_Z,
+      Matchups.inverse(MATCHUP_MESSAGE_A_1),
+      Matchups.inverse(MATCHUP_MESSAGE_A_2),
+      Matchups.inverse(MATCHUP_MESSAGE_A_3),
+      Matchups.inverse(MATCHUP_MESSAGE_A_B),
+      Matchups.inverse(MATCHUP_MESSAGE_A_C),
+      Matchups.inverse(MATCHUP_MESSAGE_B_1),
+      Matchups.inverse(MATCHUP_MESSAGE_B_2),
+      Matchups.inverse(MATCHUP_MESSAGE_B_3),
+      Matchups.inverse(MATCHUP_MESSAGE_B_C),
+      Matchups.inverse(MATCHUP_MESSAGE_C_1),
+      Matchups.inverse(MATCHUP_MESSAGE_C_2),
+      Matchups.inverse(MATCHUP_MESSAGE_C_3),
+      Matchups.inverse(MATCHUP_MESSAGE_C_Z)
+  ), ImmutableList.of(), ImmutableMap.of());
 
   private final Lineup player = Lineup.ofDeckNames(MATRIX, "A", "B", "C");
   private final Lineup opponent1 = Lineup.ofDeckNames(MATRIX, "1", "2", "3");

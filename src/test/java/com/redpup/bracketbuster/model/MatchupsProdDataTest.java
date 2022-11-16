@@ -18,7 +18,7 @@ import org.junit.runners.JUnit4;
 @RunWith(JUnit4.class)
 public final class MatchupsProdDataTest {
 
-  private static final Path ALL_ODDS_CSV = Paths.get("src", "main", "resources", "stats.csv");
+  private static final Path ALL_ODDS_CSV = Paths.get("src", "main", "resources", "stats_new.csv");
 
   private static MatchupList read() throws IOException {
     return readMatchupListFromCsv(ALL_ODDS_CSV);
@@ -31,7 +31,7 @@ public final class MatchupsProdDataTest {
 
   @Test
   public void readsCorrectNumberOfMatchups() throws IOException {
-    assertThat(read().getMatchupsList()).hasSize(1569);
+    assertThat(read().getMatchupsList()).hasSize(400);
   }
 
   @Test
@@ -61,7 +61,7 @@ public final class MatchupsProdDataTest {
   public void createsValidLineups() throws IOException {
     MatchupList list = read();
     MatchupMatrix matrix = MatchupMatrix.fromProto(list);
-    // TODO: Update this assertino once read() returns player and opponent lists.
-    assertThat(matrix.createAllValidPlayerLineups()).hasSize(0);
+    assertThat(matrix.createAllValidPlayerLineups()).hasSize(984);
+    assertThat(matrix.createAllValidOpponentLineups()).hasSize(984);
   }
 }

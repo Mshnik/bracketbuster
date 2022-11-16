@@ -2,13 +2,19 @@ package com.redpup.bracketbuster.model;
 
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.redpup.bracketbuster.util.Strings.sanitize;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.Streams;
 import com.redpup.bracketbuster.model.proto.MatchupList;
 import com.redpup.bracketbuster.model.proto.MatchupMessage;
+import com.redpup.bracketbuster.util.Pair;
+import com.redpup.bracketbuster.util.Strings;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility methods for operating on {@link MatchupMessage} and its wrappers.
@@ -64,41 +70,39 @@ public final class Matchups {
   /**
    * Reads all matchups from {@code path} into a {@link MatchupList}.
    */
-  public static MatchupList readMatchupListFromCsv(
-      Path path,
-      int filterIndex,
-      int playerIndex,
-      int opponentIndex,
-      int gamesIndex,
-      int winsIndex) throws IOException {
-    MatchupList.Builder builder = MatchupList.newBuilder();
+  public static MatchupList readMatchupListFromCsv(Path path) throws IOException {
+    List<List<String>> csv =
+        Files.readAllLines(path).stream()
+            .map(s -> s.split(","))
+            .map(Arrays::asList)
+            .collect(toImmutableList());
 
-    Files.readAllLines(path).stream()
-        // Skip header line.
-        .skip(1)
-        .map(s -> s.split(","))
-        .filter(s -> Integer.parseInt(s[filterIndex]) > 1)
-        .map(arr -> MatchupMessage.newBuilder()
-            .setPlayer(sanitize(arr[playerIndex]))
-            .setOpponent(sanitize(arr[opponentIndex]))
-            .setGames(Integer.parseInt(arr[gamesIndex]))
-            .setWins(Integer.parseInt(arr[winsIndex]))
-            .build())
-        .map(Matchups::populateWinRate)
-        .forEach(builder::addMatchups);
+    List<String> players = csv.stream()
+        .map(lst -> lst.get(0))
+        .skip(2)
+        .map(Strings::sanitize)
+        .collect(toImmutableList());
 
-    // TODO: Add player and opponent*winRate to builder here once we have the new file format.
+    Map<String, Double> opponentsAndPlayRates =
+        Streams.zip(
+            csv.get(0).stream().skip(1).map(Strings::sanitize),
+            csv.get(1).stream().skip(1).map(Double::parseDouble),
+            Pair::of).collect(Pair.toImmutableMap());
+
+    MatchupList.Builder builder = MatchupList.newBuilder()
+        .addAllPlayers(players)
+        .putAllOpponent(opponentsAndPlayRates);
+
+    for (int r = 2; r < csv.size(); r++) {
+      for (int c = 1; c < csv.get(r).size(); c++) {
+        builder.addMatchupsBuilder()
+            .setPlayer(Strings.sanitize(csv.get(r).get(0)))
+            .setOpponent(Strings.sanitize(csv.get(0).get(c)))
+            .setWins((int) Double.parseDouble(csv.get(r).get(c)))
+            .setGames(100);
+      }
+    }
 
     return builder.build();
-  }
-
-  /**
-   * Reads all matchups from {@code path} into a {@link MatchupList}.
-   */
-  public static MatchupList readMatchupListFromCsv(
-      Path path) throws IOException {
-    return readMatchupListFromCsv(path,
-        4, 6, 7, 9, 8
-    );
   }
 }
