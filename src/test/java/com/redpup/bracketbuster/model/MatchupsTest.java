@@ -172,7 +172,7 @@ public final class MatchupsTest {
 
   @Test
   public void readsCorrectNumberOfMatchups() throws IOException {
-    assertThat(read().getMatchupsList()).hasSize(484);
+    assertThat(read().getMatchupsList()).hasSize(462);
   }
 
   @Test

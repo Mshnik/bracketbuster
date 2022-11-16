@@ -31,7 +31,7 @@ public final class MatchupsProdDataTest {
 
   @Test
   public void readsCorrectNumberOfMatchups() throws IOException {
-    assertThat(read().getMatchupsList()).hasSize(484);
+    assertThat(read().getMatchupsList()).hasSize(462);
   }
 
   @Test
@@ -61,7 +61,7 @@ public final class MatchupsProdDataTest {
   public void createsValidLineups() throws IOException {
     MatchupList list = read();
     MatchupMatrix matrix = MatchupMatrix.fromProto(list);
-    assertThat(matrix.createAllValidPlayerLineups()).hasSize(1346);
+    assertThat(matrix.createAllValidPlayerLineups()).hasSize(1165);
     assertThat(matrix.createAllValidOpponentLineups()).hasSize(1346);
   }
 }

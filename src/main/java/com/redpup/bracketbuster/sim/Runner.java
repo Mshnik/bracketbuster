@@ -45,7 +45,7 @@ public abstract class Runner {
     Path matchupsFilePath = Paths.get("src", "main", "resources", "stats_new.csv");
     builder()
         .setCalculationType(CalculationType.NAIVE)
-        .setLineupWeightType(LineupWeightType.GEOMETRIC)
+        .setLineupWeightType(LineupWeightType.AVERAGE)
         .setSortType(SortType.WEIGHTED_MEAN_WIN_RATE)
         .setMatchupMatrixFromFile(matchupsFilePath)
         .setPruneRatios(ImmutableList.of(0.0))
