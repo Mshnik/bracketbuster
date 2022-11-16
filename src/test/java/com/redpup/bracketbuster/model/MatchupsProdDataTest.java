@@ -61,7 +61,7 @@ public final class MatchupsProdDataTest {
   public void createsValidLineups() throws IOException {
     MatchupList list = read();
     MatchupMatrix matrix = MatchupMatrix.fromProto(list);
-    assertThat(matrix.createAllValidPlayerLineups()).hasSize(984);
-    assertThat(matrix.createAllValidOpponentLineups()).hasSize(984);
+    assertThat(matrix.createAllValidPlayerLineups()).hasSize(1346);
+    assertThat(matrix.createAllValidOpponentLineups()).hasSize(1346);
   }
 }

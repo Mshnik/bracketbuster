@@ -44,7 +44,7 @@ public abstract class Runner {
   public static void main(String[] args) throws Exception {
     Path matchupsFilePath = Paths.get("src", "main", "resources", "stats_new.csv");
     builder()
-        .setCalculationType(CalculationType.NASH)
+        .setCalculationType(CalculationType.NAIVE)
         .setLineupWeightType(LineupWeightType.GEOMETRIC)
         .setSortType(SortType.WEIGHTED_MEAN_WIN_RATE)
         .setMatchupMatrixFromFile(matchupsFilePath)
